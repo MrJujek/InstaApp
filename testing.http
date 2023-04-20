@@ -1,22 +1,22 @@
 ### ADD PHOTO
 POST http://localhost:3000/api/photos HTTP/1.1
-Content-Type: multipart/form-data; boundary=AAAA-Form-AAAA
+Content-Type: multipart/form-data; boundary=ADD_PHOTO
 
-AAAA-Form-AAAA
-Content-Disposition: form-data; name="file"; filename="input.jpg"
+--ADD_PHOTO
+Content-Disposition: form-data; name="file"; filename="node.jpg"
 Content-Type: image/jpeg
 
 < ./node.jpg
 
-AAAA-Form-AAAA
+--ADD_PHOTO
 Content-Disposition: form-data; name="album"
 Content-Type: text/plain
 
-nazwa_albumu
-AAAA-Form-AAAA
+album1
+--ADD_PHOTO
 
 ### GET ALL PHOTOS
 GET http://localhost:3000/api/photos HTTP/1.1
 
 ### GET ONE PHOTO
-GET http://localhost:3000/api/photos/1 HTTP/1.1
+GET http://localhost:3000/api/photos/2 HTTP/1.1

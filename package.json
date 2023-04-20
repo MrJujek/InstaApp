@@ -17,6 +17,6 @@
         "nodemon": "^2.0.20"
     },
     "dependencies": {
-        "formidable": "^2.1.1"
+        "formidable": "^1.2.2"
     }
 }

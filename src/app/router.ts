@@ -2,7 +2,8 @@ import * as http from "http";
 import { getRequestData } from "./getRequestData";
 import { jsonController } from "./jsonController";
 import { fileController } from "./fileController";
-import formidable from "formidable";
+import { Photo } from "./model";
+import { type } from "os";
 
 export const router = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     console.log(req.url);
@@ -23,7 +24,7 @@ export const router = async (req: http.IncomingMessage, res: http.ServerResponse
             break;
     }
 
-    function checkGET() {
+    async function checkGET() {
         if (req.url == "/api/photos") {
             console.log("GET ALL PHOTOS");
 
@@ -38,22 +39,26 @@ export const router = async (req: http.IncomingMessage, res: http.ServerResponse
         }
     };
 
-    function checkPOST() {
+    async function checkPOST() {
         if (req.url == "/api/photos") {
             console.log("ADD PHOTO");
 
-            const form = formidable({});
+            let tmp: unknown = await fileController.uploadFile(req, res);
+            let file: File = tmp as File;
 
-            form.parse(req, (err, fields, files) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(fields, files);
-            });
-
+            jsonController.addPhoto({
+                id: jsonController.getNewID(),
+                name: file.name,
+                type: file.type,
+                path: file["path" as keyof typeof file],
+                album: "",
+                history: [
+                    {
+                        date: new Date(),
+                        status: "orginal"
+                    }
+                ]
+            } as Photo);
         }
     }
-
-
-
 };
