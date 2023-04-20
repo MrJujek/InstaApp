@@ -16,7 +16,7 @@ export let fileController = {
                     let tmp: unknown = files.file;
                     let uploadedFile = tmp as File;
 
-                    resolve(uploadedFile as File);
+                    resolve([uploadedFile as File, fields.album]);
                 });
             } catch (error) {
                 reject(error);

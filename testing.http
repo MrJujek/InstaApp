@@ -12,7 +12,7 @@ Content-Type: image/jpeg
 Content-Disposition: form-data; name="album"
 Content-Type: text/plain
 
-album1
+xxxxxxxxx
 --ADD_PHOTO
 
 ### GET ALL PHOTOS
@@ -20,3 +20,6 @@ GET http://localhost:3000/api/photos HTTP/1.1
 
 ### GET ONE PHOTO
 GET http://localhost:3000/api/photos/2 HTTP/1.1
+
+### DELETE PHOTO
+DELETE http://localhost:3000/api/photos/1 HTTP/1.1

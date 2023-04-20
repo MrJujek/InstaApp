@@ -3,7 +3,6 @@ import { getRequestData } from "./getRequestData";
 import { jsonController } from "./jsonController";
 import { fileController } from "./fileController";
 import { Photo } from "./model";
-import { type } from "os";
 
 export const router = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     console.log(req.url);
@@ -43,15 +42,18 @@ export const router = async (req: http.IncomingMessage, res: http.ServerResponse
         if (req.url == "/api/photos") {
             console.log("ADD PHOTO");
 
-            let tmp: unknown = await fileController.uploadFile(req, res);
+            let data = await fileController.uploadFile(req, res);
+            let [tmp, album] = data as [unknown, string];
             let file: File = tmp as File;
+            console.log(album);
+
 
             jsonController.addPhoto({
                 id: jsonController.getNewID(),
                 name: file.name,
                 type: file.type,
                 path: file["path" as keyof typeof file],
-                album: "",
+                album: album,
                 history: [
                     {
                         date: new Date(),
