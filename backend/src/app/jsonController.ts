@@ -17,5 +17,11 @@ export let jsonController = {
 
     addPhoto: (photo: Photo) => {
         photos.push(photo);
+    },
+
+    deletePhoto: (id: number) => {
+        photos.splice(photos.indexOf(photos.filter((photo) => photo.id == id)[0]), 1);
+
+        return photos
     }
 }

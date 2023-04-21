@@ -1,5 +1,5 @@
 ### ADD PHOTO
-POST http://localhost:3000/api/photos HTTP/1.1
+POST https://dev.juliandworzycki.pl/api/photos HTTP/1.1
 Content-Type: multipart/form-data; boundary=ADD_PHOTO
 
 --ADD_PHOTO
@@ -10,16 +10,15 @@ Content-Type: image/jpeg
 
 --ADD_PHOTO
 Content-Disposition: form-data; name="album"
-Content-Type: text/plain
 
-album-abc
+album4
 --ADD_PHOTO
 
 ### GET ALL PHOTOS
-GET http://localhost:3000/api/photos HTTP/1.1
+GET https://dev.juliandworzycki.pl/api/photos HTTP/1.1
 
 ### GET ONE PHOTO
-GET http://localhost:3000/api/photos/2 HTTP/1.1
+GET https://dev.juliandworzycki.pl/api/photos/5 HTTP/1.1
 
 ### DELETE PHOTO
-DELETE http://localhost:3000/api/photos/1 HTTP/1.1
+DELETE https://dev.juliandworzycki.pl/api/photos/2 HTTP/1.1
