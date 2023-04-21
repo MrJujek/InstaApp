@@ -12,7 +12,7 @@ Content-Type: image/jpeg
 Content-Disposition: form-data; name="album"
 Content-Type: text/plain
 
-xxxxxxxxx
+album-abc
 --ADD_PHOTO
 
 ### GET ALL PHOTOS

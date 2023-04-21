@@ -3,6 +3,7 @@ import { getRequestData } from "./getRequestData";
 import { jsonController } from "./jsonController";
 import { fileController } from "./fileController";
 import { Photo } from "./model";
+import formidable from "formidable";
 
 export const router = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     console.log(req.url);
@@ -20,6 +21,7 @@ export const router = async (req: http.IncomingMessage, res: http.ServerResponse
             break;
 
         case "DELETE":
+            checkDelete();
             break;
     }
 
@@ -43,24 +45,31 @@ export const router = async (req: http.IncomingMessage, res: http.ServerResponse
             console.log("ADD PHOTO");
 
             let data = await fileController.uploadFile(req, res);
-            let [tmp, album] = data as [unknown, string];
-            let file: File = tmp as File;
-            console.log(album);
+            let { fileArray, album } = data;
 
+            for (const file of fileArray) {
+                jsonController.addPhoto({
+                    id: jsonController.getNewID(),
+                    name: file.originalFilename || "",
+                    type: file.mimetype || "",
+                    path: file.filepath,
+                    album: album,
+                    history: [
+                        {
+                            date: new Date(),
+                            status: "orginal"
+                        }
+                    ]
+                });
+            }
+        }
+    }
 
-            jsonController.addPhoto({
-                id: jsonController.getNewID(),
-                name: file.name,
-                type: file.type,
-                path: file["path" as keyof typeof file],
-                album: album,
-                history: [
-                    {
-                        date: new Date(),
-                        status: "orginal"
-                    }
-                ]
-            } as Photo);
+    async function checkDelete() {
+        if (req.url!.match(/\/api\/photos\/([0-9]+)/)) {
+            console.log("DELETE PHOTO");
+
+            //jsonController.deletePhoto(parseInt(req.url!.split("/api/photos/")[1]));
         }
     }
 };
