@@ -1,6 +1,7 @@
 import * as http from "http";
 import formidable from "formidable";
 import * as fs from "fs";
+import { jsonController } from "./jsonController";
 
 interface Upload {
     fileArray: formidable.File[];
@@ -24,9 +25,7 @@ export let fileController = {
 
                     const fileArray = Array.isArray(file) ? file : [file];
 
-                    let x = fileController.moveFile(fileArray, album.toString());
-                    console.log("x", x);
-
+                    fileController.moveFile(fileArray, album.toString());
 
                     resolve({
                         fileArray,
@@ -50,8 +49,7 @@ export let fileController = {
                     fs.rename(file.filepath, "./files/" + album + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
 
-                        file.filepath = "./files/" + album + "/" + file.newFilename;
-                        console.log("aa", fileArray);
+                        jsonController.changePath(fileArray.indexOf(file), "./files/" + album + "/" + file.newFilename);
 
                         resolve(fileArray);
                     });
