@@ -45,12 +45,16 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
             let data = await fileController.uploadFile(req, res);
             let { fileArray, album } = data;
 
+            // console.log("BBBBBBBB");
+            // console.log(fileArray[0].filepath, album);
+            // console.log("./files/" + album + "/" + fileArray[0].newFilename);
+
             for (const file of fileArray) {
                 jsonController.addPhoto({
                     id: jsonController.getNewID(),
                     name: file.originalFilename || "",
                     type: file.mimetype || "",
-                    path: file.filepath,
+                    path: "./files/" + album + "/" + file.newFilename,
                     album: album,
                     history: [
                         {

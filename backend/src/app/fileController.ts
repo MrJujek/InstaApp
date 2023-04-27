@@ -53,13 +53,13 @@ export let fileController = {
                     fs.rename(file.filepath, "./files/" + album + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
 
-                        console.log("AAAAAA");
-                        console.log(fileArray.indexOf(file));
+                        //console.log("AAAAAA");
+                        //console.log(fileArray.indexOf(file));
                         //console.log(fileArray[fileArray.indexOf(file)]);
 
 
 
-                        jsonController.changePath(fileArray.indexOf(file), "./files/" + album + "/" + file.newFilename);
+                        //jsonController.changePath(fileArray.indexOf(file), "./files/" + album + "/" + file.newFilename);
 
                         resolve(fileArray);
                     });
@@ -82,7 +82,7 @@ export let fileController = {
                         fs.unlink(jsonController.getOnePhoto(id).path, (err) => {
                             if (err) throw (err);
 
-                            resolve(jsonController.deletePhoto(id));
+                            resolve("File removed from array");
                         });
                     }
                 }
