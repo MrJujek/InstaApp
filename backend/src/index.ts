@@ -1,6 +1,6 @@
 import * as http from "http"
-import { imageRouter } from "./app/imageRouter"
-import { tagsRouter } from "./app/tagsRouter"
+import { imageRouter } from "./app/routers/imageRouter"
+import { tagsRouter } from "./app/routers/tagsRouter"
 
 const PORT = 5000
 

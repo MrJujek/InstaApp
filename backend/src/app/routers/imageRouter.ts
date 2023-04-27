@@ -1,9 +1,9 @@
 import * as http from "http";
-import { getRequestData } from "./getRequestData";
-import { jsonController } from "./jsonController";
-import { fileController } from "./fileController";
+import { getRequestData } from "../getRequestData";
+import { jsonController } from "../controllers/jsonController";
+import { fileController } from "../controllers/fileController";
 
-export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // console.log(req.url);
 
     switch (req.method) {
@@ -16,6 +16,7 @@ export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResp
             break;
 
         case "PATCH":
+            checkPatch();
             break;
 
         case "DELETE":
@@ -50,7 +51,7 @@ export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResp
                     id: jsonController.getNewID(),
                     name: file.originalFilename || "",
                     type: file.mimetype || "",
-                    path: file.filepath,
+                    path: "./files/" + album + "/" + file.newFilename,
                     album: album,
                     history: [
                         {
@@ -67,8 +68,21 @@ export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResp
         if (req.url!.match(/\/photos\/([0-9]+)/)) {
             console.log("DELETE PHOTO");
 
+            fileController.deleteFile(parseInt(req.url!.split("/photos/")[1]));
+
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(jsonController.deletePhoto(parseInt(req.url!.split("/photos/")[1])), null, 5));
+        }
+    }
+
+    function checkPatch() {
+        if (req.url!.match(/\/photos\/([0-9]+)/)) {
+            console.log("PATCH PHOTO");
+
+            //jsonController.patchPhoto(parseInt(req.url!.split("/photos/")[1]), JSON.parse(getRequestData(req)));
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(jsonController.getOnePhoto(parseInt(req.url!.split("/photos/")[1])), null, 5));
         }
     }
 };

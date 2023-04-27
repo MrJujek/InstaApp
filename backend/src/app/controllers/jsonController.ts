@@ -1,5 +1,5 @@
-import { photos } from "./model";
-import { Photo } from "./model";
+import { photos } from "../model";
+import { Photo } from "../model";
 
 export let jsonController = {
     getAllPhotos: () => {
@@ -26,16 +26,6 @@ export let jsonController = {
         return photos
     },
 
-    changePath(id: number, filePath: string) {
-        console.log("JSONCONTROLLER: changePath");
-
-        console.log("id", id);
-        console.log("filePath", filePath);
-
-        console.log("old", photos[id].path);
-
-        photos[id].path = filePath;
-
-        console.log("new", photos[id].path);
+    patchPhoto: (id: number, photo: Photo) => {
     }
 }
