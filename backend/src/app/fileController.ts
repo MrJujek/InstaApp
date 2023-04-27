@@ -10,6 +10,8 @@ interface Upload {
 
 export let fileController = {
     async uploadFile(req: http.IncomingMessage, res: http.ServerResponse) {
+        console.log("uploadFile");
+
         return new Promise<Upload>((resolve, reject) => {
             try {
                 let form = formidable({
@@ -39,6 +41,8 @@ export let fileController = {
     },
 
     async moveFile(fileArray: formidable.File[], album: string) {
+        console.log("moveFile");
+
         return new Promise((resolve, reject) => {
             try {
                 if (!fs.existsSync("./files/" + album)) {
@@ -49,10 +53,38 @@ export let fileController = {
                     fs.rename(file.filepath, "./files/" + album + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
 
+                        console.log("AAAAAA");
+                        console.log(fileArray.indexOf(file));
+                        //console.log(fileArray[fileArray.indexOf(file)]);
+
+
+
                         jsonController.changePath(fileArray.indexOf(file), "./files/" + album + "/" + file.newFilename);
 
                         resolve(fileArray);
                     });
+                }
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
+    async deleteFile(id: number) {
+        console.log("deleteFile");
+
+        return new Promise((resolve, reject) => {
+            try {
+                //console.log(jsonController.getOnePhoto(id));
+
+                if (jsonController.getOnePhoto(id)) {
+                    if (fs.existsSync(jsonController.getOnePhoto(id).path)) {
+                        fs.unlink(jsonController.getOnePhoto(id).path, (err) => {
+                            if (err) throw (err);
+
+                            resolve(jsonController.deletePhoto(id));
+                        });
+                    }
                 }
             } catch (error) {
                 reject(error);

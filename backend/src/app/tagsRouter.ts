@@ -2,9 +2,8 @@ import * as http from "http";
 import { getRequestData } from "./getRequestData";
 import { jsonController } from "./jsonController";
 import { fileController } from "./fileController";
-import { Photo } from "./model";
 
-export const router = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // console.log(req.url);
 
     switch (req.method) {

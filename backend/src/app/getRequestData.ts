@@ -1,5 +1,4 @@
 export const getRequestData = async (req: any) => {
-
     return new Promise((resolve, reject) => {
         try {
             let body = "";
@@ -17,5 +16,4 @@ export const getRequestData = async (req: any) => {
             reject(error);
         }
     })
-
 }

@@ -11,14 +11,14 @@ Content-Type: image/jpeg
 --ADD_PHOTO
 Content-Disposition: form-data; name="album"
 
-album2
+album1
 --ADD_PHOTO
 
 ### GET ALL PHOTOS
 GET https://dev.juliandworzycki.pl/api/photos HTTP/1.1
 
 ### GET ONE PHOTO
-GET https://dev.juliandworzycki.pl/api/photos/5 HTTP/1.1
+GET https://dev.juliandworzycki.pl/api/photos/1 HTTP/1.1
 
 ### DELETE PHOTO
 DELETE https://dev.juliandworzycki.pl/api/photos/2 HTTP/1.1

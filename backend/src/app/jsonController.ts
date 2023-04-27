@@ -27,6 +27,8 @@ export let jsonController = {
     },
 
     changePath(id: number, filePath: string) {
+        console.log("JSONCONTROLLER: changePath");
+
         console.log("id", id);
         console.log("filePath", filePath);
 
