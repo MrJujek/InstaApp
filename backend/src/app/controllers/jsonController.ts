@@ -27,5 +27,9 @@ export let jsonController = {
     },
 
     patchPhoto: (id: number, photo: Photo) => {
+    },
+
+    getTagsFromPhoto: (id: number) => {
+        return photos.filter((photo) => photo.id == id)[0].tags;
     }
 }

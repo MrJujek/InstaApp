@@ -36,6 +36,12 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(jsonController.getOnePhoto(parseInt(req.url!.split("/photos/")[1])), null, 5));
+
+        } else if (req.url!.match(/\/photos\/tags\/([0-9]+)/)) {
+            console.log("GET TAGS FROM PHOTO");
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(jsonController.getTagsFromPhoto(parseInt(req.url!.split("/photos/tags/")[1])), null, 5));
         }
     };
 
@@ -58,7 +64,8 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                             date: new Date(),
                             status: "orginal"
                         }
-                    ]
+                    ],
+                    tags: []
                 });
             }
         }

@@ -1,0 +1,24 @@
+### GET ALL TAGS - RAW
+GET https://dev.juliandworzycki.pl/api/tags/raw HTTP/1.1
+
+### GET ALL TAGS - OBJECTS
+GET https://dev.juliandworzycki.pl/api/tags HTTP/1.1
+
+### GET ONE TAG
+GET https://dev.juliandworzycki.pl/api/tags/8 HTTP/1.1
+
+### CREATE TAG
+POST https://dev.juliandworzycki.pl/api/tags HTTP/1.1
+
+### ADD NEW TAG
+POST https://dev.juliandworzycki.pl/api/tags HTTP/1.1
+Content-Type: multipart/form-data; boundary=ADD_TAG
+
+--ADD_TAG
+Content-Disposition: form-data; name="newTag"
+
+nowiusieńki
+--ADD_TAG
+
+### GET TAGS BY PHOTO ID
+GET https://dev.juliandworzycki.pl/api/photos/tags/1 HTTP/1.1

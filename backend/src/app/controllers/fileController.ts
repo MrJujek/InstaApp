@@ -53,14 +53,6 @@ export let fileController = {
                     fs.rename(file.filepath, "./files/" + album + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
 
-                        //console.log("AAAAAA");
-                        //console.log(fileArray.indexOf(file));
-                        //console.log(fileArray[fileArray.indexOf(file)]);
-
-
-
-                        //jsonController.changePath(fileArray.indexOf(file), "./files/" + album + "/" + file.newFilename);
-
                         resolve(fileArray);
                     });
                 }
@@ -75,8 +67,6 @@ export let fileController = {
 
         return new Promise((resolve, reject) => {
             try {
-                //console.log(jsonController.getOnePhoto(id));
-
                 if (jsonController.getOnePhoto(id)) {
                     if (fs.existsSync(jsonController.getOnePhoto(id).path)) {
                         fs.unlink(jsonController.getOnePhoto(id).path, (err) => {
