@@ -2,6 +2,7 @@ import { tagsRaw } from "../model";
 import { TagsObject } from "../model";
 import formidable from "formidable";
 import * as http from "http";
+import { tagsObjects } from "../model";
 
 interface GetTag {
     newTag: string;
@@ -13,21 +14,19 @@ export let tagsController = {
     },
 
     getAllTagsObjects: () => {
-        let tagsObject: TagsObject[] = [];
-
         for (const tag in tagsRaw) {
-            tagsObject.push({
+            tagsObjects.push({
                 id: tagsRaw.indexOf(tagsRaw[tag]),
                 name: tagsRaw[tag],
                 popularity: Math.random() * 100
             });
         }
 
-        return tagsObject;
+        return tagsObjects;
     },
 
     getOneTag: (id: number) => {
-        return tagsRaw[id];
+        return tagsObjects[id];
     },
 
     getNewTag: (req: http.IncomingMessage, res: http.ServerResponse) => {
@@ -51,7 +50,14 @@ export let tagsController = {
     },
 
     addNewTag: (newTag: string) => {
+        if (tagsRaw.includes(newTag)) return tagsRaw;
+
         tagsRaw.push(newTag);
+        tagsObjects.push({
+            id: tagsRaw.length + 1,
+            name: newTag,
+            popularity: Math.random() * 100
+        });
 
         return tagsRaw;
     }

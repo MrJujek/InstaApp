@@ -53,3 +53,5 @@ export let tagsRaw: string[] = [
     "#fun",
     "#photo"
 ]
+
+export let tagsObjects: TagsObject[] = [];

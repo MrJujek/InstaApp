@@ -1,4 +1,6 @@
-export const getRequestData = async (req: any) => {
+import * as http from "http";
+
+export const getRequestData = async (req: http.IncomingMessage) => {
     return new Promise((resolve, reject) => {
         try {
             let body = "";
