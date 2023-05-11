@@ -1,8 +1,9 @@
 import * as http from "http"
+import * as dotenv from "dotenv"
 import { imageRouter } from "./app/routers/imageRouter"
 import { tagsRouter } from "./app/routers/tagsRouter"
 
-const PORT = 5000
+dotenv.config()
 
 http
     .createServer(async (req, res) => {
@@ -13,6 +14,6 @@ http
             await tagsRouter(req, res)
         }
     })
-    .listen(PORT, () => {
-        console.log(`listen on port ${PORT}`)
+    .listen(process.env.PORT, () => {
+        console.log(`listen on port ${process.env.PORT}`)
     })

@@ -17,6 +17,8 @@
         "nodemon": "^2.0.20"
     },
     "dependencies": {
+        "bcrypt": "^5.1.0",
+        "dotenv": "^16.0.3",
         "formidable": "^2.1.1"
     }
 }
