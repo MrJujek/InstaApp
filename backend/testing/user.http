@@ -1,3 +1,6 @@
+### GET ALL USERS
+GET https://dev.juliandworzycki.pl/api/user HTTP/1.1
+
 ### REGISTER USER
 POST https://dev.juliandworzycki.pl/api/user/register HTTP/1.1
 content-type: application/json
@@ -8,3 +11,6 @@ content-type: application/json
    "email":"name@email.pl",
    "password":"password"
 }
+
+### CONFIRM USER
+GET https://dev.juliandworzycki.pl/api/user/confirm/1111 HTTP/1.1

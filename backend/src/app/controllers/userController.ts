@@ -3,10 +3,24 @@ import * as http from "http";
 import { users } from "../model";
 import { User } from "../model";
 import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
+import * as dotenv from "dotenv"
+
+dotenv.config({ path: "/home/ubuntu/Desktop/github/InstaApp/backend/.env" })
 
 export let userController = {
+    getAllUsers: async () => {
+        return users;
+    },
+
     register: async (data: string) => {
         let obj = JSON.parse(data);
+
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].email == obj.email) {
+                return "error: user with that email already exists";
+            }
+        }
 
         if (!obj.password || !obj.email || !obj.lastName || !obj.name) {
             return "error: missing data";
@@ -27,7 +41,7 @@ export let userController = {
 
                     users.push(userData);
 
-                    resolve(users);
+                    resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createToken(obj.email));
                 } catch (error) {
                     reject(error);
                 }
@@ -46,5 +60,42 @@ export let userController = {
         const encryptedPassword = await bcrypt.hash(password, 10);
 
         return encryptedPassword;
+    },
+
+    createToken: async (email: string) => {
+        let token = await jwt.sign(
+            {
+                email: email
+            },
+            String(process.env.TOKEN_KEY),
+            {
+                expiresIn: "1m"
+            }
+        );
+
+        return token;
+    },
+
+    verifyToken: async (token: string) => {
+        try {
+            let decoded = await jwt.verify(token, String(process.env.TOKEN_KEY)) as { email: string, iat: number, exp: number };
+
+            userController.confirmUser(decoded["email"]);
+
+            return "User confirmed"
+        }
+        catch (ex) {
+            return "Error while verifying token";
+        }
+    },
+
+    confirmUser: async (email: string) => {
+        users.forEach(user => {
+            if (user.email == email) {
+                user.confirmed = true;
+            }
+        });
+
+        return users.filter(user => user.email == email);
     }
 }

@@ -15,24 +15,18 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
     }
 
     async function checkGET() {
-        // if (req.url == "/tags/raw") {
-        //     console.log("GET ALL TAGS - RAW");
+        if (req.url! == "/user") {
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(await userController.getAllUsers(), null, 5));
 
-        //     res.writeHead(200, { "Content-type": "application/json" });
-        //     res.end(JSON.stringify(tagsController.getAllTagsRaw(), null, 5));
+        } else if (req.url!.match(/\/user\/confirm\/([0-9a-zA-Z.\-\_]+)/)) {
+            console.log("GET CONFIRM");
 
-        // } else if (req.url == "/tags") {
-        //     console.log("GET ALL TAGS - OBJECTS");
+            const token = req.url!.split("/user/confirm/")[1];
 
-        //     res.writeHead(200, { "Content-type": "application/json" });
-        //     res.end(JSON.stringify(tagsController.getAllTagsObjects(), null, 5));
-
-        // } else if (req.url!.match(/\/tags\/([0-9]+)/)) {
-        //     console.log("GET ONE TAG");
-
-        //     res.writeHead(200, { "Content-type": "application/json" });
-        //     res.end(JSON.stringify(tagsController.getOneTag(parseInt(req.url!.split("/tags/")[1])), null, 5));
-        // }
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(await userController.verifyToken(token), null, 5));
+        }
     };
 
     async function checkPOST() {
@@ -42,7 +36,7 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             const data = await getRequestData(req);
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(userController.register(data), null, 5));
+            res.end(JSON.stringify(await userController.register(data), null, 5));
         }
     };
 };
