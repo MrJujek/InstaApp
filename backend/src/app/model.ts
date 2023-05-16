@@ -19,6 +19,15 @@ export interface TagsObject {
     popularity: number;
 }
 
+export interface User {
+    id: number;
+    name: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmed: boolean;
+}
+
 export let photos: Photo[] = [];
 
 export let tagsRaw: string[] = [
@@ -55,3 +64,5 @@ export let tagsRaw: string[] = [
 ]
 
 export let tagsObjects: TagsObject[] = [];
+
+export let users: User[] = [];

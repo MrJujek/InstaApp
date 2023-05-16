@@ -1,0 +1,10 @@
+### REGISTER USER
+POST https://dev.juliandworzycki.pl/api/user/register HTTP/1.1
+content-type: application/json
+
+{    
+   "name": "name",
+   "lastName": "lastName",
+   "email":"name@email.pl",
+   "password":"password"
+}
