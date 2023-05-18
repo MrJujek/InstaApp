@@ -41,7 +41,7 @@ export let userController = {
 
                     users.push(userData);
 
-                    resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createToken(obj.email));
+                    resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createTokenToConfirm(obj.email));
                 } catch (error) {
                     reject(error);
                 }
@@ -62,7 +62,7 @@ export let userController = {
         return encryptedPassword;
     },
 
-    createToken: async (email: string) => {
+    createTokenToConfirm: async (email: string) => {
         let token = await jwt.sign(
             {
                 email: email
@@ -82,7 +82,7 @@ export let userController = {
 
             userController.confirmUser(decoded["email"]);
 
-            return "User confirmed"
+            return "User confirmed";
         }
         catch (ex) {
             return "Error while verifying token";
@@ -97,5 +97,51 @@ export let userController = {
         });
 
         return users.filter(user => user.email == email);
+    },
+
+    login: async (data: string) => {
+        let obj = JSON.parse(data);
+        let message: string = "";
+        let bool: boolean = false;
+
+        let toReturn: { message: string, token?: string } = { message: "" };
+
+        users.forEach(user => {
+            if (user.email == obj.email) {
+                bool = true;
+
+                if (bcrypt.compareSync(obj.password, user.password)) {
+                    if (user.confirmed == true) {
+                        message = "Logged in";
+
+                        toReturn.token = userController.createTokenToLogin(obj.email);
+                    } else {
+                        message = "User not confirmed";
+                    }
+                }
+            }
+        });
+
+        if (!bool) {
+            message = "Incorrect email or password";
+        }
+
+        toReturn.message = message;
+
+        return toReturn;
+    },
+
+    createTokenToLogin: (email: string) => {
+        let token = jwt.sign(
+            {
+                email: email
+            },
+            String(process.env.TOKEN_KEY),
+            {
+                expiresIn: "1h"
+            }
+        );
+
+        return token;
     }
 }

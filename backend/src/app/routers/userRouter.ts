@@ -37,6 +37,26 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.register(data), null, 5));
+
+        } else if (req.url == "/user/login") {
+            console.log("POST LOGIN");
+
+            const data = await getRequestData(req);
+
+            let login = await userController.login(data);
+            console.log(login);
+
+
+            if (login.token) {
+                // res.setHeader('Authorization', 'Bearer ' + login.token);
+
+                res.writeHead(200, { "Content-type": "application/json" });
+                res.end(JSON.stringify(login.token, null, 5));
+            } else {
+                res.writeHead(200, { "Content-type": "application/json" });
+                res.end(JSON.stringify(login.message, null, 5));
+            }
         }
+
     };
 };
