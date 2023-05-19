@@ -6,10 +6,10 @@ POST https://dev.juliandworzycki.pl/api/user/register HTTP/1.1
 content-type: application/json
 
 {    
-   "name": "name",
-   "lastName": "lastName",
-   "email":"name@email.pl",
-   "password":"password"
+   "name": "a",
+   "lastName": "a",
+   "email":"a@a.a",
+   "password":"a"
 }
 
 ### CONFIRM USER
@@ -20,6 +20,6 @@ POST https://dev.juliandworzycki.pl/api/user/login HTTP/1.1
 content-type: application/json
 
 {    
-   "email":"name@email.pl",
-   "password":"password"
+   "email":"a@a.a",
+   "password":"a"
 }

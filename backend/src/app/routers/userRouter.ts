@@ -42,6 +42,8 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             console.log("POST LOGIN");
 
             const data = await getRequestData(req);
+            console.log("data", data);
+
 
             let login = await userController.login(data);
             console.log(login);
