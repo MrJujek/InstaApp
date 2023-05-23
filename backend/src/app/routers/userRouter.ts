@@ -48,16 +48,8 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             let login = await userController.login(data);
             console.log(login);
 
-
-            if (login.token) {
-                // res.setHeader('Authorization', 'Bearer ' + login.token);
-
-                res.writeHead(200, { "Content-type": "application/json" });
-                res.end(JSON.stringify(login.token, null, 5));
-            } else {
-                res.writeHead(200, { "Content-type": "application/json" });
-                res.end(JSON.stringify(login.message, null, 5));
-            }
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(login, null, 5));
         }
 
     };

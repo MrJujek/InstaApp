@@ -101,10 +101,10 @@ export let userController = {
 
     login: async (data: string) => {
         let obj = JSON.parse(data);
-        let message: string = "";
+        let message: string = "Incorrect email or password";
         let bool: boolean = false;
 
-        let toReturn: { message: string, token?: string } = { message: "" };
+        let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message: "" };
 
         users.forEach(user => {
             if (user.email == obj.email) {
@@ -113,7 +113,7 @@ export let userController = {
                 if (bcrypt.compareSync(obj.password, user.password)) {
                     if (user.confirmed == true) {
                         message = "Logged in";
-
+                        toReturn.logged = true;
                         toReturn.token = userController.createTokenToLogin(obj.email);
                     } else {
                         message = "User not confirmed";
@@ -121,10 +121,6 @@ export let userController = {
                 }
             }
         });
-
-        if (!bool) {
-            message = "Incorrect email or password";
-        }
 
         toReturn.message = message;
 

@@ -25,21 +25,25 @@ function Login() {
     })
       .then(response => response.json())
       .then((result) => {
-        console.log("XXXXXXXXXXX");
+        console.log("login - data back");
 
         console.log(result);
+
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+        }
       });
   }
 
   return (
     <>
-      <h1>LOGIN</h1>
-      <form action="POST" onSubmit={(e) => handleSubmit(e)}>
+      <h1>Login</h1>
+      <form className="signIn" action="POST" onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="email">Email:</label>
         <input type="email" id="email" onChange={(e) => { setEmail(e.target.value) }} />
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" onChange={(e) => { setPassword(e.target.value) }} />
-        <input className="" type="submit" value="Login" />
+        <button className="signInButton" type="submit">Sign in</button>
       </form>
     </>
   )
