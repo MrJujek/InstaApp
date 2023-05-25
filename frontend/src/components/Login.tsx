@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
+import { useAuth } from "../services/auth/context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const ctx = useAuth();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -11,28 +13,31 @@ function Login() {
       email: email,
       password: password
     }));
+    console.log("ctx", ctx);
+
+    ctx.signIn(email, password);
 
 
-    fetch("https://dev.juliandworzycki.pl/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    })
-      .then(response => response.json())
-      .then((result) => {
-        console.log("login - data back");
+    // fetch("https://dev.juliandworzycki.pl/api/user/login", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     email: email,
+    //     password: password
+    //   })
+    // })
+    //   .then(response => response.json())
+    //   .then((result) => {
+    //     console.log("login - data back");
 
-        console.log(result);
+    //     console.log(result);
 
-        if (result.token) {
-          localStorage.setItem("token", result.token);
-        }
-      });
+    //     if (result.token) {
+    //       localStorage.setItem("token", result.token);
+    //     }
+    //   });
   }
 
   return (

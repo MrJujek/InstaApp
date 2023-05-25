@@ -139,5 +139,28 @@ export let userController = {
         );
 
         return token;
+    },
+
+    authenticate: async (token: string) => {
+        let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string } } = {
+            status: false
+        }
+
+        try {
+            let decoded = await jwt.verify(token, String(process.env.TOKEN_KEY)) as { email: string, name: string, lastName: string, password: string };
+
+            toReturn.status = true;
+            toReturn.data = {
+                email: decoded["email"],
+                name: decoded["name"],
+                lastName: decoded["lastName"],
+                password: decoded["password"]
+            };
+
+            return toReturn;
+        }
+        catch (ex) {
+            return toReturn;
+        }
     }
 }
