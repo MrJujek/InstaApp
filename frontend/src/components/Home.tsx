@@ -1,6 +1,7 @@
 function Home() {
+    console.log("Home");
     return (
-        <div>Home</div>
+        <div><h1>Dom</h1>Home</div>
     )
 }
 

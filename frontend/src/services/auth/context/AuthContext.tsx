@@ -21,6 +21,7 @@ interface AuthProvider {
 
 export const AuthContext = React.createContext({} as AuthProvider);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
     return useContext(AuthContext);
 }
@@ -29,14 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    console.log("AuthProvider");
-    console.log("XXXX", children);
-
-
-
     useEffect(() => {
-        console.log("AuthProvider useEffect");
-
         async function loadUserFromLocalStorage() {
             const user = localStorage.getItem("token");
 
@@ -57,6 +51,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loadUserFromLocalStorage();
     }, []);
 
+    useEffect(() => {
+        console.log("XXXXXXXuser", user);
+    }, [user]);
+
     const value = {
         user,
         signIn,
@@ -66,24 +64,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     async function authenticate(token: string) {
         console.log("authenticate");
+        console.log(token);
 
-        const response = await fetch("/api/users/authenticate", {
+
+        const response = await fetch("https://dev.juliandworzycki.pl/api/user/authenticate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ token }),
         });
-        console.log("aaaa", response);
 
         if (response.ok) {
             const data = await response.json();
-            return data.user;
+            console.log("YYYYdata", data);
+
+            if (data.status) {
+                return data.data;
+            }
         }
         throw new Error("Authentication failed");
     }
 
-    async function signIn(email: string, password: string) {
+    async function signIn(
+        email: string,
+        password: string
+    ) {
         console.log("signIn");
 
         const response = await fetch("https://dev.juliandworzycki.pl/api/user/login", {
@@ -96,8 +102,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
             const data = await response.json();
             console.log("signIn - data", data);
+            console.log(data.token);
 
-            localStorage.setItem("token", JSON.stringify(data.token));
+            localStorage.setItem("token", data.token);
             setUser(await authenticate(data.token));
             return;
         }
@@ -117,16 +124,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             },
             body: JSON.stringify({ name, lastName, email, password }),
         });
-        console.log("signUp", response);
-
         if (response.ok) {
             const data = await response.json();
-            localStorage.setItem("token", JSON.stringify(data.token));
-            setUser(await authenticate(data.token));
+            console.log(data);
             return;
         }
-        const data = await response.json();
-        throw new Error("Authentication failed: " + data.status);
+        throw new Error("Authentication failed");
     }
 
     function getToken() {

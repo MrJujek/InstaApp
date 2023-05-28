@@ -46,7 +46,7 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
 
             let login = await userController.login(data);
-            console.log(login);
+            console.log("login", login);
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(login, null, 5));

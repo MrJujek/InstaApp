@@ -8,6 +8,8 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    width: 200px;
+    margin: 0px auto;
 }
 
 .signInButton {
@@ -23,9 +25,9 @@
     font-family: "Bungee", "sans-serif";
     box-shadow: 4px 4px 8px 0px rgba(66, 68, 90, 1);
     transition: 0.4s;
+    cursor: pointer;
 
     &:hover {
-        cursor: pointer;
         box-shadow: -4px -4px 8px 0px rgba(66, 68, 90, 1);
         background: linear-gradient(30deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 17%, rgba(0, 212, 255, 1) 100%);
         transform: scale(1.05);
@@ -35,4 +37,20 @@
         box-shadow: 0px 0px 8px 0px rgba(66, 68, 90, 1);
         transform: scale(0.95);
     }
+}
+
+input {
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid black;
+
+    &:focus {
+        outline: none;
+    }
+
+    &::selection {
+        background: none;
+    }
+
 }

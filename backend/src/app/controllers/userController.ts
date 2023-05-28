@@ -13,7 +13,7 @@ export let userController = {
         return users;
     },
 
-    register: async (data: string) => {
+    register: async (data: string): Promise<string> => {
         let obj = JSON.parse(data);
 
         for (let i = 0; i < users.length; i++) {
@@ -26,7 +26,7 @@ export let userController = {
             return "error: missing data";
 
         } else {
-            return await new Promise(async (resolve, reject) => {
+            return await new Promise<string>(async (resolve, reject) => {
                 try {
                     const encryptedPassword = userController.encryptPass(obj.password);
 
@@ -100,7 +100,21 @@ export let userController = {
     },
 
     login: async (data: string) => {
+        console.log("login", data);
+
         let obj = JSON.parse(data);
+        console.log("obj", obj);
+
+
+        users.forEach(user => {
+            if (user.email == obj.email) {
+                obj.name = user.name;
+                obj.lastName = user.lastName;
+                return;
+            }
+
+        });
+
         let message: string = "Incorrect email or password";
         let bool: boolean = false;
 
@@ -114,7 +128,7 @@ export let userController = {
                     if (user.confirmed == true) {
                         message = "Logged in";
                         toReturn.logged = true;
-                        toReturn.token = userController.createTokenToLogin(obj.email);
+                        toReturn.token = userController.createTokenToLogin(obj);
                     } else {
                         message = "User not confirmed";
                     }
@@ -127,10 +141,13 @@ export let userController = {
         return toReturn;
     },
 
-    createTokenToLogin: (email: string) => {
+    createTokenToLogin: (obj: { email: string, password: string, name: string, lastName: string }) => {
         let token = jwt.sign(
             {
-                email: email
+                email: obj.email,
+                password: obj.password,
+                name: obj.name,
+                lastName: obj.lastName
             },
             String(process.env.TOKEN_KEY),
             {
@@ -142,12 +159,20 @@ export let userController = {
     },
 
     authenticate: async (token: string) => {
+        console.log("authenticate");
+        console.log("token", token);
+        console.log(JSON.parse(token).token);
+        console.log("bruh");
+
         let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string } } = {
             status: false
         }
 
+        ////// tu wywala ze token zlyS
+
         try {
-            let decoded = await jwt.verify(token, String(process.env.TOKEN_KEY)) as { email: string, name: string, lastName: string, password: string };
+            let decoded = await jwt.verify(JSON.parse(token).token, String(process.env.TOKEN_KEY)) as any;
+            console.log("decoded", decoded);
 
             toReturn.status = true;
             toReturn.data = {
@@ -160,6 +185,8 @@ export let userController = {
             return toReturn;
         }
         catch (ex) {
+            console.log(ex);
+
             return toReturn;
         }
     }

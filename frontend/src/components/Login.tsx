@@ -1,21 +1,19 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "../services/auth/context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const ctx = useAuth();
+  const { signIn, user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(JSON.stringify({
-      email: email,
-      password: password
-    }));
-    console.log("ctx", ctx);
+    signIn(email, password);
 
-    ctx.signIn(email, password);
+
 
 
     // fetch("https://dev.juliandworzycki.pl/api/user/login", {
@@ -40,6 +38,12 @@ function Login() {
     //   });
   }
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
   return (
     <>
       <h1>Login</h1>
@@ -50,6 +54,8 @@ function Login() {
         <input type="password" id="password" onChange={(e) => { setPassword(e.target.value) }} />
         <button className="signInButton" type="submit">Sign in</button>
       </form>
+      <Link to="/register">Sign Up</Link>
+
     </>
   )
 }

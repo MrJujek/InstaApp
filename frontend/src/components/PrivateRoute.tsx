@@ -5,5 +5,5 @@ export default function PrivateRoute() {
     const { user } = useAuth();
     console.log("PrivateRoute - user", user);
 
-    return user ? <Outlet /> : <Navigate to={"/signin"} />;
+    return user ? <Outlet /> : <Navigate to={"/login"} />;
 }

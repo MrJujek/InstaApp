@@ -1,37 +1,26 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useAuth } from "../services/auth/context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
-    const [name, setName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const ctx = useAuth();
+    const { user, signUp } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        ctx.signUp(name, lastName, email, password);
-
-        // fetch("https://dev.juliandworzycki.pl/api/user/register", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         name: name,
-        //         lastName: lastName,
-        //         email: email,
-        //         password: password
-        //     })
-        // })
-        //     .then(response => response.json())
-        //     .then((result) => {
-        //         console.log("register - data back");
-
-        //         console.log(result);
-        //     });
+        signUp(name, lastName, email, password);
     }
 
     return (
@@ -49,6 +38,7 @@ function Register() {
 
                 <button className="signInButton" type="submit">Sign up</button>
             </form>
+            <Link to="/login">Log In</Link>
         </>
     )
 }
