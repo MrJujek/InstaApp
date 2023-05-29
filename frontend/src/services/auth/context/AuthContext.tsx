@@ -17,6 +17,7 @@ interface AuthProvider {
         password: string
     ) => Promise<void>;
     getToken: () => string;
+    logout: () => void;
 }
 
 export const AuthContext = React.createContext({} as AuthProvider);
@@ -35,12 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const user = localStorage.getItem("token");
 
             if (!user) {
-                console.log("no user");
-
                 setLoading(false);
                 return;
             }
-            // const token = JSON.parse(user);
             try {
                 setUser(await authenticate(user));
             } catch (error) {
@@ -51,22 +49,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loadUserFromLocalStorage();
     }, []);
 
-    useEffect(() => {
-        console.log("XXXXXXXuser", user);
-    }, [user]);
-
     const value = {
         user,
         signIn,
         signUp,
         getToken,
+        logout
     };
 
     async function authenticate(token: string) {
-        console.log("authenticate");
-        console.log(token);
-
-
         const response = await fetch("https://dev.juliandworzycki.pl/api/user/authenticate", {
             method: "POST",
             headers: {
@@ -77,7 +68,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (response.ok) {
             const data = await response.json();
-            console.log("YYYYdata", data);
 
             if (data.status) {
                 return data.data;
@@ -90,8 +80,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: string,
         password: string
     ) {
-        console.log("signIn");
-
         const response = await fetch("https://dev.juliandworzycki.pl/api/user/login", {
             method: "POST",
             headers: {
@@ -101,8 +89,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log("signIn - data", data);
-            console.log(data.token);
 
             localStorage.setItem("token", data.token);
             setUser(await authenticate(data.token));
@@ -133,11 +119,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     function getToken() {
-        const user = localStorage.getItem("token");
-        if (!user) {
+        const token = localStorage.getItem("token");
+        if (!token) {
             return null;
         }
-        return JSON.parse(user);
+        return JSON.parse(token);
+    }
+
+    function logout() {
+        setUser(null);
+        localStorage.removeItem("token");
     }
 
     return (

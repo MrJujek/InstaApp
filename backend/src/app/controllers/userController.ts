@@ -116,14 +116,11 @@ export let userController = {
         });
 
         let message: string = "Incorrect email or password";
-        let bool: boolean = false;
 
         let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message: "" };
 
         users.forEach(user => {
             if (user.email == obj.email) {
-                bool = true;
-
                 if (bcrypt.compareSync(obj.password, user.password)) {
                     if (user.confirmed == true) {
                         message = "Logged in";
@@ -167,8 +164,6 @@ export let userController = {
         let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string } } = {
             status: false
         }
-
-        ////// tu wywala ze token zlyS
 
         try {
             let decoded = await jwt.verify(JSON.parse(token).token, String(process.env.TOKEN_KEY)) as any;

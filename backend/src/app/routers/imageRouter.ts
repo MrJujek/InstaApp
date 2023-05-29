@@ -2,6 +2,7 @@ import * as http from "http";
 import { getRequestData } from "../getRequestData";
 import { jsonController } from "../controllers/jsonController";
 import { fileController } from "../controllers/fileController";
+import * as fs from "fs";
 
 export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // console.log(req.url);
@@ -42,7 +43,20 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(jsonController.getTagsFromPhoto(parseInt(req.url!.split("/photos/tags/")[1])), null, 5));
+        } else if (req.url!.match(/\/photos\/show\/([0-9]+)/)) {
+            console.log("SHOW PHOTO");
+
+            console.log(parseInt(req.url!.split("/photos/show/")[1]));
+            console.log(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])));
+
+            fs.readFile(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])), function (err, data) {
+                if (err) throw err;
+
+                res.setHeader('Content-Type', 'image/jpeg');
+                res.end(data);
+            });
         }
+
     };
 
     async function checkPOST() {

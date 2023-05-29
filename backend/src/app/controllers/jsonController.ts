@@ -31,5 +31,9 @@ export let jsonController = {
 
     getTagsFromPhoto: (id: number) => {
         return photos.filter((photo) => photo.id == id)[0].tags;
+    },
+
+    getPhotoPath: (id: number) => {
+        return photos.filter((photo) => photo.id == id)[0].path;
     }
 }

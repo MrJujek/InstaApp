@@ -18,10 +18,10 @@ album3
 GET https://dev.juliandworzycki.pl/api/photos HTTP/1.1
 
 ### GET ONE PHOTO
-GET https://dev.juliandworzycki.pl/api/photos/8 HTTP/1.1
+GET https://dev.juliandworzycki.pl/api/photos/1 HTTP/1.1
 
 ### DELETE PHOTO
-DELETE https://dev.juliandworzycki.pl/api/photos/1 HTTP/1.1
+DELETE https://dev.juliandworzycki.pl/api/photos/7 HTTP/1.1
 
 ### PATCH PHOTO
 PATCH https://dev.juliandworzycki.pl/api/photos/2 HTTP/1.1
