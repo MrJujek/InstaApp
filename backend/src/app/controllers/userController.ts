@@ -13,6 +13,10 @@ export let userController = {
         return users;
     },
 
+    getOneUser: async (id: number) => {
+        return users.filter(user => user.id == id);
+    },
+
     register: async (data: string): Promise<string> => {
         let obj = JSON.parse(data);
 
@@ -156,11 +160,6 @@ export let userController = {
     },
 
     authenticate: async (token: string) => {
-        console.log("authenticate");
-        console.log("token", token);
-        console.log(JSON.parse(token).token);
-        console.log("bruh");
-
         let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string } } = {
             status: false
         }

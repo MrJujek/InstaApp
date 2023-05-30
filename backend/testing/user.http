@@ -1,6 +1,9 @@
 ### GET ALL USERS
 GET https://dev.juliandworzycki.pl/api/user HTTP/1.1
 
+### GET USER BY ID
+GET https://dev.juliandworzycki.pl/api/user/1 HTTP/1.1
+
 ### REGISTER USER
 POST https://dev.juliandworzycki.pl/api/user/register HTTP/1.1
 content-type: application/json

@@ -16,6 +16,8 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
     async function checkGET() {
         if (req.url! == "/user") {
+            console.log("GET ALL USERS");
+
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.getAllUsers(), null, 5));
 
@@ -26,6 +28,13 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.verifyToken(token), null, 5));
+        } else if (req.url!.match(/\/user\/([0-9]+)/)) {
+            console.log("GET ONE USER");
+
+            const id = parseInt(req.url!.split("/user/")[1]);
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(await userController.getOneUser(id), null, 5));
         }
     };
 
