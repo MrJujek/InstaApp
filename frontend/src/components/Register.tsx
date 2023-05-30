@@ -8,8 +8,9 @@ function Register() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showConfirm, setShowConfirm] = useState(false);
 
-    const { user, signUp } = useAuth();
+    const { user, registerData, signUp } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,6 +18,13 @@ function Register() {
             navigate("/");
         }
     }, [user, navigate]);
+
+    useEffect(() => {
+        if (registerData.status) {
+            console.log("msg", registerData.message);
+            setShowConfirm(true);
+        }
+    }, [registerData]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -40,6 +48,12 @@ function Register() {
                 <button className="signInButton" type="submit">Sign up</button>
             </form>
             <Link to="/login">Log In</Link>
+
+            {showConfirm && (
+                <div className="confirm">
+                    <Link to={String(registerData.message).split("Confirm your account here:")[1]} target="_blank">Click here to confirm your account.</Link>
+                </div>
+            )}
         </>
     )
 }

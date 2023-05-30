@@ -9,6 +9,7 @@ interface User {
 
 interface AuthProvider {
     user: User | null;
+    registerData: { status: boolean, message?: string };
     signIn: (email: string, password: string) => Promise<void>;
     signUp: (
         name: string,
@@ -30,6 +31,7 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [registerData, setRegisterData] = useState({ status: false } as { status: boolean, message?: string });
 
     useEffect(() => {
         async function loadUserFromLocalStorage() {
@@ -51,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const value = {
         user,
+        registerData,
         signIn,
         signUp,
         getToken,
@@ -112,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            setRegisterData({ status: true, message: data });
             return;
         }
         throw new Error("Authentication failed");
