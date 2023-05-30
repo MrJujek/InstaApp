@@ -6,6 +6,7 @@ import { jsonController } from "./jsonController";
 interface Upload {
     fileArray: formidable.File[];
     user: string;
+    isProfilePhoto: boolean;
 }
 
 export let fileController = {
@@ -22,7 +23,7 @@ export let fileController = {
                 form.parse(req, function (err, fields, files) {
                     if (err) console.log(err);
 
-                    const { user } = fields;
+                    const { user, photoType } = fields;
                     const { file } = files;
 
                     const fileArray = Array.isArray(file) ? file : [file];
@@ -31,7 +32,8 @@ export let fileController = {
 
                     resolve({
                         fileArray,
-                        user: user.toString()
+                        user: user.toString(),
+                        isProfilePhoto: photoType == "profile" ? true : false
                     });
                 });
             } catch (error) {

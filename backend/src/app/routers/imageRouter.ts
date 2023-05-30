@@ -59,7 +59,11 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
             console.log("ADD PHOTO");
 
             let data = await fileController.uploadFile(req, res);
-            let { fileArray, user } = data;
+            let { fileArray, user, isProfilePhoto } = data;
+
+            if (isProfilePhoto) {
+                jsonController.deleteProfilePhoto(user);
+            }
 
             for (const file of fileArray) {
                 jsonController.addPhoto({
@@ -68,7 +72,7 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                     type: file.mimetype || "",
                     path: "./files/" + user + "/" + file.newFilename,
                     user: user,
-                    profile: false,
+                    profile: isProfilePhoto,
                     history: [
                         {
                             date: new Date(),

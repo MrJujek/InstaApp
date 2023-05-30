@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Photo, { PhotoData } from "./Photo";
-import "../assets/scss/modules/_home.scss";
-import { useAuth } from "../services/auth/context/AuthContext";
+import UploadPhoto from "./UploadPhoto";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
-    const [photoToUpload, setphotoToUpload] = useState(null as File | null)
-
-    const { user } = useAuth();
 
     useEffect(() => {
         loadPhotos();
     }, []);
-
 
     async function loadPhotos() {
         const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
@@ -24,45 +19,9 @@ function Home() {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log("loadPhotos - data", data);
 
-
-            setPhotos(data);
+            setPhotos(data.filter((element: PhotoData) => element.profile === false));
         }
-    }
-
-    function onChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.files === null) {
-            return
-        }
-
-        setphotoToUpload(
-            e.target.files[0]
-        )
-    }
-
-    async function postFileToServer() {
-        if (photoToUpload === null || !photoToUpload) {
-            console.log("postFileToServer - no file");
-            return
-        }
-
-        const formData = new FormData()
-        formData.append("file", photoToUpload as File)
-        formData.append("user", user?.email as string)
-        console.log(user);
-
-
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
-            method: "POST",
-            body: formData
-        });
-
-        if (response.ok) {
-            loadPhotos();
-            return;
-        }
-        throw new Error("Error while uploading file");
     }
 
     return (
@@ -72,20 +31,13 @@ function Home() {
                 <Link to={'/profile'}>Profile</Link>
             </div>
 
-            <div className="uploadPhoto">
-                Upload file
-                <label htmlFor="file">Select photo:</label>
-                <input id="file" type="file" name="file" onChange={(e) => onChangeFile(e)} />
-
-                <button onClick={() => postFileToServer()}>Add photo</button>
-            </div>
+            <UploadPhoto photoType="photo" loadPhotos={loadPhotos} />
 
             <div className="photos">
                 {photos.map((element, index) => {
                     return (
                         <Photo key={index} data={element} />
                     )
-
                 })}
             </div>
         </>

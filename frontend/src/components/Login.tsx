@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "../services/auth/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import "../assets/scss/modules/_sign.scss";
 
 function Login() {
   const [email, setEmail] = useState("")

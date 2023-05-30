@@ -1,5 +1,3 @@
-import "../assets/scss/modules/_photo.scss"
-
 interface ModificationHistory {
     date: Date;
     status: string;
