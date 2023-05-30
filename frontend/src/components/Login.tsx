@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "../services/auth/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import "../assets/scss/modules/_sign.scss";
 
 function Login() {
   const [email, setEmail] = useState("")
@@ -12,30 +13,6 @@ function Login() {
     e.preventDefault();
 
     signIn(email, password);
-
-
-
-
-    // fetch("https://dev.juliandworzycki.pl/api/user/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: password
-    //   })
-    // })
-    //   .then(response => response.json())
-    //   .then((result) => {
-    //     console.log("login - data back");
-
-    //     console.log(result);
-
-    //     if (result.token) {
-    //       localStorage.setItem("token", result.token);
-    //     }
-    //   });
   }
 
   useEffect(() => {

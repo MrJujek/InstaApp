@@ -59,6 +59,5 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.authenticate(data), null, 5));
         }
-
     };
 };

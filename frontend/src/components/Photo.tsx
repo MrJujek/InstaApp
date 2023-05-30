@@ -1,3 +1,5 @@
+import "../assets/scss/modules/_photo.scss"
+
 interface ModificationHistory {
     date: Date;
     status: string;
@@ -21,37 +23,34 @@ export interface PhotoData {
 
 function Photo(props: { data: PhotoData }) {
     const { data } = props;
-    console.log("Photo", data);
-
 
     return (
-        <>
+        <div className="photo">
             <img alt="Photo" src={"/api/photos/show/" + data.id}></img>
-            {data.name}
-            {data.type}
-            {data.path}
-            {data.album}
+            <span>{data.name}</span>
+            <span>{data.type}</span>
+            <span>{data.path}</span>
+            <span>{data.album}</span>
+
             {data.history.map((element, index) => {
-                console.log("element", element);
                 return (
-                    <>
-                        {element.date}
-                        {element.status}
-                    </>
+                    <div key={index}>
+                        <div>{(element.date).toString()}</div>
+                        <div>{element.status}</div>
+                    </div>
                 )
             })}
+
             {data.tags.map((element, index) => {
-                console.log("element", element);
                 return (
-                    <>
-                        {element.id}
-                        {element.name}
-                        {element.popularity}
-                    </>
+                    <div key={index}>
+                        <div>{element.id}</div>
+                        <div>{element.name}</div>
+                        <div>{element.popularity}</div>
+                    </div>
                 )
             })}
-            <br></br>
-        </>
+        </div>
     )
 }
 
