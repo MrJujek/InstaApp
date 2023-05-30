@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Photo, { PhotoData } from "./Photo";
 import "../assets/scss/modules/_home.scss";
+import { useAuth } from "../services/auth/context/AuthContext";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
     const [photoToUpload, setphotoToUpload] = useState(null as File | null)
+
+    const { user } = useAuth();
 
     useEffect(() => {
         loadPhotos();
@@ -46,7 +49,9 @@ function Home() {
 
         const formData = new FormData()
         formData.append("file", photoToUpload as File)
-        formData.append("album", "test")
+        formData.append("user", user?.email as string)
+        console.log(user);
+
 
         const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
             method: "POST",

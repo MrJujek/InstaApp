@@ -8,7 +8,8 @@ export interface Photo {
     name: string;
     type: string;
     path: string;
-    album: string;
+    user: string;
+    profile: boolean;
     history: ModificationHistory[];
     tags: TagsObject[];
 }

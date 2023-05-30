@@ -16,7 +16,8 @@ export interface PhotoData {
     name: string;
     type: string;
     path: string;
-    album: string;
+    user: string;
+    profile: boolean;
     history: ModificationHistory[];
     tags: TagsObject[];
 }
@@ -27,10 +28,14 @@ function Photo(props: { data: PhotoData }) {
     return (
         <div className="photo">
             <img alt="Photo" src={"/api/photos/show/" + data.id}></img>
-            <span>{data.name}</span>
-            <span>{data.type}</span>
-            <span>{data.path}</span>
-            <span>{data.album}</span>
+
+            <div className="photoData">
+                <span>{data.name}</span>
+                <span>{data.type}</span>
+                <span>{data.path}</span>
+                <span>{data.user}</span>
+                <span>Profilowe? {String(data.profile)}</span>
+            </div>
 
             {data.history.map((element, index) => {
                 return (

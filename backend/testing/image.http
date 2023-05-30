@@ -9,7 +9,7 @@ Content-Type: image/jpeg
 < ./node.jpg
 
 --ADD_PHOTO
-Content-Disposition: form-data; name="album"
+Content-Disposition: form-data; name="user"
 
 album3
 --ADD_PHOTO

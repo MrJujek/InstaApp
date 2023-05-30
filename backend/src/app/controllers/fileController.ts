@@ -5,7 +5,7 @@ import { jsonController } from "./jsonController";
 
 interface Upload {
     fileArray: formidable.File[];
-    album: string;
+    user: string;
 }
 
 export let fileController = {
@@ -22,16 +22,16 @@ export let fileController = {
                 form.parse(req, function (err, fields, files) {
                     if (err) console.log(err);
 
-                    const { album } = fields;
+                    const { user } = fields;
                     const { file } = files;
 
                     const fileArray = Array.isArray(file) ? file : [file];
 
-                    fileController.moveFile(fileArray, album.toString());
+                    fileController.moveFile(fileArray, user.toString());
 
                     resolve({
                         fileArray,
-                        album: album.toString()
+                        user: user.toString()
                     });
                 });
             } catch (error) {
@@ -40,17 +40,17 @@ export let fileController = {
         });
     },
 
-    async moveFile(fileArray: formidable.File[], album: string) {
+    async moveFile(fileArray: formidable.File[], user: string) {
         console.log("moveFile");
 
         return new Promise((resolve, reject) => {
             try {
-                if (!fs.existsSync("./files/" + album)) {
-                    fs.mkdirSync("./files/" + album);
+                if (!fs.existsSync("./files/" + user)) {
+                    fs.mkdirSync("./files/" + user);
                 }
 
                 for (const file of fileArray) {
-                    fs.rename(file.filepath, "./files/" + album + "/" + file.newFilename, (err) => {
+                    fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
 
                         resolve(fileArray);

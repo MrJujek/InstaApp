@@ -5,8 +5,6 @@ import { fileController } from "../controllers/fileController";
 import * as fs from "fs";
 
 export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
-    // console.log(req.url);
-
     switch (req.method) {
         case "GET":
             checkGET();
@@ -46,9 +44,6 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
         } else if (req.url!.match(/\/photos\/show\/([0-9]+)/)) {
             console.log("SHOW PHOTO");
 
-            console.log(parseInt(req.url!.split("/photos/show/")[1]));
-            console.log(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])));
-
             fs.readFile(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])), function (err, data) {
                 if (err) throw err;
 
@@ -64,15 +59,16 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
             console.log("ADD PHOTO");
 
             let data = await fileController.uploadFile(req, res);
-            let { fileArray, album } = data;
+            let { fileArray, user } = data;
 
             for (const file of fileArray) {
                 jsonController.addPhoto({
                     id: jsonController.getNewID(),
                     name: file.originalFilename || "",
                     type: file.mimetype || "",
-                    path: "./files/" + album + "/" + file.newFilename,
-                    album: album,
+                    path: "./files/" + user + "/" + file.newFilename,
+                    user: user,
+                    profile: false,
                     history: [
                         {
                             date: new Date(),
@@ -82,6 +78,9 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                     tags: []
                 });
             }
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify({ status: true }, null, 5));
         }
     }
 
