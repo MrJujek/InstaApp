@@ -44,6 +44,14 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
         } else if (req.url!.match(/\/photos\/show\/([0-9]+)/)) {
             console.log("SHOW PHOTO");
 
+            if (!fs.existsSync(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])))) {
+                console.log("PHOTO NOT FOUND");
+
+                res.writeHead(404);
+                res.end();
+                return;
+            }
+
             fs.readFile(jsonController.getPhotoPath(parseInt(req.url!.split("/photos/show/")[1])), function (err, data) {
                 if (err) throw err;
 
@@ -51,7 +59,6 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                 res.end(data);
             });
         }
-
     };
 
     async function checkPOST() {

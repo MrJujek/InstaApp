@@ -34,7 +34,13 @@ export let jsonController = {
     },
 
     getPhotoPath: (id: number) => {
-        return photos.filter((photo) => photo.id == id)[0].path;
+        let toReturn = photos.filter((photo) => photo.id == id);
+
+        if (toReturn.length == 0) {
+            return ""
+        };
+
+        return toReturn[0].path;
     },
 
     deleteProfilePhoto: (user: string) => {

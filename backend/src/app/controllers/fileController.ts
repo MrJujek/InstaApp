@@ -82,5 +82,41 @@ export let fileController = {
                 reject(error);
             }
         })
+    },
+
+    async createDefaultProfilePhoto(user: string) {
+        console.log("createDefaultProfilePhoto");
+
+        return new Promise((resolve, reject) => {
+            try {
+                if (!fs.existsSync("./files/" + user)) {
+                    fs.mkdirSync("./files/" + user);
+                }
+
+                jsonController.addPhoto({
+                    id: jsonController.getNewID(),
+                    name: "defaultProfilePhoto.png",
+                    type: "image/png",
+                    path: "./files/" + user + "/defaultProfilePhoto.png",
+                    user: user,
+                    profile: true,
+                    history: [
+                        {
+                            date: new Date(),
+                            status: "orginal"
+                        }
+                    ],
+                    tags: []
+                });
+
+                fs.copyFile("./assets/defaultProfilePhoto.png", "./files/" + user + "/defaultProfilePhoto.png", (err) => {
+                    if (err) throw (err);
+
+                    resolve("Default profile photo created");
+                });
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 }

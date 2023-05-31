@@ -5,6 +5,7 @@ import { User } from "../model";
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
+import { fileController } from "./fileController";
 
 dotenv.config({ path: "/home/ubuntu/Desktop/github/InstaApp/backend/.env" })
 
@@ -52,6 +53,8 @@ export let userController = {
                     }
 
                     users.push(userData);
+
+                    fileController.createDefaultProfilePhoto(userData.email);
 
                     resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createTokenToConfirm(obj.email));
                 } catch (error) {
@@ -112,11 +115,7 @@ export let userController = {
     },
 
     login: async (data: string) => {
-        console.log("login", data);
-
         let obj = JSON.parse(data);
-        console.log("obj", obj);
-
 
         users.forEach(user => {
             if (user.email == obj.email) {
