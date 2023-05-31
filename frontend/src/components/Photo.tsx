@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 interface ModificationHistory {
     date: Date;
     status: string;
@@ -22,9 +23,17 @@ export interface PhotoData {
 
 function Photo(props: { data: PhotoData }) {
     const { data } = props;
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (!data.profile) {
+            navigate("/post/" + data.id);
+        }
+    };
 
     return (
-        <div className="photo">
+
+        <div className="photo" onClick={() => handleClick()}>
             <img alt="Photo" src={"/api/photos/show/" + data.id}></img>
 
             <div className="photoData">
@@ -54,6 +63,7 @@ function Photo(props: { data: PhotoData }) {
                 )
             })}
         </div>
+
     )
 }
 

@@ -6,7 +6,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import UserProfile from "./components/UserProfile";
-
+import ShowPost from "./components/ShowPost";
 function App() {
     return (
         <>
@@ -16,9 +16,18 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
                         <Route element={<PrivateRoute />}>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/user/:id" element={<UserProfile />} />
+                            <Route path="*" element={
+                                <>
+                                    <div></div>
+                                    <Routes>
+                                        <Route path="/" element={<Home />} />
+                                        <Route path="/profile" element={<Profile />} />
+                                        <Route path="/user/:id" element={<UserProfile />} />
+                                        <Route path="/post/:id" element={<ShowPost />} />
+                                    </Routes>
+                                </>
+                            } />
+
                         </Route>
                     </Routes>
                 </AuthProvider>

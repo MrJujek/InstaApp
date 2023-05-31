@@ -53,7 +53,6 @@ function UserProfile() {
                     )
                 })}
             </div>
-            <br />
 
             User photos:
             <div className="photos">

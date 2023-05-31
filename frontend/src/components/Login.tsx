@@ -31,7 +31,6 @@ function Login() {
         <button className="signInButton" type="submit">Sign in</button>
       </form>
       <Link to="/register">Sign Up</Link>
-
     </>
   )
 }
