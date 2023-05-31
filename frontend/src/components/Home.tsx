@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Photo, { PhotoData } from "./Photo";
+import Post, { PhotoData } from "./Post";
 import UploadPhoto from "./UploadPhoto";
 
 function Home() {
@@ -26,17 +25,14 @@ function Home() {
 
     return (
         <>
-            <div className="navbar">
-                <h1>Home</h1>
-                <Link to={'/profile'}>Profile</Link>
-            </div>
+            <h1>Home</h1>
 
             <UploadPhoto photoType="photo" loadPhotos={loadPhotos} />
 
             <div className="photos">
                 {photos.map((element, index) => {
                     return (
-                        <Photo key={index} data={element} />
+                        <Post key={index} data={element} />
                     )
                 })}
             </div>

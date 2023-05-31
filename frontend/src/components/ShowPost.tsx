@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { PhotoData } from './Photo'
+import { PhotoData } from './Post'
 import { useParams } from 'react-router-dom';
 
 function ShowPost() {
@@ -14,19 +14,25 @@ function ShowPost() {
     const [post, setPost] = useState({} as PhotoData)
 
     useEffect(() => {
-        loadUser();
+        console.log("id", id);
+        getPost();
     }, []);
 
     useEffect(() => {
-        getPost();
-    }, [user]);
+        loadUser();
+        console.log(user);
+
+    }, [post]);
 
     async function loadUser() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/" + id, {
+        const response = await fetch("https://dev.juliandworzycki.pl/api/user/" + post.user, {
             method: "GET"
         });
         if (response.ok) {
             const [data] = await response.json();
+
+            console.log("loaduser", data);
+
 
             setUser(data);
         }
@@ -38,6 +44,9 @@ function ShowPost() {
         });
         if (response.ok) {
             const data = await response.json();
+
+            console.log("getPost", data);
+
 
             setPost(data);
         }

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import LogoutButton from './LogoutButton';
-import { Link } from 'react-router-dom';
 import UploadPhoto from './UploadPhoto';
-import Photo, { PhotoData } from './Photo';
+import Post, { PhotoData } from './Post';
 import { useAuth } from '@/services/auth/context/AuthContext';
 
 function Profile() {
@@ -32,7 +31,6 @@ function Profile() {
     return (
         <>
             <h1>Profile</h1><LogoutButton></LogoutButton>
-            <Link to={'/'}>Home</Link>
 
             <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto>
 
@@ -40,7 +38,7 @@ function Profile() {
             <div className="photos">
                 {profilePhoto.map((element, index) => {
                     return (
-                        <Photo key={index} data={element} />
+                        <Post key={index} data={element} />
                     )
                 })}
             </div>
@@ -50,7 +48,7 @@ function Profile() {
             <div className="photos">
                 {yourPhotos.map((element, index) => {
                     return (
-                        <Photo key={index} data={element} />
+                        <Post key={index} data={element} />
                     )
                 })}
             </div>

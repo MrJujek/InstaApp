@@ -7,6 +7,8 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import UserProfile from "./components/UserProfile";
 import ShowPost from "./components/ShowPost";
+import Navbar from "./components/Navbar";
+
 function App() {
     return (
         <>
@@ -18,12 +20,13 @@ function App() {
                         <Route element={<PrivateRoute />}>
                             <Route path="*" element={
                                 <>
-                                    <div></div>
+                                    <Navbar />
                                     <Routes>
                                         <Route path="/" element={<Home />} />
                                         <Route path="/profile" element={<Profile />} />
                                         <Route path="/user/:id" element={<UserProfile />} />
                                         <Route path="/post/:id" element={<ShowPost />} />
+                                        <Route path="*" element={<h1>Not found</h1>} />
                                     </Routes>
                                 </>
                             } />

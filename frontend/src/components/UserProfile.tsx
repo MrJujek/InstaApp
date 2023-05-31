@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Photo, { PhotoData } from './Photo';
+import Post, { PhotoData } from './Post';
 
 function UserProfile() {
     const { id } = useParams();
@@ -49,7 +49,7 @@ function UserProfile() {
             <div className="photos">
                 {userProfilePhoto.map((element, index) => {
                     return (
-                        <Photo key={index} data={element} />
+                        <Post key={index} data={element} />
                     )
                 })}
             </div>
@@ -58,7 +58,7 @@ function UserProfile() {
             <div className="photos">
                 {userPhotos.map((element, index) => {
                     return (
-                        <Photo key={index} data={element} />
+                        <Post key={index} data={element} />
                     )
                 })}
             </div>
