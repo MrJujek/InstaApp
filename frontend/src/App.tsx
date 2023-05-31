@@ -5,6 +5,7 @@ import { AuthProvider } from '@/services/auth/context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './components/Home';
 import Profile from './components/Profile';
+import UserProfile from "./components/UserProfile";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                         <Route element={<PrivateRoute />}>
                             <Route path="/" element={<Home />} />
                             <Route path="/profile" element={<Profile />} />
+                            <Route path="/user/:id" element={<UserProfile />} />
                         </Route>
                     </Routes>
                 </AuthProvider>

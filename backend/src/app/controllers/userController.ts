@@ -17,6 +17,14 @@ export let userController = {
         return users.filter(user => user.id == id);
     },
 
+    getUserIdByEmail: async (email: string) => {
+        let user = users.filter(user => user.email == email);
+
+        if (user.length == 0) return "error: user with that email doesn't exist";
+
+        return user[0].id;
+    },
+
     register: async (data: string): Promise<string> => {
         let obj = JSON.parse(data);
 
@@ -166,7 +174,7 @@ export let userController = {
 
         try {
             let decoded = await jwt.verify(JSON.parse(token).token, String(process.env.TOKEN_KEY)) as any;
-            console.log("decoded", decoded);
+            // console.log("decoded", decoded);
 
             toReturn.status = true;
             toReturn.data = {

@@ -28,6 +28,7 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.verifyToken(token), null, 5));
+
         } else if (req.url!.match(/\/user\/([0-9]+)/)) {
             console.log("GET ONE USER");
 
@@ -35,6 +36,14 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.getOneUser(id), null, 5));
+
+        } else if (req.url!.match(/\/user\/email\/([0-9a-zA-Z@.\-\_]+)/)) {
+            console.log("GET USER ID BY EMAIL");
+
+            const email = req.url!.split("/user/email/")[1];
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(await userController.getUserIdByEmail(email), null, 5));
         }
     };
 
@@ -63,7 +72,7 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             console.log("POST AUTHENTICATE");
 
             const data = await getRequestData(req);
-            console.log("data", data);
+            // console.log("data", data);
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.authenticate(data), null, 5));
