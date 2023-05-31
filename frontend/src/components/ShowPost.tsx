@@ -5,38 +5,16 @@ import { useParams } from 'react-router-dom';
 function ShowPost() {
     const { id } = useParams();
 
-    const [user, setUser] = useState({} as {
-        id: string;
-        name: string;
-        lastName: string;
-        email: string;
-    })
     const [post, setPost] = useState({} as PhotoData)
+    const [userProfile, setUserProfile] = useState({} as PhotoData);
 
     useEffect(() => {
-        console.log("id", id);
         getPost();
     }, []);
 
     useEffect(() => {
-        loadUser();
-        console.log(user);
-
+        loadUserProfile();
     }, [post]);
-
-    async function loadUser() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/" + post.user, {
-            method: "GET"
-        });
-        if (response.ok) {
-            const [data] = await response.json();
-
-            console.log("loaduser", data);
-
-
-            setUser(data);
-        }
-    }
 
     async function getPost() {
         const response = await fetch("https://dev.juliandworzycki.pl/api/photos/" + id, {
@@ -52,11 +30,25 @@ function ShowPost() {
         }
     }
 
+    async function loadUserProfile() {
+        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+            method: "GET"
+        });
+        if (response.ok) {
+            const data = await response.json();
+
+            setUserProfile(data.filter((element: PhotoData) => element.user === post.user && element.profile === true)[0]);
+        }
+    }
+
     return (
         <>
-            <div className='postProfile'>
-                <img alt="Photo" src={"/api/photos/show/" + post.id}></img>{user.email}
-            </div>
+            {userProfile &&
+                <div className='postProfile'>
+                    <img alt="Photo" src={"/api/photos/show/" + userProfile.id}></img>
+                    <div>{post.user}</div>
+                </div>
+            }
             <br />
             <div className="photo">
                 <img alt="Photo" src={"/api/photos/show/" + post.id}></img>
