@@ -3,6 +3,7 @@ import { getRequestData } from "../getRequestData";
 import { jsonController } from "../controllers/jsonController";
 import { fileController } from "../controllers/fileController";
 import * as fs from "fs";
+import { updateJSON } from "../model/model";
 
 export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     switch (req.method) {
@@ -89,6 +90,8 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                     tags: []
                 });
             }
+
+            await updateJSON();
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify({ status: true }, null, 5));

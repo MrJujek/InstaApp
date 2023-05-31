@@ -2,6 +2,7 @@ import * as http from "http";
 import formidable from "formidable";
 import * as fs from "fs";
 import { jsonController } from "./jsonController";
+import { updateJSON } from "../model/model";
 
 interface Upload {
     fileArray: formidable.File[];
@@ -20,7 +21,7 @@ export let fileController = {
                     keepExtensions: true
                 });
 
-                form.parse(req, function (err, fields, files) {
+                form.parse(req, async function (err, fields, files) {
                     if (err) console.log(err);
 
                     const { user, photoType } = fields;
@@ -28,7 +29,9 @@ export let fileController = {
 
                     const fileArray = Array.isArray(file) ? file : [file];
 
-                    fileController.moveFile(fileArray, user.toString());
+                    await fileController.moveFile(fileArray, user.toString());
+
+                    await updateJSON();
 
                     resolve({
                         fileArray,
@@ -87,7 +90,7 @@ export let fileController = {
     async createDefaultProfilePhoto(user: string) {
         console.log("createDefaultProfilePhoto");
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 if (!fs.existsSync("./files/" + user)) {
                     fs.mkdirSync("./files/" + user);
@@ -108,6 +111,8 @@ export let fileController = {
                     ],
                     tags: []
                 });
+
+                await updateJSON();
 
                 fs.copyFile("./assets/defaultProfilePhoto.png", "./files/" + user + "/defaultProfilePhoto.png", (err) => {
                     if (err) throw (err);

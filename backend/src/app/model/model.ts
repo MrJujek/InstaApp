@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 interface ModificationHistory {
     date: Date;
     status: string;
@@ -76,3 +78,20 @@ export let users: User[] = [
         "confirmed": true
     }
 ];
+
+async function loadData() {
+    console.log("loadData");
+    photos = await JSON.parse(fs.readFileSync('./src/app/model/photos.json', 'utf8'));
+    tagsObjects = await JSON.parse(fs.readFileSync('./src/app/model/tags.json', 'utf8'));
+    users = await JSON.parse(fs.readFileSync('./src/app/model/users.json', 'utf8'));
+}
+
+loadData();
+
+export async function updateJSON() {
+    console.log("updateJSON");
+
+    fs.writeFileSync('./src/app/model/photos.json', JSON.stringify(photos));
+    fs.writeFileSync('./src/app/model/tags.json', JSON.stringify(tagsObjects));
+    fs.writeFileSync('./src/app/model/users.json', JSON.stringify(users));
+}

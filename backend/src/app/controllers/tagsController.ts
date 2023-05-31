@@ -1,8 +1,8 @@
-import { tagsRaw } from "../model";
-import { TagsObject } from "../model";
+import { tagsRaw, updateJSON } from "../model/model";
+import { TagsObject } from "../model/model";
 import formidable from "formidable";
 import * as http from "http";
-import { tagsObjects } from "../model";
+import { tagsObjects } from "../model/model";
 
 interface GetTag {
     newTag: string;
@@ -13,7 +13,7 @@ export let tagsController = {
         return tagsRaw;
     },
 
-    getAllTagsObjects: () => {
+    getAllTagsObjects: async () => {
         for (const tag in tagsRaw) {
             tagsObjects.push({
                 id: tagsRaw.indexOf(tagsRaw[tag]),
@@ -21,6 +21,8 @@ export let tagsController = {
                 popularity: Math.random() * 100
             });
         }
+
+        await updateJSON();
 
         return tagsObjects;
     },
@@ -49,7 +51,7 @@ export let tagsController = {
         });
     },
 
-    addNewTag: (newTag: string) => {
+    addNewTag: async (newTag: string) => {
         if (tagsRaw.includes(newTag)) return tagsRaw;
 
         tagsRaw.push(newTag);
@@ -58,6 +60,8 @@ export let tagsController = {
             name: newTag,
             popularity: Math.random() * 100
         });
+
+        await updateJSON();
 
         return tagsRaw;
     }

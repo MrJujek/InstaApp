@@ -2,7 +2,7 @@ import * as http from "http";
 import { getRequestData } from "../getRequestData";
 import { userController } from "../controllers/userController";
 import { fileController } from "../controllers/fileController";
-import { users } from "../model";
+import { users } from "../model/model";
 
 export const profileRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     switch (req.method) {

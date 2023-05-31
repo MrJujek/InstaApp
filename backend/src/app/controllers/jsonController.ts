@@ -1,5 +1,5 @@
-import { photos } from "../model";
-import { Photo } from "../model";
+import { photos, updateJSON } from "../model/model";
+import { Photo } from "../model/model";
 
 export let jsonController = {
     getAllPhotos: () => {
@@ -16,8 +16,10 @@ export let jsonController = {
         return photos[photos.length - 1].id + 1;
     },
 
-    addPhoto: (photo: Photo) => {
+    addPhoto: async (photo: Photo) => {
         photos.push(photo);
+
+        return photos;
     },
 
     deletePhoto: (id: number) => {

@@ -1,11 +1,12 @@
 import formidable from "formidable";
 import * as http from "http";
-import { users } from "../model";
-import { User } from "../model";
+import { users } from "../model/model";
+import { User } from "../model/model";
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
 import { fileController } from "./fileController";
+import { updateJSON } from "../model/model";
 
 dotenv.config({ path: "/home/ubuntu/Desktop/github/InstaApp/backend/.env" })
 
@@ -55,6 +56,8 @@ export let userController = {
                     users.push(userData);
 
                     fileController.createDefaultProfilePhoto(userData.email);
+
+                    await updateJSON();
 
                     resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createTokenToConfirm(obj.email));
                 } catch (error) {
@@ -110,6 +113,8 @@ export let userController = {
                 user.confirmed = true;
             }
         });
+
+        await updateJSON();
 
         return users.filter(user => user.email == email);
     },

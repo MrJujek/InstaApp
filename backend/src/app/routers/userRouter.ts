@@ -1,7 +1,7 @@
 import * as http from "http";
 import { getRequestData } from "../getRequestData";
 import { userController } from "../controllers/userController";
-import { users } from "../model";
+import { users } from "../model/model";
 
 export const userRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     switch (req.method) {
