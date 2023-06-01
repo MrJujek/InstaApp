@@ -56,7 +56,7 @@ export let jsonController = {
         photos.filter((photo) => photo.user == user && photo.profile == true).forEach((photo) => {
             photo.profile = false;
 
-            return jsonController.deletePhoto(photo.id);
+            jsonController.deletePhoto(photo.id);
         });
     }
 }

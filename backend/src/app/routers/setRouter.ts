@@ -9,8 +9,6 @@ export const setRouter = async (req: http.IncomingMessage, res: http.ServerRespo
     }
 
     async function checkGET() {
-        console.log(req.url!);
-
         if (req.url! == "/set") {
             console.log("SET");
 
