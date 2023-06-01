@@ -4,6 +4,7 @@ import { imageRouter } from "./app/routers/imageRouter"
 import { tagsRouter } from "./app/routers/tagsRouter"
 import { userRouter } from "./app/routers/userRouter"
 import { profileRouter } from "./app/routers/profileRouter"
+import { setRouter } from "./app/routers/setRouter"
 
 dotenv.config()
 
@@ -17,9 +18,12 @@ http
 
         } else if (req.url!.search("/user") != -1) {
             await userRouter(req, res);
-        
+
         } else if (req.url!.search("/profile") != -1) {
             await profileRouter(req, res);
+
+        } else if (req.url!.search("/set") != -1) {
+            await setRouter(req, res);
         }
     })
     .listen(process.env.PORT, () => {

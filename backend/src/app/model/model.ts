@@ -95,3 +95,22 @@ export async function updateJSON() {
     fs.writeFileSync('./src/app/model/tags.json', JSON.stringify(tagsObjects));
     fs.writeFileSync('./src/app/model/users.json', JSON.stringify(users));
 }
+
+export async function restart() {
+    fs.readdirSync('./files').forEach(file => {
+        const stat = fs.statSync('./files/' + file);
+
+        if (stat.isDirectory()) {
+            fs.rmSync('./files/' + file, { recursive: true, force: true, })
+        } else {
+            fs.unlinkSync('./files/' + file);
+        }
+    });
+
+    photos = [];
+    tagsObjects = [];
+    users = [];
+
+    await updateJSON();
+    await loadData();
+}
