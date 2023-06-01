@@ -1,5 +1,6 @@
 import { photos, updateJSON } from "../model/model";
 import { Photo } from "../model/model";
+import { fileController } from "./fileController";
 
 export let jsonController = {
     getAllPhotos: () => {
@@ -7,6 +8,12 @@ export let jsonController = {
     },
 
     getOnePhoto: (id: number) => {
+        console.log("getOnePhoto - id", id);
+
+        console.log(photos.filter((photo) => photo.id == id));
+        console.log("photos", photos);
+
+
         return photos.filter((photo) => photo.id == id)[0];
     },
 
@@ -22,10 +29,10 @@ export let jsonController = {
         return photos;
     },
 
-    deletePhoto: (id: number) => {
-        photos.splice(photos.indexOf(photos.filter((photo) => photo.id == id)[0]), 1);
+    deletePhoto: async (id: number) => {
+        await fileController.deleteFile(id)
 
-        return photos
+        photos.splice(photos.indexOf(photos.filter((photo) => photo.id == id)[0]), 1);
     },
 
     patchPhoto: (id: number, photo: Photo) => {
@@ -48,6 +55,8 @@ export let jsonController = {
     deleteProfilePhoto: (user: string) => {
         photos.filter((photo) => photo.user == user && photo.profile == true).forEach((photo) => {
             photo.profile = false;
+
+            return jsonController.deletePhoto(photo.id);
         });
     }
 }

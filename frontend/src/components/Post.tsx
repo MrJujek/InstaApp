@@ -34,7 +34,7 @@ function Post(props: { data: PhotoData }) {
 
     return (
         <div className="photo" onClick={() => handleClick()}>
-            <img alt="Photo" src={"/api/photos/show/" + data.id}></img>
+            <img alt="Photo" src={"/api/photos/show/" + data.id + "?t=" + new Date().getTime()}></img>
 
             <div className="photoData">
                 <span>{data.name}</span>

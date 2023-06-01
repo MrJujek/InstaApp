@@ -7,6 +7,7 @@ import { useAuth } from '@/services/auth/context/AuthContext';
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
     const [yourPhotos, setYourPhotos] = useState([] as PhotoData[])
+
     const { user } = useAuth();
 
     useEffect(() => {
