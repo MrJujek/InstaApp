@@ -27,16 +27,19 @@ export let userController = {
         return user[0].id;
     },
 
-    register: async (data: string): Promise<string> => {
+    signup: async (data: string): Promise<string> => {
         let obj = JSON.parse(data);
 
         for (let i = 0; i < users.length; i++) {
+            if (users[i].nickname == obj.nickname) {
+                return "error: user with that nickname already exists";
+            }
             if (users[i].email == obj.email) {
                 return "error: user with that email already exists";
             }
         }
 
-        if (!obj.password || !obj.email || !obj.lastName || !obj.name) {
+        if (!obj.password || !obj.email || !obj.lastName || !obj.name || !obj.nickname) {
             return "error: missing data";
 
         } else {
@@ -49,6 +52,7 @@ export let userController = {
                         name: obj.name,
                         lastName: obj.lastName,
                         email: obj.email,
+                        nickname: obj.nickname,
                         password: await encryptedPassword,
                         confirmed: false
                     }
@@ -64,7 +68,6 @@ export let userController = {
                     reject(error);
                 }
             });
-
         }
     },
 
@@ -119,24 +122,34 @@ export let userController = {
         return users.filter(user => user.email == email);
     },
 
-    login: async (data: string) => {
+    signin: async (data: string) => {
         let obj = JSON.parse(data);
 
         users.forEach(user => {
-            if (user.email == obj.email) {
+            if (user.email == obj.login) {
                 obj.name = user.name;
                 obj.lastName = user.lastName;
+                obj.nickname = user.nickname;
+                obj.email = user.email;
                 return;
             }
-
+            if (user.nickname == obj.login) {
+                obj.name = user.name;
+                obj.lastName = user.lastName;
+                obj.email = user.email;
+                obj.nickname = user.nickname;
+                return;
+            }
         });
+
+        obj = { name: obj.name, lastName: obj.lastName, email: obj.email, nickname: obj.nickname, password: obj.password };
 
         let message: string = "Incorrect email or password";
 
         let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message: "" };
 
         users.forEach(user => {
-            if (user.email == obj.email) {
+            if (user.email == obj.email || user.nickname == obj.nickname) {
                 if (bcrypt.compareSync(obj.password, user.password)) {
                     if (user.confirmed == true) {
                         message = "Logged in";
@@ -154,13 +167,14 @@ export let userController = {
         return toReturn;
     },
 
-    createTokenToLogin: (obj: { email: string, password: string, name: string, lastName: string }) => {
+    createTokenToLogin: (obj: { email: string, password: string, name: string, lastName: string, nickName: string }) => {
         let token = jwt.sign(
             {
                 email: obj.email,
                 password: obj.password,
                 name: obj.name,
-                lastName: obj.lastName
+                lastName: obj.lastName,
+                nickName: obj.nickName
             },
             String(process.env.TOKEN_KEY),
             {
@@ -172,7 +186,7 @@ export let userController = {
     },
 
     authenticate: async (token: string) => {
-        let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string } } = {
+        let toReturn: { status: boolean, data?: { email?: string, name?: string, lastName?: string, password?: string, nickName?: string } } = {
             status: false
         }
 
@@ -184,7 +198,8 @@ export let userController = {
                 email: decoded["email"],
                 name: decoded["name"],
                 lastName: decoded["lastName"],
-                password: decoded["password"]
+                password: decoded["password"],
+                nickName: decoded["nickName"]
             };
 
             return toReturn;

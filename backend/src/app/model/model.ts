@@ -27,6 +27,7 @@ export interface User {
     name: string;
     lastName: string;
     email: string;
+    nickname: string;
     password: string;
     confirmed: boolean;
 }
@@ -74,6 +75,7 @@ export let users: User[] = [
         "name": "a",
         "lastName": "a",
         "email": "a@a.a",
+        "nickname": "a",
         "password": "$2a$10$Q7dAK262sD7bYm3/XJW2.eNOb1SSwwzw.79xGrulF.ur9/3rr3QCq",
         "confirmed": true
     }

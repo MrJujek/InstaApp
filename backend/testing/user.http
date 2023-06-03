@@ -8,24 +8,25 @@ GET https://dev.juliandworzycki.pl/api/user/1 HTTP/1.1
 GET https://dev.juliandworzycki.pl/api/user/email/a@a.a HTTP/1.1
 
 ### REGISTER USER
-POST https://dev.juliandworzycki.pl/api/user/register HTTP/1.1
+POST https://dev.juliandworzycki.pl/api/user/signup HTTP/1.1
 content-type: application/json
 
 {    
    "name": "a",
    "lastName": "a",
    "email":"a@a.a",
-   "password":"a"
+   "password":"a",
+   "nickname":"a"
 }
 
 ### CONFIRM USER
 GET https://dev.juliandworzycki.pl/api/user/confirm/1111 HTTP/1.1
 
 ### LOGIN USER
-POST https://dev.juliandworzycki.pl/api/user/login HTTP/1.1
+POST https://dev.juliandworzycki.pl/api/user/signin HTTP/1.1
 content-type: application/json
 
 {    
-   "email":"a@a.a",
+   "login":"a@a.a",
    "password":"a"
 }

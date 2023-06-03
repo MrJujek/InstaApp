@@ -48,19 +48,20 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
     };
 
     async function checkPOST() {
-        if (req.url == "/user/register") {
-            console.log("POST REGISTER");
+        if (req.url == "/user/signup") {
+            console.log("POST SIGN UP");
 
             const data = await getRequestData(req);
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(await userController.register(data), null, 5));
+            res.end(JSON.stringify(await userController.signup(data), null, 5));
 
-        } else if (req.url == "/user/login") {
-            console.log("POST LOGIN");
+        } else if (req.url == "/user/signin") {
+            console.log("POST SIGN IN");
 
             const data = await getRequestData(req);
-            let login = await userController.login(data);
+
+            let login = await userController.signin(data);
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(login, null, 5));

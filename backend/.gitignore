@@ -1,5 +1,5 @@
 files/
-scr/app/model/*.json
+src/app/model/*.json
 
 # Logs
 logs
