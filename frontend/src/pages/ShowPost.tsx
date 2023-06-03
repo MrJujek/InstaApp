@@ -19,7 +19,7 @@ function ShowPost() {
     }, [post]);
 
     async function getPost() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos/" + id, {
+        const response = await fetch("/api/photos/" + id, {
             method: "GET"
         });
         if (response.ok) {
@@ -33,7 +33,7 @@ function ShowPost() {
     }
 
     async function loadUserProfile() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+        const response = await fetch("/api/photos", {
             method: "GET"
         });
         if (response.ok) {

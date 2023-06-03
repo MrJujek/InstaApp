@@ -10,7 +10,7 @@ function Home() {
     }, []);
 
     async function loadPhotos() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+        const response = await fetch("/api/photos", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -29,7 +29,7 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
         formData.append("user", user?.email as string)
         formData.append("photoType", photoType)
 
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+        const response = await fetch("/api/photos", {
             method: "POST",
             body: formData
         });

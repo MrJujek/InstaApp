@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Post, { PhotoData } from '../components/Post';
 
 function UserProfile() {
@@ -18,7 +18,7 @@ function UserProfile() {
     }, [userEmail]);
 
     async function getEmail() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/" + id, {
+        const response = await fetch("/api/user/" + id, {
             method: "GET"
         });
         if (response.ok) {
@@ -29,7 +29,7 @@ function UserProfile() {
     }
 
     async function loadUserPhotos() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+        const response = await fetch("/api/photos", {
             method: "GET"
         });
         if (response.ok) {
@@ -43,7 +43,6 @@ function UserProfile() {
     return (
         <>
             <h1>User profile - {userEmail}</h1>
-            <Link to={'/'}>Home</Link>
 
             User profile photo:
             <div className="photos">

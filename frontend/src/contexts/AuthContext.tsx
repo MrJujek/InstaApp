@@ -5,6 +5,7 @@ interface User {
     name: string;
     lastName: string;
     email: string;
+    nickName: string;
 }
 
 interface AuthProvider {
@@ -15,7 +16,8 @@ interface AuthProvider {
         name: string,
         lastName: string,
         email: string,
-        password: string
+        password: string,
+        nickName: string
     ) => Promise<void>;
     getToken: () => string;
     logout: () => void;
@@ -61,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     async function authenticate(token: string) {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/authenticate", {
+        const response = await fetch("/api/user/authenticate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -83,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: string,
         password: string
     ) {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/login", {
+        const response = await fetch("/api/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -104,14 +106,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: string,
         lastName: string,
         email: string,
-        password: string
+        password: string,
+        nickName: string
     ) {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/user/register", {
+        const response = await fetch("/api/user/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name, lastName, email, password }),
+            body: JSON.stringify({ name, lastName, email, password, nickName }),
         });
         if (response.ok) {
             const data = await response.json();

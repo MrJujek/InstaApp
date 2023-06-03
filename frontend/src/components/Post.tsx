@@ -43,7 +43,7 @@ function Post(props: { data: PhotoData }) {
     }, [profilePhoto])
 
     async function loadProfilePhoto() {
-        const response = await fetch("https://dev.juliandworzycki.pl/api/photos", {
+        const response = await fetch("/api/photos", {
             method: "GET"
         });
         if (response.ok) {
