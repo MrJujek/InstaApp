@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Post, { PhotoData } from "./Post";
-import UploadPhoto from "./UploadPhoto";
+import Post, { PhotoData } from "../components/Post";
+import UploadPhoto from "../components/UploadPhoto";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])

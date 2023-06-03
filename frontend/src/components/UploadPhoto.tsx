@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../services/auth/context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
     const { photoType, loadPhotos } = props;

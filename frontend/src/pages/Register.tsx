@@ -1,5 +1,5 @@
 import { FormEvent, useState, useEffect } from "react";
-import { useAuth } from "../services/auth/context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 function Register() {

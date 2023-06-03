@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import LogoutButton from './LogoutButton';
-import UploadPhoto from './UploadPhoto';
-import Post, { PhotoData } from './Post';
-import { useAuth } from '@/services/auth/context/AuthContext';
+import LogoutButton from '../components/LogoutButton';
+import UploadPhoto from '../components/UploadPhoto';
+import Post, { PhotoData } from '../components/Post';
+import { useAuth } from '@/contexts/AuthContext';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])

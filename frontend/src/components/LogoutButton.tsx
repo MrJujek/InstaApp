@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from "../services/auth/context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function LogoutButton() {
     const [showConfirmBox, setShowConfirmBox] = useState(false);

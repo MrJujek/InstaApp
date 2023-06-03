@@ -1,4 +1,5 @@
 files/
+scr/app/model/*.json
 
 # Logs
 logs

@@ -24,6 +24,8 @@ export interface PhotoData {
 }
 
 function Post(props: { data: PhotoData }) {
+    console.log("XXXXXXXXXXXXXXXXX");
+
     const { data } = props;
     const navigate = useNavigate();
 

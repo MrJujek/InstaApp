@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
-import { PhotoData } from './Post'
+import { PhotoData } from '../components/Post'
 import { useParams } from 'react-router-dom';
 
 function ShowPost() {
+    console.log("ShowPost");
+
     const { id } = useParams();
 
     const [post, setPost] = useState({} as PhotoData)

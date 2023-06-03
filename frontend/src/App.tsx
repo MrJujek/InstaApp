@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from './components/Register';
-import Login from './components/Login';
-import { AuthProvider } from '@/services/auth/context/AuthContext';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import { AuthProvider } from '@/contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import UserProfile from "./components/UserProfile";
-import ShowPost from "./components/ShowPost";
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import UserProfile from "./pages/UserProfile";
+import ShowPost from "./pages/ShowPost";
 import Navbar from "./components/Navbar";
 
 function App() {

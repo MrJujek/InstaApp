@@ -48,9 +48,4 @@ input {
     &:focus {
         outline: none;
     }
-
-    &::selection {
-        background: none;
-    }
-
 }

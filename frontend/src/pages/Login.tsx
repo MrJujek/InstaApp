@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useAuth } from "../services/auth/context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
@@ -25,7 +25,7 @@ function Login() {
       <h1>Login</h1>
       <form className="signIn" action="POST" onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="email">Email:</label>
-        <input type="email" id="email" onChange={(e) => { setEmail(e.target.value) }} />
+        <input type="email" id="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" onChange={(e) => { setPassword(e.target.value) }} />
         <button className="signInButton" type="submit">Sign in</button>

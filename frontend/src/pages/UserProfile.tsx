@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Post, { PhotoData } from './Post';
+import Post, { PhotoData } from '../components/Post';
 
 function UserProfile() {
     const { id } = useParams();

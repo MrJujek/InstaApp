@@ -8,11 +8,7 @@ export let jsonController = {
     },
 
     getOnePhoto: (id: number) => {
-        console.log("getOnePhoto - id", id);
-
         console.log(photos.filter((photo) => photo.id == id));
-        console.log("photos", photos);
-
 
         return photos.filter((photo) => photo.id == id)[0];
     },

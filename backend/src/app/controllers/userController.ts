@@ -164,7 +164,7 @@ export let userController = {
             },
             String(process.env.TOKEN_KEY),
             {
-                expiresIn: "1h"
+                expiresIn: "30m"
             }
         );
 
@@ -178,7 +178,6 @@ export let userController = {
 
         try {
             let decoded = await jwt.verify(JSON.parse(token).token, String(process.env.TOKEN_KEY)) as any;
-            // console.log("decoded", decoded);
 
             toReturn.status = true;
             toReturn.data = {

@@ -76,12 +76,7 @@ export let fileController = {
 
         return new Promise((resolve, reject) => {
             try {
-                console.log(jsonController.getOnePhoto(id));
-
                 if (jsonController.getOnePhoto(id)) {
-                    console.log(fs.existsSync(jsonController.getOnePhoto(id).path));
-
-
                     if (fs.existsSync(jsonController.getOnePhoto(id).path)) {
                         fs.unlink(jsonController.getOnePhoto(id).path, (err) => {
                             if (err) throw (err);
