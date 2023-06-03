@@ -2,6 +2,13 @@
 @import "./modules/photo";
 @import "./modules/sign";
 @import "./modules/post";
+@import "./modules/navbar";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .app {
     border: 1px solid red;

@@ -22,14 +22,16 @@ function App() {
                             <Route path="*" element={
                                 <>
                                     <Navbar />
-                                    <Routes>
-                                        <Route path="/" element={<Home />} />
-                                        <Route path="/profile" element={<Profile />} />
-                                        <Route path="/createPost" element={<CreatePost />} />
-                                        <Route path="/user/:id" element={<UserProfile />} />
-                                        <Route path="/post/:id" element={<ShowPost />} />
-                                        <Route path="*" element={<h1>Not found</h1>} />
-                                    </Routes>
+                                    <main className="mainApp">
+                                        <Routes>
+                                            <Route path="/" element={<Home />} />
+                                            <Route path="/profile" element={<Profile />} />
+                                            <Route path="/createPost" element={<CreatePost />} />
+                                            <Route path="/user/:id" element={<UserProfile />} />
+                                            <Route path="/post/:id" element={<ShowPost />} />
+                                            <Route path="*" element={<h1>Not found</h1>} />
+                                        </Routes>
+                                    </main>
                                 </>
                             } />
 
