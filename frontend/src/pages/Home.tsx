@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Post, { PhotoData } from "../components/Post";
-import UploadPhoto from "../components/UploadPhoto";
+// import UploadPhoto from "../components/UploadPhoto";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
@@ -27,7 +27,7 @@ function Home() {
         <>
             <h1>Home</h1>
 
-            <UploadPhoto photoType="photo" loadPhotos={loadPhotos} />
+            {/* <UploadPhoto photoType="photo" loadPhotos={loadPhotos} /> */}
 
             <div className="photos">
                 {photos.map((element, index) => {
