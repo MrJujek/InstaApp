@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { PhotoData } from '../components/Post'
 import { useParams } from 'react-router-dom';
+import UrlContext from '@/contexts/UrlContext';
 
 function ShowPost() {
     console.log("ShowPost");
 
     const { id } = useParams();
+    const { url } = useContext(UrlContext);
 
     const [post, setPost] = useState({} as PhotoData)
     const [userProfile, setUserProfile] = useState({} as PhotoData);
@@ -19,7 +21,7 @@ function ShowPost() {
     }, [post]);
 
     async function getPost() {
-        const response = await fetch("/api/photos/" + id, {
+        const response = await fetch(url + "/photos/" + id, {
             method: "GET"
         });
         if (response.ok) {

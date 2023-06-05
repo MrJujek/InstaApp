@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import UrlContext from '@/contexts/UrlContext';
 
 interface ModificationHistory {
     date: Date;
@@ -27,6 +28,8 @@ function Post(props: { data: PhotoData }) {
     console.log("XXXXXXXXXXXXXXXXX");
 
     const { data } = props;
+    const { url } = useContext(UrlContext);
+
     const navigate = useNavigate();
 
     const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
@@ -43,7 +46,7 @@ function Post(props: { data: PhotoData }) {
     }, [profilePhoto])
 
     async function loadProfilePhoto() {
-        const response = await fetch("/api/photos", {
+        const response = await fetch(url + "/photos", {
             method: "GET"
         });
         if (response.ok) {
@@ -65,12 +68,12 @@ function Post(props: { data: PhotoData }) {
     return (
         <div className="post" onClick={() => handleClick()}>
             {profilePhoto && <div className='postAuthor'>
-                <img className='profilePhoto' alt='profilePhoto' src={"/api/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img>
+                <img className='profilePhoto' alt='profilePhoto' src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img>
                 {data.user}
             </div>}
 
             <div className='postContent'>
-                <img alt="Photo" src={"/api/photos/show/" + data.id + "?t=" + new Date().getTime()}></img>
+                <img alt="Photo" src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}></img>
 
                 <div className="photoData">
                     <span>{data.name}</span>

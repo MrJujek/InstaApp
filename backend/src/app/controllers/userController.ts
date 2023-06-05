@@ -6,7 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
 import { fileController } from "./fileController";
-import { updateJSON } from "../model/model";
+import { updateJSON, url } from "../model/model";
 
 dotenv.config({ path: "/home/ubuntu/Desktop/github/InstaApp/backend/.env" })
 
@@ -63,7 +63,7 @@ export let userController = {
 
                     await updateJSON();
 
-                    resolve("Confirm your account here:https://dev.juliandworzycki.pl/api/user/confirm/" + await userController.createTokenToConfirm(obj.email));
+                    resolve("Confirm your account here:" + url + "/user/confirm/" + await userController.createTokenToConfirm(obj.email));
                 } catch (error) {
                     reject(error);
                 }

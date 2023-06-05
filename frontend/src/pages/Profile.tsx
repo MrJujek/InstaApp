@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import LogoutButton from '../components/LogoutButton';
 import UploadPhoto from '../components/UploadPhoto';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
+import UrlContext from '@/contexts/UrlContext';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
     const [yourPhotos, setYourPhotos] = useState([] as PhotoData[])
 
     const { user } = useAuth();
+    const { url } = useContext(UrlContext);
 
     useEffect(() => {
         loadPhotos();
     }, []);
 
     async function loadPhotos() {
-        const response = await fetch("/api/photos", {
+        const response = await fetch(url + "/photos", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

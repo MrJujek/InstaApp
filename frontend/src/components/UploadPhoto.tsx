@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
+import UrlContext from '@/contexts/UrlContext';
 
 function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
     const { photoType, loadPhotos } = props;
@@ -7,6 +8,7 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
     const [photoToUpload, setphotoToUpload] = useState(null as File | null)
 
     const { user } = useAuth();
+    const { url } = React.useContext(UrlContext);
 
     function onChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.files === null) {
@@ -29,7 +31,7 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
         formData.append("user", user?.email as string)
         formData.append("photoType", photoType)
 
-        const response = await fetch("/api/photos", {
+        const response = await fetch(url + "/photos", {
             method: "POST",
             body: formData
         });

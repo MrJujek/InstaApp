@@ -1,4 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
+import UrlContext from "./UrlContext";
 
 interface User {
     id: string;
@@ -31,6 +32,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+    const { url } = useContext(UrlContext);
+
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [registerData, setRegisterData] = useState({ status: false } as { status: boolean, message?: string });
@@ -63,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     async function authenticate(token: string) {
-        const response = await fetch("/api/user/authenticate", {
+        const response = await fetch(url + "/user/authenticate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -90,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login: string,
         password: string
     ) {
-        const response = await fetch("/api/user/signin", {
+        const response = await fetch(url + "/user/signin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -114,7 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: string,
         nickName: string
     ) {
-        const response = await fetch("/api/user/signup", {
+        const response = await fetch(url + "/user/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

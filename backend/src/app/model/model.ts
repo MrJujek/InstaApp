@@ -119,3 +119,7 @@ export async function restart() {
     await updateJSON();
     await loadData();
 }
+
+export const url = "http://localhost:5000";
+// localhost - http://localhost:5000
+// code - https://code.juliandworzycki.pl/api

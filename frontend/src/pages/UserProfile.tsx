@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Post, { PhotoData } from '../components/Post';
+import UrlContext from '@/contexts/UrlContext';
 
 function UserProfile() {
     const { id } = useParams();
+    const { url } = useContext(UrlContext);
 
     const [userEmail, setUserEmail] = useState("")
     const [userProfilePhoto, setUserProfilePhoto] = useState([] as PhotoData[])
@@ -18,7 +20,7 @@ function UserProfile() {
     }, [userEmail]);
 
     async function getEmail() {
-        const response = await fetch("/api/user/" + id, {
+        const response = await fetch(url + "/user/" + id, {
             method: "GET"
         });
         if (response.ok) {
@@ -29,7 +31,7 @@ function UserProfile() {
     }
 
     async function loadUserPhotos() {
-        const response = await fetch("/api/photos", {
+        const response = await fetch(url + "/photos", {
             method: "GET"
         });
         if (response.ok) {

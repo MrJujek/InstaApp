@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Post, { PhotoData } from "../components/Post";
-// import UploadPhoto from "../components/UploadPhoto";
+import UrlContext from "@/contexts/UrlContext";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
+    const { url } = useContext(UrlContext);
 
     useEffect(() => {
         loadPhotos();
     }, []);
 
     async function loadPhotos() {
-        const response = await fetch("/api/photos", {
+        const response = await fetch(url + "/photos", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

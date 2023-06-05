@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import React, { useEffect, useState, useContext } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 import { Select, type SelectProps } from 'antd';
+import UrlContext from '@/contexts/UrlContext';
 
 function CreatePost() {
   const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null)
@@ -11,6 +12,7 @@ function CreatePost() {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const { user } = useAuth();
+  const { url } = useContext(UrlContext);
 
   useEffect(() => {
     console.log("photosToUplad", photosToUpload);
@@ -22,7 +24,7 @@ function CreatePost() {
   }, []);
 
   async function loadTags() {
-    const response = await fetch("/api/tags", {
+    const response = await fetch(url + "/tags", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +71,7 @@ function CreatePost() {
     formData.append("tags", JSON.stringify(tags))
     formData.append("description", description)
 
-    const response = await fetch("/api/photos", {
+    const response = await fetch(url + "/photos", {
       method: "POST",
       body: formData
     });
