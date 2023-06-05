@@ -8,6 +8,8 @@ interface Upload {
     fileArray: formidable.File[];
     user: string;
     isProfilePhoto: boolean;
+    description: string[];
+    tags: string[];
 }
 
 export let fileController = {
@@ -51,7 +53,7 @@ export let fileController = {
                         fileArray,
                         user: user.toString(),
                         isProfilePhoto: photoType == "profile" ? true : false,
-                        description: description,
+                        description: [...description],
                         tags: tags.toString().split(","),
                     });
                 });
@@ -128,7 +130,8 @@ export let fileController = {
                             status: "orginal"
                         }
                     ],
-                    tags: []
+                    tags: [],
+                    description: []
                 });
 
                 await updateJSON();

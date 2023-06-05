@@ -14,6 +14,7 @@ export interface Photo {
     profile: boolean;
     history: ModificationHistory[];
     tags: TagsObject[];
+    description: string[];
 }
 
 export interface TagsObject {
@@ -27,7 +28,7 @@ export interface User {
     name: string;
     lastName: string;
     email: string;
-    nickname: string;
+    nickName: string;
     password: string;
     confirmed: boolean;
 }
@@ -75,7 +76,7 @@ export let users: User[] = [
         "name": "a",
         "lastName": "a",
         "email": "a@a.a",
-        "nickname": "a",
+        "nickName": "a",
         "password": "$2a$10$Q7dAK262sD7bYm3/XJW2.eNOb1SSwwzw.79xGrulF.ur9/3rr3QCq",
         "confirmed": true
     }

@@ -31,7 +31,7 @@ export let userController = {
         let obj = JSON.parse(data);
 
         for (let i = 0; i < users.length; i++) {
-            if (users[i].nickname == obj.nickname) {
+            if (users[i].nickName == obj.nickname) {
                 return "error: user with that nickname already exists";
             }
             if (users[i].email == obj.email) {
@@ -52,7 +52,7 @@ export let userController = {
                         name: obj.name,
                         lastName: obj.lastName,
                         email: obj.email,
-                        nickname: obj.nickname,
+                        nickName: obj.nickname,
                         password: await encryptedPassword,
                         confirmed: false
                     }
@@ -124,20 +124,26 @@ export let userController = {
 
     signin: async (data: string) => {
         let obj = JSON.parse(data);
+        console.log("signin - obj", obj);
 
         users.forEach(user => {
+            console.log("user", user);
+
             if (user.email == obj.login) {
+                console.log("user.email == obj.login", user.email == obj.login);
+
                 obj.name = user.name;
                 obj.lastName = user.lastName;
-                obj.nickname = user.nickname;
+                obj.nickname = user.nickName;
                 obj.email = user.email;
                 return;
             }
-            if (user.nickname == obj.login) {
+            if (user.nickName == obj.login) {
+                console.log("user.nickname == obj.login", user.nickName == obj.login);
                 obj.name = user.name;
                 obj.lastName = user.lastName;
                 obj.email = user.email;
-                obj.nickname = user.nickname;
+                obj.nickname = user.nickName;
                 return;
             }
         });
@@ -149,7 +155,9 @@ export let userController = {
         let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message: "" };
 
         users.forEach(user => {
-            if (user.email == obj.email || user.nickname == obj.nickname) {
+            if (user.email == obj.email || user.nickName == obj.nickname) {
+                console.log("user.email == obj.email", user.email == obj.email, "user.nickname == obj.nickname", user.nickName == obj.nickname);
+
                 if (bcrypt.compareSync(obj.password, user.password)) {
                     if (user.confirmed == true) {
                         message = "Logged in";
@@ -168,6 +176,8 @@ export let userController = {
     },
 
     createTokenToLogin: (obj: { email: string, password: string, name: string, lastName: string, nickName: string }) => {
+        console.log("create token to login - obj", obj);
+
         let token = jwt.sign(
             {
                 email: obj.email,

@@ -16,7 +16,7 @@ content-type: application/json
    "lastName": "a",
    "email":"a@a.a",
    "password":"a",
-   "nickname":"a"
+   "nickName":"a"
 }
 
 ### CONFIRM USER
