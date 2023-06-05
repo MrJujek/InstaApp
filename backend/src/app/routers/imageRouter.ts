@@ -67,7 +67,8 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
             console.log("ADD PHOTO");
 
             let data = await fileController.uploadFile(req, res);
-            let { fileArray, user, isProfilePhoto } = data;
+
+            let { fileArray, user, isProfilePhoto, tags, description } = data;
 
             if (isProfilePhoto) {
                 jsonController.deleteProfilePhoto(user);

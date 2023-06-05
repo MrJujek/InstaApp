@@ -7,9 +7,6 @@ GET https://dev.juliandworzycki.pl/api/tags HTTP/1.1
 ### GET ONE TAG
 GET https://dev.juliandworzycki.pl/api/tags/0 HTTP/1.1
 
-### CREATE TAG
-POST https://dev.juliandworzycki.pl/api/tags HTTP/1.1
-
 ### ADD NEW TAG
 POST https://dev.juliandworzycki.pl/api/tags HTTP/1.1
 Content-Type: multipart/form-data; boundary=ADD_TAG

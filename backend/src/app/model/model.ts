@@ -35,36 +35,36 @@ export interface User {
 export let photos: Photo[] = [];
 
 export let tagsRaw: string[] = [
-    "#love",
-    "#instagood",
-    "#fashion",
-    "#photooftheday",
-    "#art",
-    "#photography",
-    "#instagram",
-    "#beautiful",
-    "#picoftheday",
-    "#nature",
-    "#happy",
-    "#cute",
-    "#travel",
-    "#style",
-    "#followme",
-    "#tbt",
-    "#instadaily",
-    "#repost",
-    "#like4like",
-    "#summer",
-    "#beauty",
-    "#fitness",
-    "#food",
-    "#selfie",
-    "#me",
-    "#instalike",
-    "#girl",
-    "#friends",
-    "#fun",
-    "#photo"
+    "love",
+    "instagood",
+    "fashion",
+    "photooftheday",
+    "art",
+    "photography",
+    "instagram",
+    "beautiful",
+    "picoftheday",
+    "nature",
+    "happy",
+    "cute",
+    "travel",
+    "style",
+    "followme",
+    "tbt",
+    "instadaily",
+    "repost",
+    "like4like",
+    "summer",
+    "beauty",
+    "fitness",
+    "food",
+    "selfie",
+    "me",
+    "instalike",
+    "girl",
+    "friends",
+    "fun",
+    "photo"
 ]
 
 export let tagsObjects: TagsObject[] = [];
@@ -96,6 +96,8 @@ export async function updateJSON() {
     fs.writeFileSync('./src/app/model/photos.json', JSON.stringify(photos));
     fs.writeFileSync('./src/app/model/tags.json', JSON.stringify(tagsObjects));
     fs.writeFileSync('./src/app/model/users.json', JSON.stringify(users));
+
+    return
 }
 
 export async function restart() {

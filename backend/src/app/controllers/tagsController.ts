@@ -14,6 +14,8 @@ export let tagsController = {
     },
 
     getAllTagsObjects: async () => {
+        tagsObjects.length = 0;
+
         for (const tag in tagsRaw) {
             tagsObjects.push({
                 id: tagsRaw.indexOf(tagsRaw[tag]),

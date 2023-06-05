@@ -21,19 +21,19 @@ export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResp
             console.log("GET ALL TAGS - RAW");
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(tagsController.getAllTagsRaw(), null, 5));
+            res.end(JSON.stringify(await tagsController.getAllTagsRaw(), null, 5));
 
         } else if (req.url == "/tags") {
             console.log("GET ALL TAGS - OBJECTS");
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(tagsController.getAllTagsObjects(), null, 5));
+            res.end(JSON.stringify(await tagsController.getAllTagsObjects(), null, 5));
 
         } else if (req.url!.match(/\/tags\/([0-9]+)/)) {
             console.log("GET ONE TAG");
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(tagsController.getOneTag(parseInt(req.url!.split("/tags/")[1])), null, 5));
+            res.end(JSON.stringify(await tagsController.getOneTag(parseInt(req.url!.split("/tags/")[1])), null, 5));
         }
     };
 
@@ -45,7 +45,7 @@ export const tagsRouter = async (req: http.IncomingMessage, res: http.ServerResp
             let { newTag } = data;
 
             res.writeHead(200, { "Content-type": "application/json" });
-            res.end(JSON.stringify(tagsController.addNewTag("#" + newTag), null, 5));
+            res.end(JSON.stringify(await tagsController.addNewTag(newTag), null, 5));
         }
     };
 };

@@ -39,7 +39,7 @@ export let userController = {
             }
         }
 
-        if (!obj.password || !obj.email || !obj.lastName || !obj.name || !obj.nickname) {
+        if (!obj.password || !obj.email || !obj.lastName || !obj.name || !obj.nickName) {
             return "error: missing data";
 
         } else {
@@ -205,7 +205,7 @@ export let userController = {
             return toReturn;
         }
         catch (ex) {
-            console.log(ex);
+            console.log("ex", ex);
 
             return toReturn;
         }

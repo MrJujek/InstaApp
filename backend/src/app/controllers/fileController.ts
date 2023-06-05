@@ -18,14 +18,24 @@ export let fileController = {
             try {
                 let form = formidable({
                     uploadDir: "./files",
-                    keepExtensions: true
+                    keepExtensions: true,
+                    multiples: true
                 });
 
                 form.parse(req, async function (err, fields, files) {
                     if (err) console.log(err);
 
-                    const { user, photoType } = fields;
+                    console.log("fields", fields);
+
+
+                    const { user, photoType, tags, description } = fields;
                     const { file } = files;
+
+                    console.log("user", user);
+                    console.log("photoType", photoType);
+                    console.log("tags", tags);
+                    console.log("description", description);
+
 
                     const fileArray = Array.isArray(file) ? file : [file];
 
@@ -40,7 +50,9 @@ export let fileController = {
                     resolve({
                         fileArray,
                         user: user.toString(),
-                        isProfilePhoto: photoType == "profile" ? true : false
+                        isProfilePhoto: photoType == "profile" ? true : false,
+                        description: description,
+                        tags: tags.toString().split(","),
                     });
                 });
             } catch (error) {
@@ -57,6 +69,9 @@ export let fileController = {
                 if (!fs.existsSync("./files/" + user)) {
                     fs.mkdirSync("./files/" + user);
                 }
+
+                console.log("fileArray", fileArray);
+
 
                 for (const file of fileArray) {
                     fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {

@@ -72,7 +72,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
 
         if (response.ok) {
+            console.log(response);
+
             const data = await response.json();
+
+            console.log(data);
+
 
             if (data.status) {
                 return data.data;
