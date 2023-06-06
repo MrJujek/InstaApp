@@ -4,6 +4,7 @@ import { jsonController } from "../controllers/jsonController";
 import { fileController } from "../controllers/fileController";
 import * as fs from "fs";
 import { updateJSON } from "../model/model";
+import { tagsController } from "../controllers/tagsController";
 
 export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     switch (req.method) {
@@ -70,6 +71,10 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
 
             let { fileArray, user, isProfilePhoto, tags, description } = data;
 
+            if (tags) {
+                tagsController.updateTags(JSON.parse(tags))
+            }
+
             if (isProfilePhoto) {
                 jsonController.deleteProfilePhoto(user);
             }
@@ -88,7 +93,8 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                             status: "orginal"
                         }
                     ],
-                    tags: []
+                    tags: JSON.parse(tags),
+                    description: description
                 });
             }
 

@@ -9,7 +9,7 @@ interface Upload {
     user: string;
     isProfilePhoto: boolean;
     description: string[];
-    tags: string[];
+    tags: string;
 }
 
 export let fileController = {
@@ -54,7 +54,7 @@ export let fileController = {
                         user: user.toString(),
                         isProfilePhoto: photoType == "profile" ? true : false,
                         description: [...description],
-                        tags: tags.toString().split(","),
+                        tags: tags.toString(),
                     });
                 });
             } catch (error) {

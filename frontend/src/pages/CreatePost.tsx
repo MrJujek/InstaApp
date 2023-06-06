@@ -4,9 +4,9 @@ import { Select, type SelectProps } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
 
 function CreatePost() {
-  const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null)
-  const [tags, setTags] = useState<string[]>([])
-  const [description, setDescription] = useState<string>("")
+  const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [description, setDescription] = useState<string>("");
   const [options, setOptions] = useState([] as SelectProps['options']);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -87,7 +87,7 @@ function CreatePost() {
     throw new Error("Error while uploading file");
   }
 
-  const handleChange = (value: string[]) => {
+  const handleTagSelect = (value: string[]) => {
     setTags(value)
   };
 
@@ -102,7 +102,7 @@ function CreatePost() {
         mode="tags"
         style={{ width: '400px' }}
         placeholder="Choose tags"
-        onChange={handleChange}
+        onChange={handleTagSelect}
         options={options}
       />
 

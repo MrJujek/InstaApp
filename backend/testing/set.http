@@ -1,5 +1,5 @@
-### RESTART ARRAYS AND JSON
+### RESTART ARRAYS AND JSON - CODE
 GET https://dev.juliandworzycki.pl/api/set HTTP/1.1
 
-### RESTART ARRAYS AND JSON
+### RESTART ARRAYS AND JSON - LOCALHOST
 GET http://localhost:5000/set HTTP/1.1

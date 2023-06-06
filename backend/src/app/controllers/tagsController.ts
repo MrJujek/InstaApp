@@ -13,19 +13,19 @@ export let tagsController = {
         return tagsRaw;
     },
 
-    getAllTagsObjects: async () => {
+    createTagsObjectsArray: async () => {
         tagsObjects.length = 0;
 
         for (const tag in tagsRaw) {
             tagsObjects.push({
                 id: tagsRaw.indexOf(tagsRaw[tag]),
                 name: tagsRaw[tag],
-                popularity: Math.random() * 100
+                popularity: 0
             });
         }
+    },
 
-        await updateJSON();
-
+    getAllTagsObjects: async () => {
         return tagsObjects;
     },
 
@@ -60,11 +60,30 @@ export let tagsController = {
         tagsObjects.push({
             id: tagsRaw.length + 1,
             name: newTag,
-            popularity: Math.random() * 100
+            popularity: 0
         });
 
         await updateJSON();
 
         return tagsRaw;
+    },
+
+    updateTags: async (tags: string[]) => {
+        tags.forEach(tag => {
+            if (!tagsRaw.includes(tag)) {
+                tagsController.addNewTag(tag)
+                console.log("dodaje taga", tag);
+
+            }
+        });
+
+        tagsObjects.forEach(tagObject => {
+            tags.forEach(tag => {
+                if (tagObject.name == tag) {
+                    tagObject.popularity++;
+                    return
+                }
+            })
+        })
     }
 }

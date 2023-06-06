@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { tagsController } from '../controllers/tagsController';
 
 interface ModificationHistory {
     date: Date;
@@ -69,6 +70,11 @@ export let tagsRaw: string[] = [
 ]
 
 export let tagsObjects: TagsObject[] = [];
+async function createTagsArray() {
+    await tagsController.createTagsObjectsArray();
+    await updateJSON();
+}
+createTagsArray();
 
 export let users: User[] = [
     {
