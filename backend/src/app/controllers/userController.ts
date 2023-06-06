@@ -52,7 +52,7 @@ export let userController = {
                         name: obj.name,
                         lastName: obj.lastName,
                         email: obj.email,
-                        nickName: obj.nickname,
+                        nickName: obj.nickName,
                         password: await encryptedPassword,
                         confirmed: false
                     }
@@ -148,27 +148,25 @@ export let userController = {
             }
         });
 
-        obj = { name: obj.name, lastName: obj.lastName, email: obj.email, nickname: obj.nickname, password: obj.password };
-
         let message: string = "Incorrect email or password";
 
-        let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message: "" };
+        let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message };
 
-        users.forEach(user => {
-            if (user.email == obj.email || user.nickName == obj.nickname) {
-                console.log("user.email == obj.email", user.email == obj.email, "user.nickname == obj.nickname", user.nickName == obj.nickname);
-
-                if (bcrypt.compareSync(obj.password, user.password)) {
-                    if (user.confirmed == true) {
-                        message = "Logged in";
-                        toReturn.logged = true;
-                        toReturn.token = userController.createTokenToLogin(obj);
-                    } else {
-                        message = "User not confirmed";
+        if (obj.name && obj.lastName && obj.email && obj.password && obj.nickname) {
+            users.forEach(user => {
+                if (user.email == obj.email || user.nickName == obj.nickname) {
+                    if (bcrypt.compareSync(obj.password, user.password)) {
+                        if (user.confirmed == true) {
+                            message = "Logged in";
+                            toReturn.logged = true;
+                            toReturn.token = userController.createTokenToLogin(obj);
+                        } else {
+                            message = "User not confirmed";
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         toReturn.message = message;
 
