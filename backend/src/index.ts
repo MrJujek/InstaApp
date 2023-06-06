@@ -37,8 +37,6 @@ http
             await profileRouter(req, res);
 
         } else if (req.url!.search("/set") != -1) {
-            console.log("setsetset");
-
             await setRouter(req, res);
         }
     })

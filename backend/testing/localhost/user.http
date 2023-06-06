@@ -1,0 +1,32 @@
+### GET ALL USERS
+GET http://localhost:5000/user HTTP/1.1
+
+### GET USER BY ID
+GET http://localhost:5000/user/1 HTTP/1.1
+
+### GET USER ID BY EMAIL
+GET http://localhost:5000/user/email/a@a.a HTTP/1.1
+
+### REGISTER USER
+POST http://localhost:5000/user/signup HTTP/1.1
+content-type: application/json
+
+{    
+   "name": "a",
+   "lastName": "a",
+   "email":"a@a.a",
+   "password":"a",
+   "nickName":"a"
+}
+
+### CONFIRM USER
+GET http://localhost:5000/user/confirm/1111 HTTP/1.1
+
+### LOGIN USER
+POST http://localhost:5000/user/signin HTTP/1.1
+content-type: application/json
+
+{    
+   "login":"a@a.a",
+   "password":"a"
+}

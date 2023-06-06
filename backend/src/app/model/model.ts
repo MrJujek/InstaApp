@@ -76,17 +76,7 @@ async function createTagsArray() {
 }
 createTagsArray();
 
-export let users: User[] = [
-    {
-        "id": 1,
-        "name": "a",
-        "lastName": "a",
-        "email": "a@a.a",
-        "nickName": "a",
-        "password": "$2a$10$Q7dAK262sD7bYm3/XJW2.eNOb1SSwwzw.79xGrulF.ur9/3rr3QCq",
-        "confirmed": true
-    }
-];
+export let users: User[] = [];
 
 async function loadData() {
     console.log("loadData");

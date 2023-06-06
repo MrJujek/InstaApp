@@ -1,0 +1,28 @@
+### GET ALL PHOTOS
+GET http://localhost:5000/photos HTTP/1.1
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+
+### GET PROFILE DATA
+GET http://localhost:5000/profile HTTP/1.1
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+
+### PATCH PROFILE DATA
+PATCH http://localhost:5000/profile HTTP/1.1
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+
+### SEND PROFILE IMAGE
+POST http://localhost:5000/profile HTTP/1.1
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+Content-Type: multipart/form-data; boundary=ADD_PROFILE_PHOTO
+
+--ADD_PROFILE_PHOTO
+Content-Disposition: form-data; name="file"; filename="node.jpg"
+Content-Type: image/jpeg
+
+< ./node.jpg
+
+--ADD_PROFILE_PHOTO
+
+### LOGOUT
+GET http://localhost:5000/profile/logout HTTP/1.1
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU

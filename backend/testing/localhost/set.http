@@ -1,0 +1,2 @@
+### RESTART ARRAYS AND JSON - LOCALHOST
+GET http://localhost:5000/set HTTP/1.1
