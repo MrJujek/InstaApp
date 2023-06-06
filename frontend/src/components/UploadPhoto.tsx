@@ -7,6 +7,8 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
 
     const [photoToUpload, setphotoToUpload] = useState(null as File | null)
 
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
     const { user } = useAuth();
     const { url } = React.useContext(UrlContext);
 
@@ -21,15 +23,21 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
     }
 
     async function postFileToServer() {
-        if (photoToUpload === null || !photoToUpload) {
+        if (photoToUpload === null || !photoToUpload || inputRef.current == null || inputRef.current.files == null) {
             console.log("postFileToServer - no file");
             return
         }
 
+        console.log("user", user);
+
         const formData = new FormData()
-        formData.append("file", photoToUpload as File)
-        formData.append("user", user?.email as string)
+        for (let i = 0; i < inputRef.current.files.length; i++) {
+            formData.append("file", inputRef.current.files[i])
+        }
+        formData.append("user", user!.email)
         formData.append("photoType", photoType)
+        formData.append("description", '[]');
+        formData.append("tags", '[]')
 
         const response = await fetch(url + "/photos", {
             method: "POST",
@@ -48,7 +56,7 @@ function UploadPhoto(props: { photoType: string, loadPhotos: () => void }) {
             Upload file
             {photoType}
             <label htmlFor="file">Select photo:</label>
-            <input id="file" type="file" name="file" onChange={(e) => onChangeFile(e)} />
+            <input id="file" type="file" name="file" onChange={(e) => onChangeFile(e)} ref={inputRef} />
 
             <button onClick={() => postFileToServer()}>Add photo</button>
         </div>
