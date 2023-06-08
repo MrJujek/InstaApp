@@ -10,54 +10,45 @@ import ShowPost from "./pages/ShowPost";
 import Navbar from "./components/Navbar";
 import CreatePost from "./pages/CreatePost";
 import { ConfigProvider, theme } from 'antd';
-import { useContext, useEffect } from "react";
-import { useTheme, ThemeContext, ThemeProvider } from '@/contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 function App() {
     const { defaultAlgorithm, darkAlgorithm } = theme;
     const { isDarkTheme } = useTheme();
-    console.log("app", isDarkTheme);
-
-
-    useEffect(() => {
-        console.log("app", isDarkTheme);
-    }, [isDarkTheme]);
 
     return (
-        <ThemeProvider>
-            <div id="theme" style={{ backgroundColor: isDarkTheme ? "#141414" : "#ffffff" }}>
-                <ConfigProvider
-                    theme={{
-                        algorithm: isDarkTheme ? darkAlgorithm : defaultAlgorithm,
-                    }}>
-                    <BrowserRouter>
-                        <AuthProvider>
-                            <Routes>
-                                <Route path="/signup" element={<SignUp />} />
-                                <Route path="/signin" element={<SignIn />} />
-                                <Route element={<PrivateRoute />}>
-                                    <Route path="*" element={
-                                        <>
-                                            <Navbar />
-                                            <main className="mainApp">
-                                                <Routes>
-                                                    <Route path="/" element={<Home />} />
-                                                    <Route path="/profile" element={<Profile />} />
-                                                    <Route path="/createPost" element={<CreatePost />} />
-                                                    <Route path="/user/:id" element={<UserProfile />} />
-                                                    <Route path="/post/:id" element={<ShowPost />} />
-                                                    <Route path="*" element={<h1>Not found</h1>} />
-                                                </Routes>
-                                            </main>
-                                        </>
-                                    } />
-                                </Route>
-                            </Routes>
-                        </AuthProvider>
-                    </BrowserRouter>
-                </ConfigProvider>
-            </div>
-        </ThemeProvider>
+        <div id="theme" style={{ backgroundColor: isDarkTheme ? "#141414" : "#ffffff" }}>
+            <ConfigProvider
+                theme={{
+                    algorithm: isDarkTheme ? darkAlgorithm : defaultAlgorithm,
+                }}>
+                <BrowserRouter>
+                    <AuthProvider>
+                        <Routes>
+                            <Route path="/signup" element={<SignUp />} />
+                            <Route path="/signin" element={<SignIn />} />
+                            <Route element={<PrivateRoute />}>
+                                <Route path="*" element={
+                                    <>
+                                        <Navbar />
+                                        <main className="mainApp">
+                                            <Routes>
+                                                <Route path="/" element={<Home />} />
+                                                <Route path="/profile" element={<Profile />} />
+                                                <Route path="/createPost" element={<CreatePost />} />
+                                                <Route path="/user/:id" element={<UserProfile />} />
+                                                <Route path="/post/:id" element={<ShowPost />} />
+                                                <Route path="*" element={<h1>Not found</h1>} />
+                                            </Routes>
+                                        </main>
+                                    </>
+                                } />
+                            </Route>
+                        </Routes>
+                    </AuthProvider>
+                </BrowserRouter>
+            </ConfigProvider>
+        </div>
     )
 }
 
