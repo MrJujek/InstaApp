@@ -11,6 +11,16 @@
     box-sizing: border-box;
 }
 
+// #root {
+//     min-height: 100vh;
+//     height: min-content;
+// }
+
+#theme {
+    min-height: 100vh;
+    height: min-content;
+}
+
 .app {
     border: 1px solid red;
 }

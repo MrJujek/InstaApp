@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import SwitchTheme from "@/components/SwitchTheme";
 
 function SignIn() {
   const { Text } = Typography;
@@ -65,6 +66,8 @@ function SignIn() {
         </div>
 
       </div>
+
+      <SwitchTheme />
     </>
   )
 }
