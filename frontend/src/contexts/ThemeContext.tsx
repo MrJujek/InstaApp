@@ -14,10 +14,6 @@ export function useTheme() {
 export function ThemeProvider({ children }: { children: ReactNode }) {
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log('ZMIANA: ', isDarkTheme);
-    }, [isDarkTheme]);
-
     const changeTheme = () => {
         setIsDarkTheme(!isDarkTheme);
     };
