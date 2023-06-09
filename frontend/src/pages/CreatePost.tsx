@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { Select, type SelectProps } from 'antd';
+import { Select, type SelectProps, Input } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
 
 function CreatePost() {
+  const { TextArea } = Input;
+
   const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
@@ -100,14 +102,22 @@ function CreatePost() {
       Add tags:
       <Select
         mode="tags"
-        style={{ width: '400px' }}
+        style={{ width: 400 }}
         placeholder="Choose tags"
         onChange={handleTagSelect}
         options={options}
       />
 
       Add description:
-      <textarea name="description" id="description" cols={30} rows={10} onChange={(e) => setDescription(e.target.value)}></textarea>
+      <TextArea
+        name="description"
+        id="description"
+        onChange={(e) => setDescription(e.target.value)}
+        style={{ width: 400, height: 100 }}
+        showCount
+        maxLength={500}
+      >
+      </TextArea>
 
       <button onClick={() => postFileToServer()}>Add photo</button>
     </div>

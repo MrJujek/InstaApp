@@ -16,8 +16,6 @@ import Popular from "@/components/Popular";
 function App() {
     const { defaultAlgorithm, darkAlgorithm } = theme;
     const { isDarkTheme } = useTheme();
-    console.log(theme);
-
 
     return (
         <div id="theme" style={{ backgroundColor: isDarkTheme ? "#141414" : "#ffffff" }}>

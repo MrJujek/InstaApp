@@ -9,17 +9,23 @@ interface User {
     nickName: string;
 }
 
+interface SignInData {
+    logged: boolean;
+    message?: string;
+    token?: string;
+}
+
 interface AuthProvider {
     user: User | null;
     registerData: { status: boolean, message?: string };
-    signIn: (email: string, password: string) => Promise<void>;
+    signIn: (email: string, password: string) => Promise<SignInData>;
     signUp: (
         name: string,
         lastName: string,
         email: string,
         password: string,
         nickName: string
-    ) => Promise<void>;
+    ) => Promise<{ status: boolean, message?: string }>;
     getToken: () => string;
     logout: () => void;
 }
@@ -75,24 +81,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
 
         if (response.ok) {
-            console.log(response);
-
             const data = await response.json();
-
-            console.log(data);
-
 
             if (data.status) {
                 return data.data;
             }
         }
-        throw new Error("Authentication failed");
+        return "Authentication failed";
     }
 
-    async function signIn(
-        login: string,
-        password: string
-    ) {
+    async function signIn(login: string, password: string) {
         const response = await fetch(url + "/user/signin", {
             method: "POST",
             headers: {
@@ -101,13 +99,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             body: JSON.stringify({ login, password }),
         });
         if (response.ok) {
-            const data = await response.json();
+            const data = await response.json() as SignInData;
 
-            localStorage.setItem("token", data.token);
-            setUser(await authenticate(data.token));
-            return;
+            localStorage.setItem("token", data.token!);
+            setUser(await authenticate(data.token!));
+            console.log(data);
+
+            return data;
         }
-        throw new Error("Authentication failed");
+        return { logged: false, message: "Authentication failed" } as SignInData;
     }
 
     async function signUp(
@@ -127,9 +127,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
             const data = await response.json();
             setRegisterData({ status: true, message: data });
-            return;
+            return { status: true, message: data };
         }
-        throw new Error("Authentication failed");
+        return { status: false, message: "Registration failed!" };
     }
 
     function getToken() {

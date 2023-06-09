@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Form, Input, Typography, message } from "antd";
 import SwitchTheme from "@/components/SwitchTheme";
 import { useTheme } from "@/contexts/ThemeContext";
 
 function SignUp() {
-    const [showConfirm, setShowConfirm] = useState(false);
-
-    const { user, registerData, signUp } = useAuth();
-    const navigate = useNavigate();
-
-    const { Text } = Typography;
-
     const { isDarkTheme } = useTheme();
+    const { user, registerData, signUp } = useAuth();
+
+    const navigate = useNavigate();
+    const { Text } = Typography;
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [buttonWasClicked, setButtonWasClicked] = useState(false);
+
 
     const formItemLayout = {
         labelCol: {
@@ -43,6 +45,7 @@ function SignUp() {
 
     const onFinish = (values: { name: string, lastName: string, email: string, password: string, nickName: string, confirm: string }) => {
         console.log("Received values of form: ", values);
+        setButtonWasClicked(true);
 
         signUp(values.name, values.lastName, values.email, values.password, values.nickName);
     };
@@ -54,14 +57,29 @@ function SignUp() {
     }, [user, navigate]);
 
     useEffect(() => {
-        if (registerData.status) {
-            console.log("msg", registerData.message);
-            setShowConfirm(true);
+        console.log(registerData);
+        console.log(buttonWasClicked);
+
+        if (buttonWasClicked) {
+            if (registerData.status) {
+                messageApi.open({
+                    type: "success",
+                    content: registerData.message
+                });
+
+                setShowConfirm(true);
+            } else if (registerData.status === false) {
+                messageApi.open({
+                    type: "error",
+                    content: registerData.message
+                });
+            }
         }
     }, [registerData]);
 
     return (
         <>
+            {contextHolder}
             <div className="signUp" style={{ color: isDarkTheme ? "#ffffff" : "#141414" }}>
                 <h1>InstaApp</h1>
                 <Form
@@ -122,10 +140,10 @@ function SignUp() {
                         name="email"
                         label="E-mail"
                         rules={[
-                            {
-                                type: "email",
-                                message: "The input is not valid E-mail!"
-                            },
+                            // {
+                            //     type: "email",
+                            //     message: "The input is not valid E-mail!"
+                            // },
                             {
                                 required: true,
                                 message: "Please input your E-mail!"
