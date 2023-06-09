@@ -11,10 +11,13 @@ import Navbar from "./components/Navbar";
 import CreatePost from "./pages/CreatePost";
 import { ConfigProvider, theme } from 'antd';
 import { useTheme } from '@/contexts/ThemeContext';
+import Popular from "@/components/Popular";
 
 function App() {
     const { defaultAlgorithm, darkAlgorithm } = theme;
     const { isDarkTheme } = useTheme();
+    console.log(theme);
+
 
     return (
         <div id="theme" style={{ backgroundColor: isDarkTheme ? "#141414" : "#ffffff" }}>
@@ -29,9 +32,9 @@ function App() {
                             <Route path="/signin" element={<SignIn />} />
                             <Route element={<PrivateRoute />}>
                                 <Route path="*" element={
-                                    <>
+                                    <div className={isDarkTheme ? "darkTheme" : "lightTheme"}>
                                         <Navbar />
-                                        <main className="mainApp">
+                                        <main id="mainApp">
                                             <Routes>
                                                 <Route path="/" element={<Home />} />
                                                 <Route path="/profile" element={<Profile />} />
@@ -41,7 +44,8 @@ function App() {
                                                 <Route path="*" element={<h1>Not found</h1>} />
                                             </Routes>
                                         </main>
-                                    </>
+                                        <Popular />
+                                    </div>
                                 } />
                             </Route>
                         </Routes>

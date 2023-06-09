@@ -4,6 +4,8 @@
 @import "./modules/post";
 @import "./modules/navbar";
 @import "./modules/createPost";
+@import "./modules/themes";
+@import "./modules/popular";
 
 * {
     margin: 0;
@@ -11,19 +13,11 @@
     box-sizing: border-box;
 }
 
-// #root {
-//     min-height: 100vh;
-//     height: min-content;
-// }
-
 #theme {
     min-height: 100vh;
     height: min-content;
 }
 
-.app {
-    border: 1px solid red;
+#mainApp {
+    margin: 0px 220px;
 }
-
-//https://css-tricks.com/moving-highlight/
-//http://jsfiddle.net/trktqqh6/3/

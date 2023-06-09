@@ -69,7 +69,7 @@ function SignUp() {
                     form={form}
                     name="register"
                     onFinish={onFinish}
-                    style={{ maxWidth: 600 }}
+                    style={{ maxWidth: 500 }}
                     scrollToFirstError
                 >
                     <Form.Item
@@ -183,11 +183,17 @@ function SignUp() {
 
                 <div className="signUpLink">
                     <Text>Have an account?</Text>
-                    <Button type="primary"><Link to="/signin">Sign In</Link></Button>
+                    <Link to="/signin"><Button type="primary">Sign In</Button></Link>
                 </div>
 
                 <SwitchTheme />
             </div>
+            {showConfirm && (
+                <div className="signUpConfirm">
+                    <h1>Confirm your email</h1>
+                    <p>We have sent you an email with a link to confirm your email address. Please click on the link to complete your registration.</p>
+                </div>
+            )}
         </>
     );
 }

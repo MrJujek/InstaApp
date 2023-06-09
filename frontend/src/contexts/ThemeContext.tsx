@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 
 interface ThemeProvider {
     isDarkTheme: boolean;
@@ -12,7 +12,7 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+    const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
 
     const changeTheme = () => {
         setIsDarkTheme(!isDarkTheme);

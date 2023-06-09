@@ -2,16 +2,16 @@
 @import url(https://fonts.googleapis.com/css?family=Leckerli+One:regular);
 
 aside.navbar {
-    background-color: black;
     height: 100vh;
-    width: 250px;
+    width: 220px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-right: 1px solid gray;
+    border-right: 1px solid;
     padding: 20px;
-
-    float: left;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 
     .logo {
         font-family: 'Leckerli One', cursive;
@@ -19,10 +19,8 @@ aside.navbar {
         justify-content: center;
         align-items: center;
         margin-bottom: 20px;
-        color: white;
         text-shadow: 1px 1px 1px gray;
-        font-size: 40px;
-
+        font-size: 28px;
 
         img {
             width: 100px;
@@ -42,19 +40,27 @@ aside.navbar {
         a {
             font-family: 'Noto Sans', sans-serif;
             padding: 10px 20px;
-            font-size: 1.5rem;
             border-radius: 20px;
             transition: all 0.2s ease-in-out;
             width: fit-content;
-            font-weight: 500;
-            font-size: large;
             text-decoration: none;
-            color: white;
-            text-shadow: 1px 1px 1px gray;
+
+            span {
+                font-size: 1.5rem;
+                font-weight: 500;
+                font-size: large;
+                text-shadow: 1px 1px 1px gray;
+            }
 
             &:hover {
-                background-color: rgb(26, 26, 26);
+                background-color: rgba(49, 49, 49, 0.205);
             }
         }
+    }
+
+    .themeSwitch {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

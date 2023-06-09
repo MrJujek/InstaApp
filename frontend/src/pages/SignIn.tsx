@@ -66,7 +66,7 @@ function SignIn() {
 
         <div className="signInLink">
           <Text>Don't have an account?</Text>
-          <Button type="primary"><Link to="/signup">Sign Up</Link></Button>
+          <Link to="/signup"><Button type="primary">Sign Up</Button></Link>
         </div>
 
         <SwitchTheme />

@@ -1,0 +1,19 @@
+.darkTheme {
+
+    aside,
+    div:no-button {
+        background-color: #141414;
+        color: #ffffff;
+        text-shadow: 1px 1px 1px gray;
+    }
+}
+
+.lightTheme {
+
+    aside,
+    div:no-button {
+        background-color: #ffffff;
+        color: #141414;
+        text-shadow: 1px 1px 1px gray;
+    }
+}

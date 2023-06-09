@@ -1,16 +1,24 @@
 import { Link } from 'react-router-dom'
+import SwitchTheme from './SwitchTheme'
+import { Typography } from 'antd';
 
 function Navbar() {
+    const { Text } = Typography;
+
     return (
         <aside className='navbar'>
             <div className='logo'>
-                InstaApp
+                <h2>InstaApp</h2>
             </div>
 
             <div className='links'>
-                <Link to='/'>Home</Link>
-                <Link to='/profile'>Profile</Link>
-                <Link to='/createPost'>Create post</Link>
+                <Link to='/'><Text>Home</Text></Link>
+                <Link to='/profile'><Text>Profile</Text></Link>
+                <Link to='/createPost'><Text>Create post</Text></Link>
+            </div>
+
+            <div className='themeSwitch'>
+                <SwitchTheme />
             </div>
         </aside>
     )
