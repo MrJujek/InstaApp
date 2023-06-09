@@ -14,13 +14,13 @@ function SignUp() {
     const [messageApi, contextHolder] = message.useMessage();
 
     const [showConfirm, setShowConfirm] = useState(false);
-    const [buttonWasClicked, setButtonWasClicked] = useState(false);
-
+    const [emailInputStatus, setEmailInputStatus] = useState<string | undefined>(undefined);
+    const [nicknameInputStatus, setNicknameInputStatus] = useState<string | undefined>(undefined);
 
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
-            sm: { span: 8 }
+            sm: { span: 7 }
         },
         wrapperCol: {
             xs: { span: 24 },
@@ -31,12 +31,12 @@ function SignUp() {
     const tailFormItemLayout = {
         wrapperCol: {
             xs: {
-                span: 24,
-                offset: 0
+                span: 16,
+                offset: 4
             },
             sm: {
                 span: 16,
-                offset: 8
+                offset: 7
             }
         }
     };
@@ -44,9 +44,6 @@ function SignUp() {
     const [form] = Form.useForm();
 
     const onFinish = (values: { name: string, lastName: string, email: string, password: string, nickName: string, confirm: string }) => {
-        console.log("Received values of form: ", values);
-        setButtonWasClicked(true);
-
         signUp(values.name, values.lastName, values.email, values.password, values.nickName);
     };
 
@@ -57,22 +54,27 @@ function SignUp() {
     }, [user, navigate]);
 
     useEffect(() => {
-        console.log(registerData);
-        console.log(buttonWasClicked);
+        if (!registerData.data || !registerData.data.message) {
+            return;
+        }
 
-        if (buttonWasClicked) {
-            if (registerData.status) {
-                messageApi.open({
-                    type: "success",
-                    content: registerData.message
-                });
+        if (registerData.data.registered === true) {
+            messageApi.open({
+                type: "success",
+                content: registerData.data.message
+            });
 
-                setShowConfirm(true);
-            } else if (registerData.status === false) {
-                messageApi.open({
-                    type: "error",
-                    content: registerData.message
-                });
+            setShowConfirm(true);
+        } else if (registerData.data.registered === false) {
+            messageApi.open({
+                type: "error",
+                content: registerData.data.message
+            });
+
+            if (registerData.data.message.includes("email")) {
+                setEmailInputStatus("error");
+            } else if (registerData.data.message.includes("nickname")) {
+                setNicknameInputStatus("error");
             }
         }
     }, [registerData]);
@@ -87,7 +89,7 @@ function SignUp() {
                     form={form}
                     name="register"
                     onFinish={onFinish}
-                    style={{ maxWidth: 500 }}
+                    style={{ maxWidth: 550 }}
                     scrollToFirstError
                 >
                     <Form.Item
@@ -133,7 +135,10 @@ function SignUp() {
                             }
                         ]}
                     >
-                        <Input />
+                        <Input
+                            status={nicknameInputStatus == "error" ? "error" : undefined}
+                            onChange={() => { setNicknameInputStatus(undefined) }}
+                        />
                     </Form.Item>
 
                     <Form.Item
@@ -150,17 +155,31 @@ function SignUp() {
                             }
                         ]}
                     >
-                        <Input />
+                        <Input
+                            status={emailInputStatus == "error" ? "error" : undefined}
+                            onChange={() => { setEmailInputStatus(undefined) }}
+                        />
                     </Form.Item>
 
                     <Form.Item
                         name="password"
                         label="Password"
+                        dependencies={["confirm"]}
                         rules={[
                             {
                                 required: true,
                                 message: "Please input your password!"
-                            }
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue("confirm") === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(
+                                        new Error("Passwords do not match!")
+                                    );
+                                }
+                            })
                         ]}
                         hasFeedback
                     >
@@ -183,7 +202,7 @@ function SignUp() {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(
-                                        new Error("The new password that you entered do not match!")
+                                        new Error("Passwords do not match!")
                                     );
                                 }
                             })
@@ -193,7 +212,7 @@ function SignUp() {
                     </Form.Item>
 
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" style={{ width: 210 }}>
                             Sign up
                         </Button>
                     </Form.Item>
@@ -209,7 +228,7 @@ function SignUp() {
             {showConfirm && (
                 <div className="signUpConfirm">
                     <h1>Confirm your email</h1>
-                    <p>We have sent you an email with a link to confirm your email address. Please click on the link to complete your registration.</p>
+                    <p>{registerData.data.link}</p>
                 </div>
             )}
         </>

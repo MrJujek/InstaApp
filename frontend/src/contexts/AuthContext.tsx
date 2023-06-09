@@ -15,9 +15,18 @@ interface SignInData {
     token?: string;
 }
 
+interface SignUpData {
+    status: boolean;
+    data: {
+        registered: boolean;
+        message?: string;
+        link?: string;
+    };
+}
+
 interface AuthProvider {
     user: User | null;
-    registerData: { status: boolean, message?: string };
+    registerData: SignUpData;
     signIn: (email: string, password: string) => Promise<SignInData>;
     signUp: (
         name: string,
@@ -25,7 +34,7 @@ interface AuthProvider {
         email: string,
         password: string,
         nickName: string
-    ) => Promise<{ status: boolean, message?: string }>;
+    ) => Promise<{ status: boolean, data?: string }>;
     getToken: () => string;
     logout: () => void;
 }
@@ -42,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const [registerData, setRegisterData] = useState({ status: false } as { status: boolean, message?: string });
+    const [registerData, setRegisterData] = useState({ status: false } as SignUpData);
 
     useEffect(() => {
         async function loadUserFromLocalStorage() {
@@ -126,10 +135,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         if (response.ok) {
             const data = await response.json();
-            setRegisterData({ status: true, message: data });
-            return { status: true, message: data };
+            setRegisterData({ status: true, data: data });
+            return { status: true, data: data };
         }
-        return { status: false, message: "Registration failed!" };
+        return { status: false, data: "Registration failed!" };
     }
 
     function getToken() {

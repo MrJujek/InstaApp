@@ -27,23 +27,25 @@ export let userController = {
         return user[0].id;
     },
 
-    signup: async (data: string): Promise<string> => {
+    signup: async (data: string): Promise<{ registered: boolean, message: string }> => {
         let obj = JSON.parse(data);
+        console.log(obj);
+
 
         for (let i = 0; i < users.length; i++) {
-            if (users[i].nickName == obj.nickname) {
-                return "error: user with that nickname already exists";
+            if (users[i].nickName == obj.nickName) {
+                return { registered: false, message: "User with that nickname already exists." };
             }
             if (users[i].email == obj.email) {
-                return "error: user with that email already exists";
+                return { registered: false, message: "User with that email already exists." };
             }
         }
 
         if (!obj.password || !obj.email || !obj.lastName || !obj.name || !obj.nickName) {
-            return "error: missing data";
+            return { registered: false, message: "Missing data." };
 
         } else {
-            return await new Promise<string>(async (resolve, reject) => {
+            return await new Promise<{ registered: boolean, message: string, link?: string }>(async (resolve, reject) => {
                 try {
                     const encryptedPassword = userController.encryptPass(obj.password);
 
@@ -63,7 +65,7 @@ export let userController = {
 
                     await updateJSON();
 
-                    resolve("Confirm your account here:" + url + "/user/confirm/" + await userController.createTokenToConfirm(obj.email));
+                    resolve({ registered: true, message: "Successfuly registered!", link: url + "/user/confirm/" + await userController.createTokenToConfirm(obj.email) });
                 } catch (error) {
                     reject(error);
                 }
@@ -148,7 +150,7 @@ export let userController = {
             }
         });
 
-        let message: string = "Incorrect email or password";
+        let message: string = "Incorrect credentials.";
 
         let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message };
 
@@ -157,11 +159,11 @@ export let userController = {
                 if (user.email == obj.email || user.nickName == obj.nickname) {
                     if (bcrypt.compareSync(obj.password, user.password)) {
                         if (user.confirmed == true) {
-                            message = "Logged in";
+                            message = "Succesfuly logged in!";
                             toReturn.logged = true;
                             toReturn.token = userController.createTokenToLogin(obj);
                         } else {
-                            message = "User not confirmed";
+                            message = "User is not confirmed.";
                         }
                     }
                 }
