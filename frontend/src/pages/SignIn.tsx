@@ -9,7 +9,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 function SignIn() {
   const { Text } = Typography;
 
-  const { signIn, user, registerData, setRegisterData } = useAuth();
+  const { signIn, user, registerData, setRegisterData, remember, setRemember } = useAuth();
   const navigate = useNavigate();
 
   const { isDarkTheme } = useTheme();
@@ -66,6 +66,7 @@ function SignIn() {
       {contextHolder}
       <div className="signIn" style={{ color: isDarkTheme ? "#ffffff" : "#141414" }}>
         <h1>InstaApp</h1>
+
         <Form
           name="normal_login"
           className="login-form"
@@ -96,9 +97,9 @@ function SignIn() {
             />
           </Form.Item>
 
-          {/* <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item> */}
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox checked={remember} onChange={() => setRemember(!remember)}>Remember me</Checkbox>
+          </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">

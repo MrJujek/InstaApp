@@ -27,6 +27,7 @@ interface SignUpData {
 interface AuthProvider {
     user: User | null;
     registerData: SignUpData;
+    remember: boolean;
     signIn: (email: string, password: string) => Promise<SignInData>;
     signUp: (
         name: string,
@@ -38,6 +39,7 @@ interface AuthProvider {
     getToken: () => string;
     logout: () => void;
     setRegisterData: React.Dispatch<React.SetStateAction<SignUpData>>;
+    setRemember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = React.createContext({} as AuthProvider);
@@ -53,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [registerData, setRegisterData] = useState({ status: false } as SignUpData);
+    const [remember, setRemember] = useState(true);
 
     useEffect(() => {
         async function loadUserFromLocalStorage() {
@@ -75,11 +78,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const value = {
         user,
         registerData,
+        remember,
         signIn,
         signUp,
         getToken,
         logout,
-        setRegisterData
+        setRegisterData,
+        setRemember
     };
 
     async function authenticate(token: string) {
@@ -112,7 +117,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
             const data = await response.json() as SignInData;
 
-            localStorage.setItem("token", data.token!);
+            if (remember) {
+                localStorage.setItem("token", data.token!);
+            }
+
             setUser(await authenticate(data.token!));
             console.log(data);
 

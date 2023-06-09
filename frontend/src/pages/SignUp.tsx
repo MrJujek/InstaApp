@@ -8,7 +8,7 @@ import ConfirmAccountModal from "../components/ConfirmAccountModal"
 
 function SignUp() {
     const { isDarkTheme } = useTheme();
-    const { user, registerData, signUp } = useAuth();
+    const { user, registerData, signUp, remember } = useAuth();
 
     const navigate = useNavigate();
     const { Text } = Typography;
@@ -47,6 +47,10 @@ function SignUp() {
     const onFinish = (values: { name: string, lastName: string, email: string, password: string, nickName: string, confirm: string }) => {
         signUp(values.name, values.lastName, values.email, values.password, values.nickName);
     };
+
+    useEffect(() => {
+        console.log(remember);
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -146,10 +150,10 @@ function SignUp() {
                         name="email"
                         label="E-mail"
                         rules={[
-                            // {
-                            //     type: "email",
-                            //     message: "The input is not valid E-mail!"
-                            // },
+                            {
+                                type: "email",
+                                message: "The input is not valid E-mail!"
+                            },
                             {
                                 required: true,
                                 message: "Please input your E-mail!"
@@ -226,12 +230,7 @@ function SignUp() {
 
                 <SwitchTheme />
             </div>
-            {showConfirm && (
-                <div className="signUpConfirm">
-                    <h1>Confirm your email</h1>
-                    <p>{registerData.data.link}</p>
-                </div>
-            )}
+
             {showConfirm && <ConfirmAccountModal />}
         </>
     );
