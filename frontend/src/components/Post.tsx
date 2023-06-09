@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import UrlContext from '@/contexts/UrlContext';
+import { Divider } from 'antd';
 
 interface ModificationHistory {
     date: Date;
@@ -25,8 +26,6 @@ export interface PhotoData {
 }
 
 function Post(props: { data: PhotoData }) {
-    console.log("XXXXXXXXXXXXXXXXX");
-
     const { data } = props;
     const { url } = useContext(UrlContext);
 
@@ -35,15 +34,8 @@ function Post(props: { data: PhotoData }) {
     const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
 
     useEffect(() => {
-        console.log("props-data", data);
-
-        console.log("profilephoto", profilePhoto);
         loadProfilePhoto();
     }, [])
-
-    useEffect(() => {
-        console.log("profilephoto", profilePhoto);
-    }, [profilePhoto])
 
     async function loadProfilePhoto() {
         const response = await fetch(url + "/photos", {
@@ -51,9 +43,6 @@ function Post(props: { data: PhotoData }) {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log("fetch-data", data);
-            console.log(data.filter((element: PhotoData) => element.user == "a@a.a" && element.profile == true));
-
 
             setProfilePhoto(data.filter((element: PhotoData) => element.user === props.data.user && element.profile === true)[0]);
         }
@@ -67,10 +56,13 @@ function Post(props: { data: PhotoData }) {
 
     return (
         <div className="post" onClick={() => handleClick()}>
-            {profilePhoto && <div className='postAuthor'>
-                <img className='profilePhoto' alt='profilePhoto' src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img>
-                {data.user}
-            </div>}
+            <Divider />
+
+            {profilePhoto &&
+                <div className='postAuthor'>
+                    <img className='profilePhoto' alt='profilePhoto' src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img>
+                    {data.user}
+                </div>}
 
             <div className='postContent'>
                 <img alt="Photo" src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}></img>

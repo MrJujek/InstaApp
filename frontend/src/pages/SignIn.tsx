@@ -9,7 +9,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 function SignIn() {
   const { Text } = Typography;
 
-  const { signIn, user } = useAuth();
+  const { signIn, user, registerData, setRegisterData } = useAuth();
   const navigate = useNavigate();
 
   const { isDarkTheme } = useTheme();
@@ -17,6 +17,25 @@ function SignIn() {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [inputStatus, setInputStatus] = useState<string | undefined>(undefined);
+
+  const [accountConfirmed, setAccountConfirmed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (registerData.data && registerData.data.registered == true) {
+      setAccountConfirmed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (accountConfirmed == true) {
+      messageApi.open({
+        type: 'success',
+        content: "Successfully confirmed account!",
+      });
+
+      setRegisterData({ status: false, data: { registered: false } })
+    }
+  }, [accountConfirmed]);
 
   useEffect(() => {
     if (user && typeof (user) === "object") {

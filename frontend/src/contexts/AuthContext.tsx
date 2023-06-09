@@ -37,6 +37,7 @@ interface AuthProvider {
     ) => Promise<{ status: boolean, data?: string }>;
     getToken: () => string;
     logout: () => void;
+    setRegisterData: React.Dispatch<React.SetStateAction<SignUpData>>;
 }
 
 export const AuthContext = React.createContext({} as AuthProvider);
@@ -77,7 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signIn,
         signUp,
         getToken,
-        logout
+        logout,
+        setRegisterData
     };
 
     async function authenticate(token: string) {

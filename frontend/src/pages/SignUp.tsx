@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Typography, message } from "antd";
 import SwitchTheme from "@/components/SwitchTheme";
 import { useTheme } from "@/contexts/ThemeContext";
+import ConfirmAccountModal from "../components/ConfirmAccountModal"
 
 function SignUp() {
     const { isDarkTheme } = useTheme();
@@ -231,6 +232,7 @@ function SignUp() {
                     <p>{registerData.data.link}</p>
                 </div>
             )}
+            {showConfirm && <ConfirmAccountModal />}
         </>
     );
 }
