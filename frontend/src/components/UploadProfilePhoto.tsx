@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
-import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps as UploadPropsInterface } from 'antd';
-import { message, Upload } from 'antd'
+import { Upload } from 'antd';
+// import ImgCrop from 'antd-img-crop'
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 
-function UploadPhoto(props: { loadPhotos: () => void }) {
-    const { loadPhotos } = props;
+function UploadProfilePhoto(props: { photoType: string, loadPhotos: () => void }) {
+    const { photoType, loadPhotos } = props;
 
     const [photoToUpload, setphotoToUpload] = useState(null as File | null)
 
@@ -15,21 +15,9 @@ function UploadPhoto(props: { loadPhotos: () => void }) {
     const { user } = useAuth();
     const { url } = React.useContext(UrlContext);
 
-    const { Dragger } = Upload;
+    // const [fileList, setFileList] = useState<UploadFile[]>([])
 
-    const uploadProps: UploadPropsInterface = {
-        name: 'file',
-        multiple: true,
-        onChange(info) {
-            const { status } = info.file;
-            console.log(status);
-
-        },
-        onDrop(e) {
-            console.log(e.dataTransfer.files);
-
-        }
-    }
+    // const onChange: UploadProps['onChange'] = ({ fileList: new })
 
     function onChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.files === null) {
@@ -54,7 +42,7 @@ function UploadPhoto(props: { loadPhotos: () => void }) {
             formData.append("file", inputRef.current.files[i])
         }
         formData.append("user", user!.email)
-        formData.append("photoType", 'photo')
+        formData.append("photoType", photoType)
         formData.append("description", '[]');
         formData.append("tags", '[]')
 
@@ -71,19 +59,15 @@ function UploadPhoto(props: { loadPhotos: () => void }) {
     }
 
     return (
-        <div className="uploadPhoto">
-
-            {/* <label htmlFor="file">Select photo:</label>
+        <div className="UploadProfilePhoto">
+            Upload file
+            {photoType}
+            <label htmlFor="file">Select photo:</label>
             <input id="file" type="file" name="file" onChange={(e) => onChangeFile(e)} ref={inputRef} />
 
-            <button onClick={() => postFileToServer()}>Add photo</button> */}
-
-            <Dragger {...uploadProps}>
-                <p className='ant-upload-drag-icon'><InboxOutlined /></p>
-                <p className="ant-upload-text">Click or drag file to this area.</p>
-            </Dragger>
+            <button onClick={() => postFileToServer()}>Add photo</button>
         </div>
     )
 }
 
-export default UploadPhoto
+export default UploadProfilePhoto

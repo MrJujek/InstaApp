@@ -5,6 +5,7 @@ import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
 import { Divider, Typography, Image } from 'antd';
+import UploadProfilePhoto from '@/components/UploadProfilePhoto';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -46,7 +47,8 @@ function Profile() {
             <div className='profileInfo'>
                 <LogoutButton></LogoutButton>
 
-                <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto>
+                {/* <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto> */}
+                <UploadProfilePhoto photoType='profile' loadPhotos={loadPhotos} />
 
                 <Text>Your posts:</Text>
                 <div className="profilePhoto">

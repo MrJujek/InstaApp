@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { Select, type SelectProps, Input, Button, Typography } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
+import UploadPhoto from '@/components/UploadPhoto';
 
 function CreatePost() {
   const { TextArea } = Input;
@@ -27,6 +28,8 @@ function CreatePost() {
   }, []);
 
   async function loadTags() {
+    console.log("loadTags()");
+
     const response = await fetch(url + "/tags", {
       method: "GET",
       headers: {
@@ -98,6 +101,7 @@ function CreatePost() {
   return (
     <div className="createPost">
       <Title>Create post</Title>
+      <UploadPhoto></UploadPhoto>
       <label htmlFor="file">Select photo:</label>
       <input id="file" multiple type="file" name="file" onChange={(e) => onChangeFile(e)} ref={inputRef} />
 
