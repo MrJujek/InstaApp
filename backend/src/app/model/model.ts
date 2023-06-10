@@ -71,6 +71,8 @@ export let tagsRaw: string[] = [
 
 export let tagsObjects: TagsObject[] = [];
 async function createTagsArray() {
+    console.log("createTagsArray");
+
     await tagsController.createTagsObjectsArray();
     await updateJSON();
 }
@@ -112,6 +114,7 @@ export async function restart() {
     tagsObjects = [];
     users = [];
 
+    await createTagsArray();
     await updateJSON();
     await loadData();
 }
