@@ -3,4 +3,8 @@ div.createPost {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    button {
+        margin-top: 1rem;
+    }
 }

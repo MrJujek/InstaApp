@@ -1,19 +1,31 @@
 .darkTheme {
 
+    main,
     aside,
     div:no-button {
         background-color: #141414;
         color: #ffffff;
         text-shadow: 1px 1px 1px gray;
     }
+
+    span.ant-input-data-count,
+    span.ant-select-selection-placeholder {
+        text-shadow: none;
+    }
 }
 
 .lightTheme {
 
+    main,
     aside,
     div:no-button {
         background-color: #ffffff;
         color: #141414;
         text-shadow: 1px 1px 1px gray;
+    }
+
+    span.ant-input-data-count,
+    span.ant-select-selection-placeholder {
+        text-shadow: none;
     }
 }

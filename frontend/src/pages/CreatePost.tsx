@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { Select, type SelectProps, Input } from 'antd';
+import { Select, type SelectProps, Input, Button, Typography } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
 
 function CreatePost() {
   const { TextArea } = Input;
+  const { Text, Title } = Typography;
 
   const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
@@ -34,6 +35,7 @@ function CreatePost() {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log("data", data);
 
       setOptions(data.map((tag: { id: number, name: string, value: string }) => {
         return {
@@ -95,11 +97,11 @@ function CreatePost() {
 
   return (
     <div className="createPost">
-      Create post
+      <Title>Create post</Title>
       <label htmlFor="file">Select photo:</label>
       <input id="file" multiple type="file" name="file" onChange={(e) => onChangeFile(e)} ref={inputRef} />
 
-      Add tags:
+      <Text>Add tags:</Text>
       <Select
         mode="tags"
         style={{ width: 400 }}
@@ -108,7 +110,7 @@ function CreatePost() {
         options={options}
       />
 
-      Add description:
+      <Text>Add description:</Text>
       <TextArea
         name="description"
         id="description"
@@ -119,7 +121,7 @@ function CreatePost() {
       >
       </TextArea>
 
-      <button onClick={() => postFileToServer()}>Add photo</button>
+      <Button type="primary" onClick={() => postFileToServer()}>Share</Button>
     </div>
   )
 }

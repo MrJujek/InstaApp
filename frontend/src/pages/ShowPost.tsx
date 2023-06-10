@@ -29,7 +29,6 @@ function ShowPost() {
 
             console.log("getPost", data);
 
-
             setPost(data);
         }
     }
@@ -46,7 +45,7 @@ function ShowPost() {
     }
 
     return (
-        <>
+        <div className='showPost'>
             {userProfile &&
                 <div className='postProfile'>
                     <img alt="Photo" src={"/api/photos/show/" + userProfile.id}></img>
@@ -55,8 +54,10 @@ function ShowPost() {
             }
             <br />
             <div className="photo">
-                <img alt="Photo" src={"/api/photos/show/" + post.id}></img>
-                {post.id}
+                {post.id &&
+                    <img alt="Photo" src={"/api/photos/show/" + post.id}></img>
+                }
+                {"ID:" + post.id}
                 {post.name}
                 {post.type}
                 {post.path}
@@ -80,7 +81,7 @@ function ShowPost() {
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 

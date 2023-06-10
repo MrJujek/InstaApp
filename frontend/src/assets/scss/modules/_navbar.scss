@@ -50,6 +50,10 @@ aside.navbar {
                 font-weight: 500;
                 font-size: large;
                 text-shadow: 1px 1px 1px gray;
+
+                span {
+                    margin-right: 5px;
+                }
             }
 
             &:hover {

@@ -122,7 +122,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             setUser(await authenticate(data.token!));
-            console.log(data);
 
             return data;
         }

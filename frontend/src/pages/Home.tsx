@@ -1,10 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import Post, { PhotoData } from "../components/Post";
 import UrlContext from "@/contexts/UrlContext";
+import { Typography, Button, Divider } from "antd";
+import { Link } from "react-router-dom";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
     const { url } = useContext(UrlContext);
+    const { Text, Title } = Typography;
+
 
     useEffect(() => {
         loadPhotos();
@@ -25,19 +29,27 @@ function Home() {
     }
 
     return (
-        <>
-            <h1>Home</h1>
+        <div className="home">
+            <Title>Home</Title>
 
-            {/* <UploadPhoto photoType="photo" loadPhotos={loadPhotos} /> */}
+            {photos.length === 0 &&
+                <div className="noPhotos">
+                    <Text>No photos to show</Text>
+                    <Link to="/createPost"><Button type="primary">Create post</Button></Link>
+                </div>
+            }
 
             <div className="photos">
                 {photos.map((element, index) => {
                     return (
-                        <Post key={index} data={element} />
+                        <div key={index}>
+                            <Post data={element} />
+                            <Divider />
+                        </div>
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 

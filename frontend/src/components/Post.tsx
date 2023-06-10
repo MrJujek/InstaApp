@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import UrlContext from '@/contexts/UrlContext';
-import { Divider } from 'antd';
 
 interface ModificationHistory {
     date: Date;
@@ -56,8 +55,6 @@ function Post(props: { data: PhotoData }) {
 
     return (
         <div className="post" onClick={() => handleClick()}>
-            <Divider />
-
             {profilePhoto &&
                 <div className='postAuthor'>
                     <img className='profilePhoto' alt='profilePhoto' src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img>

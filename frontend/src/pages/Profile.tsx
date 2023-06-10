@@ -4,6 +4,7 @@ import UploadPhoto from '../components/UploadPhoto';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
+import { Divider, Typography, Image } from 'antd';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -12,9 +13,16 @@ function Profile() {
     const { user } = useAuth();
     const { url } = useContext(UrlContext);
 
+    const { Title, Text } = Typography;
+
     useEffect(() => {
         loadPhotos();
     }, []);
+
+    useEffect(() => {
+        console.log(profilePhoto);
+    }, [profilePhoto]);
+
 
     async function loadPhotos() {
         const response = await fetch(url + "/photos", {
@@ -32,22 +40,39 @@ function Profile() {
     }
 
     return (
-        <>
-            <h1>Profile</h1><LogoutButton></LogoutButton>
+        <div className='profile'>
+            <Title>Profile</Title>
 
-            <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto>
+            <div className='profileInfo'>
+                <LogoutButton></LogoutButton>
 
-            Twoje zdjecie profilowe:
-            <div className="photos">
-                {profilePhoto.map((element, index) => {
-                    return (
-                        <Post key={index} data={element} />
-                    )
-                })}
+                <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto>
+
+                <Text>Your posts:</Text>
+                <div className="profilePhoto">
+                    {profilePhoto.map((element, index) => {
+                        return (
+                            <Post key={index} data={element} />
+                        )
+                    })}
+                </div>
+                <Image
+                    width={200}
+                    src={``}
+                    placeholder={
+                        <Image
+                            preview={false}
+                            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
+                            width={200}
+                        />
+                    }
+                />
             </div>
-            <br />
 
-            Twoje zdjecia:
+
+            <Divider />
+
+            <Text>Your posts:</Text>
             <div className="photos">
                 {yourPhotos.map((element, index) => {
                     return (
@@ -55,7 +80,7 @@ function Profile() {
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 

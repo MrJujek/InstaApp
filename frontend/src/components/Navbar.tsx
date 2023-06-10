@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SwitchTheme from './SwitchTheme'
 import { Typography } from 'antd';
+import { CompassOutlined, HomeOutlined, UserOutlined, CameraOutlined } from '@ant-design/icons';
 
 function Navbar() {
     const { Text } = Typography;
@@ -12,9 +13,10 @@ function Navbar() {
             </div>
 
             <div className='links'>
-                <Link to='/'><Text>Home</Text></Link>
-                <Link to='/profile'><Text>Profile</Text></Link>
-                <Link to='/createPost'><Text>Create post</Text></Link>
+                <Link to='/'><Text><HomeOutlined />Home</Text></Link>
+                <Link to='/explore'><Text><CompassOutlined />Explore</Text></Link>
+                <Link to='/profile'><Text><UserOutlined />Profile</Text></Link>
+                <Link to='/createPost'><Text><CameraOutlined />Create post</Text></Link>
             </div>
 
             <div className='themeSwitch'>

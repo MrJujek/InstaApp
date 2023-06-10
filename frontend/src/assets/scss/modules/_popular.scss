@@ -5,7 +5,8 @@ aside.popular {
     height: 100vh;
     width: 220px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     border-left: 1px solid;
     padding: 20px;
