@@ -73,6 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setLoading(false);
         }
         loadUserFromLocalStorage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const value = {
@@ -103,6 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 return data.data;
             }
         }
+        logout();
         return "Authentication failed";
     }
 
@@ -117,11 +119,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
             const data = await response.json() as SignInData;
 
-            if (remember) {
-                localStorage.setItem("token", data.token!);
-            }
+            if (data.token) {
+                if (remember) {
+                    localStorage.setItem("token", data.token);
+                }
 
-            setUser(await authenticate(data.token!));
+                setUser(await authenticate(data.token));
+            }
 
             return data;
         }

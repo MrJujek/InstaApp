@@ -1,36 +1,31 @@
 import { useState } from 'react';
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { PoweroffOutlined } from '@ant-design/icons';
+import { Button, Modal } from 'antd';
 
 function LogoutButton() {
-    const [showConfirmBox, setShowConfirmBox] = useState(false);
     const { logout } = useAuth();
 
-    const handleLogout = () => {
-        setShowConfirmBox(true);
-    };
-
-    const handleConfirm = () => {
-        logout();
-
-        setShowConfirmBox(false);
-    };
-
-    const handleCancel = () => {
-        setShowConfirmBox(false);
-    };
+    const [showModal, setShowModal] = useState(false);
 
     return (
-        <div>
-            {showConfirmBox ? (
-                <div>
-                    <p>Are you sure you want to logout?</p>
-                    <button onClick={handleConfirm}>Confirm</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                </div>
-            ) : (
-                <button onClick={handleLogout}>Logout</button>
-            )}
-        </div>
+        <div className='logout'>
+            <Button type="primary" onClick={() => setShowModal(true)}>
+                <PoweroffOutlined />Logout
+            </Button>
+            <Modal
+                title="You are about to logout"
+                centered
+                width={400}
+                open={showModal}
+                onOk={() => {
+                    logout();
+                    setShowModal(false)
+                }}
+                onCancel={() => setShowModal(false)}
+            >
+            </Modal>
+        </div >
     );
 }
 

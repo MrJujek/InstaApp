@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { PhotoData } from '../components/Post'
+import { PhotoData } from '@/components/Post'
 import { useParams } from 'react-router-dom';
 import UrlContext from '@/contexts/UrlContext';
 

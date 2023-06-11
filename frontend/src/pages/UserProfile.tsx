@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import Post, { PhotoData } from '../components/Post';
+import Post, { PhotoData } from '@/components/Post';
 import UrlContext from '@/contexts/UrlContext';
 
 function UserProfile() {
@@ -13,10 +13,12 @@ function UserProfile() {
 
     useEffect(() => {
         getEmail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         loadUserPhotos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userEmail]);
 
     async function getEmail() {

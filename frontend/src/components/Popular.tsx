@@ -22,7 +22,7 @@ function Popular() {
         if (response.ok) {
             const data = await response.json();
 
-            let top10 = data.slice(0);
+            const top10 = data.slice(0);
             top10.sort(function (a: { id: number, name: string, popularity: number }, b: { id: number, name: string, popularity: number }) {
                 return b.popularity - a.popularity;
             });

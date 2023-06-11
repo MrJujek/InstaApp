@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
-import LogoutButton from '../components/LogoutButton';
-import UploadPhoto from '../components/UploadPhoto';
+import LogoutButton from '@/components/LogoutButton';
+import UploadPhoto from '@/components/UploadPhoto';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
@@ -18,14 +18,18 @@ function Profile() {
 
     useEffect(() => {
         loadPhotos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
+        console.log("profile photo changed");
         console.log(profilePhoto);
     }, [profilePhoto]);
 
 
     async function loadPhotos() {
+        console.log('load photos');
+
         const response = await fetch(url + "/photos", {
             method: "GET",
             headers: {
@@ -45,36 +49,28 @@ function Profile() {
             <Title>Profile</Title>
 
             <div className='profileInfo'>
-                <LogoutButton></LogoutButton>
-
-                {/* <UploadPhoto photoType="profile" loadPhotos={loadPhotos}></UploadPhoto> */}
-                <UploadProfilePhoto photoType='profile' loadPhotos={loadPhotos} />
-
-                <Text>Your posts:</Text>
+                <Text>Your photo:</Text>
                 <div className="profilePhoto">
                     {profilePhoto.map((element, index) => {
                         return (
-                            <Post key={index} data={element} />
+                            <Image
+                                key={index}
+                                width={200}
+                                src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
+                                preview={false}
+                            />
                         )
                     })}
                 </div>
-                <Image
-                    width={200}
-                    src={``}
-                    placeholder={
-                        <Image
-                            preview={false}
-                            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
-                            width={200}
-                        />
-                    }
-                />
-            </div>
 
+                <UploadProfilePhoto loadPhotos={loadPhotos} />
+
+                <LogoutButton />
+            </div>
 
             <Divider />
 
-            <Text>Your posts:</Text>
+            <Title level={3}>Your posts:</Title>
             <div className="photos">
                 {yourPhotos.map((element, index) => {
                     return (

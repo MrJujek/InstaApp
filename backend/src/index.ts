@@ -13,16 +13,16 @@ http
         console.log(req.url);
         console.log(req.method);
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Request-Method', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PATCH, PUT, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', '*');
+        // res.setHeader('Access-Control-Allow-Origin', '*');
+        // res.setHeader('Access-Control-Request-Method', '*');
+        // res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PATCH, PUT, DELETE');
+        // res.setHeader('Access-Control-Allow-Headers', '*');
 
-        if (req.method === 'OPTIONS') {
-            res.writeHead(200);
-            res.end();
-            return;
-        }
+        // if (req.method === 'OPTIONS') {
+        //     res.writeHead(200);
+        //     res.end();
+        //     return;
+        // }
 
         if (req.url!.search("/photos") != -1) {
             await imageRouter(req, res);

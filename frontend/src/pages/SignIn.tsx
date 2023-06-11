@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Typography, message } from 'antd';
@@ -44,7 +44,7 @@ function SignIn() {
   }, [user, navigate]);
 
   const onFinish = async (values: { login: string, password: string }) => {
-    let info = await signIn(values.login, values.password);
+    const info = await signIn(values.login, values.password);
 
     if (info.logged == false) {
       messageApi.open({

@@ -14,5 +14,5 @@ function SwitchTheme() {
             )}
         </ThemeContext.Consumer>
     );
-};
+}
 export default SwitchTheme;

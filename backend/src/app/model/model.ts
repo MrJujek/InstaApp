@@ -119,6 +119,6 @@ export async function restart() {
     await loadData();
 }
 
-export const url = "http://localhost:5000";
+export const url = "https://dev.juliandworzycki.pl/api";
 // localhost - http://localhost:5000
-// code - https://code.juliandworzycki.pl/api
+// code - https://dev.juliandworzycki.pl/api

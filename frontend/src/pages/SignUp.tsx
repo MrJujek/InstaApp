@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Typography, message } from "antd";
 import SwitchTheme from "@/components/SwitchTheme";
 import { useTheme } from "@/contexts/ThemeContext";
-import ConfirmAccountModal from "../components/ConfirmAccountModal"
+import ConfirmAccountModal from "@/components/ConfirmAccountModal"
 
 function SignUp() {
     const { isDarkTheme } = useTheme();
-    const { user, registerData, signUp, remember } = useAuth();
+    const { user, registerData, signUp } = useAuth();
 
     const navigate = useNavigate();
     const { Text } = Typography;
@@ -49,10 +49,6 @@ function SignUp() {
     };
 
     useEffect(() => {
-        console.log(remember);
-    }, []);
-
-    useEffect(() => {
         if (user) {
             navigate("/");
         }
@@ -82,6 +78,7 @@ function SignUp() {
                 setNicknameInputStatus("error");
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registerData]);
 
     return (

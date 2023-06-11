@@ -3,7 +3,7 @@
 
 aside.navbar {
     height: 100vh;
-    width: 220px;
+    width: 250px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -57,7 +57,7 @@ aside.navbar {
             }
 
             &:hover {
-                background-color: rgba(49, 49, 49, 0.205);
+                background-color: rgba(143, 143, 143, 0.164);
             }
         }
     }

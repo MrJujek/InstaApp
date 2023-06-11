@@ -19,7 +19,9 @@ function ConfirmAccountModal() {
             ),
             icon: <ExclamationCircleFilled />,
             async onOk() {
-                const response = await fetch(registerData.data.link!, {
+                if (!registerData.data.link) return;
+
+                const response = await fetch(registerData.data.link, {
                     method: "GET"
                 });
                 if (response.ok) {
