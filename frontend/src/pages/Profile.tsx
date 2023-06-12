@@ -4,9 +4,10 @@ import UploadPhoto from '@/components/UploadPhoto';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
-import { Divider, Typography, Image } from 'antd';
+import { Divider, Typography, Image, Button } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
 import { useNavigate } from 'react-router-dom';
+import ProfileData from '@/components/ProfileData';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -54,18 +55,13 @@ function Profile() {
 
     console.log(user);
 
-    const [userNickName, setUserNickName] = useState(user?.nickName);
-    const [userName, setUserName] = useState(user?.name);
-    const [userLastName, setUserLastName] = useState(user?.lastName);
-    const [userEmail, setUserEmail] = useState(user?.email);
 
     return (
         <div className='profile'>
             <Title>Profile</Title>
-            <Paragraph editable={{ onChange: setUserNickName }}>{userNickName}</Paragraph>
-            <Paragraph editable={{ onChange: setUserName }}>{userName}</Paragraph>
-            <Paragraph editable={{ onChange: setUserLastName }}>{userLastName}</Paragraph>
-            <Paragraph editable={{ onChange: setUserEmail }}>{userEmail}</Paragraph>
+
+            <ProfileData></ProfileData>
+
 
             <div className='profileInfo'>
                 <Text>Your photo:</Text>

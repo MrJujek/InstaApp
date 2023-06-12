@@ -2,7 +2,6 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import UrlContext from "./UrlContext";
 
 interface User {
-    id: string;
     name: string;
     lastName: string;
     email: string;
@@ -40,6 +39,7 @@ interface AuthProvider {
     logout: () => void;
     setRegisterData: React.Dispatch<React.SetStateAction<SignUpData>>;
     setRemember: React.Dispatch<React.SetStateAction<boolean>>;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 export const AuthContext = React.createContext({} as AuthProvider);
@@ -59,14 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         async function loadUserFromLocalStorage() {
-            const user = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-            if (!user) {
+            if (!token) {
                 setLoading(false);
                 return;
             }
             try {
-                setUser(await authenticate(user));
+                setUser(await authenticate(token));
             } catch (error) {
                 console.log(error);
             }
@@ -85,7 +85,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         getToken,
         logout,
         setRegisterData,
-        setRemember
+        setRemember,
+        setUser
     };
 
     async function authenticate(token: string) {
@@ -99,6 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (response.ok) {
             const data = await response.json();
+            console.log("asdasd", data);
 
             if (data.status) {
                 return data.data;
