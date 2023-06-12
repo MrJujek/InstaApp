@@ -49,7 +49,7 @@ function SignUp() {
     };
 
     useEffect(() => {
-        if (user) {
+        if (user && typeof (user) === "object") {
             navigate("/");
         }
     }, [user, navigate]);

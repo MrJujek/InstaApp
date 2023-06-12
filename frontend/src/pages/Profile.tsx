@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
 import { Divider, Typography, Image } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -13,8 +14,15 @@ function Profile() {
 
     const { user } = useAuth();
     const { url } = useContext(UrlContext);
+    const navigate = useNavigate();
 
-    const { Title, Text } = Typography;
+    const { Title, Text, Paragraph } = Typography;
+
+    useEffect(() => {
+        if (!(user && typeof (user) === "object")) {
+            navigate("/");
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         loadPhotos();
@@ -44,9 +52,20 @@ function Profile() {
         }
     }
 
+    console.log(user);
+
+    const [userNickName, setUserNickName] = useState(user?.nickName);
+    const [userName, setUserName] = useState(user?.name);
+    const [userLastName, setUserLastName] = useState(user?.lastName);
+    const [userEmail, setUserEmail] = useState(user?.email);
+
     return (
         <div className='profile'>
             <Title>Profile</Title>
+            <Paragraph editable={{ onChange: setUserNickName }}>{userNickName}</Paragraph>
+            <Paragraph editable={{ onChange: setUserName }}>{userName}</Paragraph>
+            <Paragraph editable={{ onChange: setUserLastName }}>{userLastName}</Paragraph>
+            <Paragraph editable={{ onChange: setUserEmail }}>{userEmail}</Paragraph>
 
             <div className='profileInfo'>
                 <Text>Your photo:</Text>
