@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv"
 import { fileController } from "./fileController";
 import { updateJSON, url } from "../model/model";
+import { jsonController } from "./jsonController";
 
 dotenv.config({ path: "/home/ubuntu/Desktop/github/InstaApp/backend/.env" })
 
@@ -240,6 +241,11 @@ export let userController = {
                 toReturn.message = "Profile updated.";
             }
         });
+
+        if (obj.newEmail != obj.lastEmail) {
+            fileController.renameFiles(obj.lastEmail, obj.newEmail);
+            jsonController.renameFiles(obj.lastEmail, obj.newEmail);
+        }
 
         await updateJSON();
 

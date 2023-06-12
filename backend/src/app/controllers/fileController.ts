@@ -145,5 +145,23 @@ export let fileController = {
                 reject(error);
             }
         })
+    },
+
+    async renameFiles(lastEmail: string, newEmail: string) {
+        console.log("renameFiles");
+
+        return new Promise((resolve, reject) => {
+            try {
+                if (fs.existsSync("./files/" + lastEmail)) {
+                    fs.rename("./files/" + lastEmail, "./files/" + newEmail, (err) => {
+                        if (err) throw (err);
+
+                        resolve("Files renamed");
+                    });
+                }
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 }

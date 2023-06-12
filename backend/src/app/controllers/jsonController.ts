@@ -54,5 +54,25 @@ export let jsonController = {
 
             jsonController.deletePhoto(photo.id);
         });
+    },
+
+    async renameFiles(lastEmail: string, newEmail: string) {
+        console.log("renameFiles");
+
+        return new Promise((resolve, reject) => {
+            try {
+                for (let photo of photos) {
+                    if (photo.user == lastEmail) {
+                        photo.user = newEmail;
+                    }
+                }
+
+                updateJSON();
+
+                resolve("Files renamed");
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 }
