@@ -137,7 +137,7 @@ export let userController = {
 
                 obj.name = user.name;
                 obj.lastName = user.lastName;
-                obj.nickname = user.nickName;
+                obj.nickName = user.nickName;
                 obj.email = user.email;
                 return;
             }
@@ -150,6 +150,8 @@ export let userController = {
                 return;
             }
         });
+        console.log(obj);
+
 
         let message: string = "Incorrect credentials.";
 
@@ -157,6 +159,8 @@ export let userController = {
 
         if (obj.name && obj.lastName && obj.email && obj.password && obj.nickName) {
             users.forEach(user => {
+                console.log(user.email, obj.email);
+
                 if (user.email == obj.email || user.nickName == obj.nickName) {
                     if (bcrypt.compareSync(obj.password, user.password)) {
                         if (user.confirmed == true) {
