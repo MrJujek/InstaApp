@@ -14,7 +14,7 @@ content-type: application/json
 {    
    "name": "a",
    "lastName": "a",
-   "email":"a@a.a",
+   "email":"a@a.aa",
    "password":"a",
    "nickName":"a"
 }
@@ -29,4 +29,16 @@ content-type: application/json
 {    
    "login":"a@a.a",
    "password":"a"
+}
+
+### UPDATE USER
+PATCH https://dev.juliandworzycki.pl/api/user/update HTTP/1.1
+content-type: application/json
+
+{   
+   "lastEmail":"a@a.aa",
+   "newName": "a",
+   "newLastName": "a",
+   "newEmail":"a@a.a",
+   "newNickName":"a"
 }

@@ -145,7 +145,7 @@ export let userController = {
                 obj.name = user.name;
                 obj.lastName = user.lastName;
                 obj.email = user.email;
-                obj.nickname = user.nickName;
+                obj.nickName = user.nickName;
                 return;
             }
         });
@@ -154,9 +154,9 @@ export let userController = {
 
         let toReturn: { logged: boolean, message: string, token?: string } = { logged: false, message };
 
-        if (obj.name && obj.lastName && obj.email && obj.password && obj.nickname) {
+        if (obj.name && obj.lastName && obj.email && obj.password && obj.nickName) {
             users.forEach(user => {
-                if (user.email == obj.email || user.nickName == obj.nickname) {
+                if (user.email == obj.email || user.nickName == obj.nickName) {
                     if (bcrypt.compareSync(obj.password, user.password)) {
                         if (user.confirmed == true) {
                             message = "Succesfuly logged in!";
@@ -202,6 +202,8 @@ export let userController = {
 
         try {
             let decoded = await jwt.verify(JSON.parse(token).token, String(process.env.TOKEN_KEY)) as any;
+            console.log("decoded", decoded);
+
 
             toReturn.status = true;
             toReturn.data = {
@@ -219,5 +221,28 @@ export let userController = {
 
             return toReturn;
         }
+    },
+
+    updateProfile: async (data: string) => {
+        let obj = JSON.parse(data);
+
+        let toReturn: { status: boolean, message?: string } = {
+            status: false
+        }
+
+        users.forEach(user => {
+            if (user.email == obj.lastEmail) {
+                user.name = obj.newName;
+                user.lastName = obj.newLastName;
+                user.nickName = obj.newNickName;
+                user.email = obj.newEmail;
+                toReturn.status = true;
+                toReturn.message = "Profile updated.";
+            }
+        });
+
+        await updateJSON();
+
+        return toReturn;
     }
 }

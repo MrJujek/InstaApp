@@ -12,6 +12,10 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
         case "POST":
             checkPOST();
             break;
+
+        case "PATCH":
+            checkPATCH();
+            break;
     }
 
     async function checkGET() {
@@ -69,9 +73,23 @@ export const userRouter = async (req: http.IncomingMessage, res: http.ServerResp
             console.log("POST AUTHENTICATE");
 
             const data = await getRequestData(req);
+            console.log("data", data);
+
 
             res.writeHead(200, { "Content-type": "application/json" });
             res.end(JSON.stringify(await userController.authenticate(data), null, 5));
         }
     };
+
+    async function checkPATCH() {
+        if (req.url! == "/user/update") {
+            console.log("PATCH CONFIRM");
+
+            const data = await getRequestData(req);
+            console.log("data", data);
+
+            res.writeHead(200, { "Content-type": "application/json" });
+            res.end(JSON.stringify(await userController.updateProfile(data), null, 5));
+        }
+    }
 };
