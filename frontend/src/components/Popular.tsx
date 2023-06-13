@@ -10,6 +10,7 @@ function Popular() {
 
     useEffect(() => {
         loadPopularTags();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     async function loadPopularTags() {
@@ -37,9 +38,9 @@ function Popular() {
             <Title level={2}>Popular</Title>
 
             {popularTags.length > 0 &&
-                popularTags.map((tag) => {
+                popularTags.map((tag, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             #{tag.name} - {tag.popularity}
                         </div>
                     )

@@ -1,25 +1,28 @@
 import { useEffect, useState, useContext } from "react";
 import Post, { PhotoData } from "@/components/Post";
 import UrlContext from "@/contexts/UrlContext";
-import { Typography, Button, Divider, Empty } from "antd";
+import { Typography, Button, Empty } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 function Home() {
     const [photos, setPhotos] = useState([] as PhotoData[])
     const { url } = useContext(UrlContext);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const { Text, Title } = Typography;
 
     useEffect(() => {
         if (!(user && typeof (user) === "object")) {
-            navigate("/");
+            logout();
         }
     }, [user, navigate]);
 
     useEffect(() => {
+        console.log("useEffect Home -> loadPhotos");
+
         loadPhotos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function loadPhotos() {
@@ -58,7 +61,6 @@ function Home() {
                     return (
                         <div key={index}>
                             <Post data={element} />
-                            <Divider />
                         </div>
                     )
                 })}

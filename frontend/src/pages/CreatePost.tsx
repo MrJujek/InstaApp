@@ -6,7 +6,7 @@ import UrlContext from '@/contexts/UrlContext';
 import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider } from 'antd';
 import type { RcFile, UploadProps as UploadPropsInterface } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
 
 function CreatePost() {
@@ -40,6 +40,8 @@ function CreatePost() {
     });
 
   const handlePreview = async (file: UploadFile) => {
+    console.log("handlePreview");
+
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
@@ -56,43 +58,6 @@ function CreatePost() {
   useEffect(() => {
     console.log("fileList", fileList);
   }, [fileList])
-
-  const uploadProps: UploadPropsInterface = {
-    name: 'file',
-    multiple: true,
-    action: '',
-    // listType: "picture-card",
-    fileList,
-    onChange: (info) => {
-      const { status } = info.file;
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop: (e) => {
-      console.log('Dropped files', e.dataTransfer.files);
-    },
-    onPreview: () => {
-      handlePreview
-    },
-    onRemove: (file) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: (file) => {
-      setFileList([...fileList, file]);
-
-      return false;
-    },
-    // onChange: handleChange,
-  };
 
   useEffect(() => {
     loadTags();
@@ -118,32 +83,10 @@ function CreatePost() {
     }
   }
 
-  // function onChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
-  //   if (e.target.files === null) {
-  //     return
-  //   }
-
-  //   console.log("e.target.files", e.target.files);
-  //   console.log([...e.target.files]);
-
-
-  //   setPhotosToUpload(
-  //     [...e.target.files]
-  //   )
-  // }
-
   async function sharePost() {
-    // if (photosToUpload === null || !photosToUpload) {
-    //   console.log("postFileToServer - no file");
-    //   return
-    // }
-
     setUploading(true);
 
     const formData = new FormData()
-    // for (let i = 0; i < photosToUpload.length; i++) {
-    //   formData.append("file", photosToUpload[i])
-    // }
     fileList.forEach((file) => {
       formData.append('file', file as RcFile);
     });
@@ -179,6 +122,45 @@ function CreatePost() {
 
       <div className="uploadPhoto">
         <ImgCrop rotationSlider>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            // multiple={false}
+            // fileList={fileList}
+            // // onDrop={(e) => {
+            // //   const files = e.dataTransfer.files as unknown as UploadFile[];
+            // //   setFileList([...fileList, files[0]]);
+            // // }}
+            // onPreview={() => {
+            //   handlePreview
+            // }}
+            // onRemove={(file) => {
+            //   const index = fileList.indexOf(file);
+            //   const newFileList = fileList.slice();
+            //   newFileList.splice(index, 1);
+            //   setFileList(newFileList);
+            // }}
+            beforeUpload={(file) => {
+              setFileList([...fileList, file]);
+
+              return false;
+            }}
+          // onChange={handleChange}
+          >
+            {fileList.length >= 8 ? null :
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            }
+          </Upload>
+        </ImgCrop>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+        {/* <ImgCrop rotationSlider>
           <Dragger {...uploadProps}>
             <p className='ant-upload-drag-icon'><InboxOutlined /></p>
             <p className="ant-upload-text">Click or drag file to this area to upload.</p>
@@ -187,7 +169,7 @@ function CreatePost() {
 
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
+        </Modal> */}
       </div>
 
       <Divider />
@@ -223,7 +205,7 @@ function CreatePost() {
       >
         Share
       </Button>
-    </div>
+    </div >
   )
 }
 

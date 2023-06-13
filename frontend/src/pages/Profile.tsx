@@ -13,7 +13,7 @@ function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
     const [yourPhotos, setYourPhotos] = useState([] as PhotoData[])
 
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const { url } = useContext(UrlContext);
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Profile() {
 
     useEffect(() => {
         if (!(user && typeof (user) === "object")) {
-            navigate("/");
+            logout();
         }
     }, [user, navigate]);
 
@@ -64,7 +64,7 @@ function Profile() {
 
 
             <div className='profileInfo'>
-                <Text>Your photo:</Text>
+                <Title level={4}>Profile photo</Title>
                 <div className="profilePhoto">
                     {profilePhoto.map((element, index) => {
                         return (
