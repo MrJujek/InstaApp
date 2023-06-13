@@ -64,6 +64,9 @@ export let jsonController = {
                 for (let photo of photos) {
                     if (photo.user == lastEmail) {
                         photo.user = newEmail;
+
+                        const temp = photo.path.split(lastEmail);
+                        photo.path = temp[0] + newEmail + temp[1];
                     }
                 }
 
