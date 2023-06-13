@@ -100,7 +100,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (response.ok) {
             const data = await response.json();
-            console.log("asdasd", data);
 
             if (data.status) {
                 return data.data;

@@ -1,67 +1,38 @@
 import { useEffect, useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext'
 import UrlContext from '@/contexts/UrlContext';
 // import UploadPhoto from '@/components/UploadPhoto';
-import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider } from 'antd';
-import type { RcFile, UploadProps as UploadPropsInterface } from 'antd/es/upload';
+import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Image, Col, InputNumber, Row, Slider, Space } from 'antd';
+import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
 
 function CreatePost() {
-  const navigate = useNavigate();
   const { TextArea } = Input;
   const { Text, Title } = Typography;
-  const { Dragger } = Upload;
 
   const { user } = useAuth();
   const { url } = useContext(UrlContext);
 
-  const [photosToUpload, setPhotosToUpload] = useState<File[] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
   const [options, setOptions] = useState([] as SelectProps['options']);
   const [uploading, setUploading] = useState(false);
-
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [usedFilters, setUsedFilters] = useState<string>("original");
 
-  const handleCancel = () => setPreviewOpen(false);
-
-  const getBase64 = (file: RcFile): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-
-  const handlePreview = async (file: UploadFile) => {
-    console.log("handlePreview");
-
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
-
-  const handleChange: UploadPropsInterface['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  }
-
-  useEffect(() => {
-    console.log("fileList", fileList);
-  }, [fileList])
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [originalImage, setOriginalImage] = useState('');
 
   useEffect(() => {
     loadTags();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log("fileList", fileList);
+  }, [fileList]);
 
   async function loadTags() {
     const response = await fetch(url + "/tags", {
@@ -72,7 +43,6 @@ function CreatePost() {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log("data", data);
 
       setOptions(data.map((tag: { id: number, name: string, value: string }) => {
         return {
@@ -116,6 +86,12 @@ function CreatePost() {
     setTags(value)
   };
 
+  const [inputValue, setInputValue] = useState(100);
+
+  const onChange = (newValue: number) => {
+    setInputValue(newValue);
+  };
+
   return (
     <div className="createPost">
       <Title>Create post</Title>
@@ -125,29 +101,15 @@ function CreatePost() {
           <Upload
             listType="picture-card"
             fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-            // multiple={false}
-            // fileList={fileList}
-            // // onDrop={(e) => {
-            // //   const files = e.dataTransfer.files as unknown as UploadFile[];
-            // //   setFileList([...fileList, files[0]]);
-            // // }}
-            // onPreview={() => {
-            //   handlePreview
-            // }}
-            // onRemove={(file) => {
-            //   const index = fileList.indexOf(file);
-            //   const newFileList = fileList.slice();
-            //   newFileList.splice(index, 1);
-            //   setFileList(newFileList);
-            // }}
+            multiple={false}
             beforeUpload={(file) => {
+              setFilterOpen(true);
+              setOriginalImage(URL.createObjectURL(file));
+
               setFileList([...fileList, file]);
 
               return false;
             }}
-          // onChange={handleChange}
           >
             {fileList.length >= 8 ? null :
               <div>
@@ -157,19 +119,77 @@ function CreatePost() {
             }
           </Upload>
         </ImgCrop>
-        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-        {/* <ImgCrop rotationSlider>
-          <Dragger {...uploadProps}>
-            <p className='ant-upload-drag-icon'><InboxOutlined /></p>
-            <p className="ant-upload-text">Click or drag file to this area to upload.</p>
-          </Dragger>
-        </ImgCrop>
 
-        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal> */}
+        <Modal
+          open={filterOpen}
+          title={"Choose filter"}
+          cancelText="Delete photo"
+          okText="Save filter"
+          onOk={() => {
+            setFilterOpen(false);
+            setUsedFilters("original");
+          }}
+          onCancel={() => {
+            setFilterOpen(false);
+            setFileList(fileList.slice(0, -1));
+            setUsedFilters("original");
+          }}
+        >
+          <>
+            <div className='imagePreview'>
+              <Image alt="example" style={{ width: '100%', filter: usedFilters != "original" ? usedFilters + "(" + inputValue + "%)" : "" }} src={originalImage} />
+            </div>
+
+            <Divider />
+
+            <div className="filters">
+              <div className='filterButtons'>
+                <Button onClick={() => {
+                  setUsedFilters("original");
+                }}>Original</Button>
+
+                <Button onClick={() => {
+                  setUsedFilters("grayscale");
+
+                }}>Grayscale</Button>
+
+                <Button onClick={() => {
+                  setUsedFilters("invert");
+                }}>Invert</Button>
+
+                <Button onClick={() => {
+                  setUsedFilters("saturate");
+                }}>Saturate</Button>
+
+                <Button onClick={() => {
+                  setUsedFilters("contrast");
+                }}>Contrast</Button>
+              </div>
+
+              <Row style={{ width: "100%" }}>
+                <Col span={16}>
+                  <Slider
+                    min={1}
+                    max={100}
+                    onChange={onChange}
+                    value={typeof inputValue === 'number' ? inputValue : 0}
+                  />
+                </Col>
+                <Col span={4}>
+                  <InputNumber
+                    min={1}
+                    max={100}
+                    style={{ margin: '0 16px' }}
+                    value={inputValue}
+                    onChange={onChange}
+                  />
+                </Col>
+              </Row>
+            </div>
+
+            <Divider />
+          </>
+        </Modal>
       </div>
 
       <Divider />
