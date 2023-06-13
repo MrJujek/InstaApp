@@ -88,8 +88,8 @@ function CreatePost() {
 
   const [inputValue, setInputValue] = useState(100);
 
-  const onChange = (newValue: number) => {
-    setInputValue(newValue);
+  const onChange = (newValue: number | null) => {
+    setInputValue(Number(newValue));
   };
 
   return (

@@ -53,35 +53,36 @@ function Profile() {
         }
     }
 
-    console.log(user);
-
-
     return (
         <div className='profile'>
             <Title>Profile</Title>
 
-            <ProfileData></ProfileData>
-
-
             <div className='profileInfo'>
-                <Title level={4}>Profile photo</Title>
-                <div className="profilePhoto">
-                    {profilePhoto.map((element, index) => {
-                        return (
-                            <Image
-                                key={index}
-                                width={200}
-                                src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
-                                preview={false}
-                            />
-                        )
-                    })}
+                <div className='profilePhotoData'>
+                    <Title level={4}>Profile photo</Title>
+
+                    <div className="profilePhoto">
+                        {profilePhoto.map((element, index) => {
+                            return (
+                                <Image
+                                    key={index}
+                                    width={200}
+                                    src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
+                                    preview={false}
+                                />
+                            )
+                        })}
+
+                        <UploadProfilePhoto loadPhotos={loadPhotos} />
+                    </div>
                 </div>
 
-                <UploadProfilePhoto loadPhotos={loadPhotos} />
-
-                <LogoutButton />
+                <ProfileData />
             </div>
+
+            <Divider />
+
+            <LogoutButton />
 
             <Divider />
 

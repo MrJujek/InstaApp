@@ -51,8 +51,6 @@ function Post(props: { data: PhotoData }) {
             console.log("fetchData", fetchData);
             console.log("user", user);
 
-
-
             setProfilePhoto(fetchData.filter((element: PhotoData) => element.user === user!.email && element.profile === true)[0]);
         }
     }
@@ -83,7 +81,7 @@ function Post(props: { data: PhotoData }) {
                                 width={50}
                                 src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}
                             />
-                            {/* <img className='profilePhoto' alt='profilePhoto' src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}></img> */}
+
                             <Text style={{ marginLeft: "20px" }}>{data.user}</Text>
                         </div>
                     }
@@ -99,7 +97,7 @@ function Post(props: { data: PhotoData }) {
                             <span>{data.path}</span>
                             <span>{data.user}</span>
                             <span>Profilowe? {String(data.profile)}</span>
-                            <span>{data.tags.map((tag) => tag.name)}</span>
+                            <span>{data.tags.map((tag) => { return tag.name })}</span>
                         </div>
 
                         {data.history.map((element, index) => {

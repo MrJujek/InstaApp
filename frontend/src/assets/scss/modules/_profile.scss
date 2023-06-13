@@ -8,7 +8,37 @@ div.profile {
         margin-bottom: 15px;
     }
 
-    img {
-        width: 50px;
+    div.profileInfo {
+        display: flex;
+        flex-direction: row;
+
+        div.profileData {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px;
+
+            button {
+                margin-top: 30px;
+            }
+        }
+
+        div.profilePhotoData {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px;
+
+            .UploadProfilePhoto {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
     }
 }
