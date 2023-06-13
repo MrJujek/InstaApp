@@ -1,8 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import UrlContext from '@/contexts/UrlContext';
-// import UploadPhoto from '@/components/UploadPhoto';
-import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Image, Col, InputNumber, Row, Slider, Space } from 'antd';
+import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Image, Col, InputNumber, Row, Slider } from 'antd';
 import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PlusOutlined } from '@ant-design/icons';
@@ -12,7 +11,7 @@ function CreatePost() {
   const { TextArea } = Input;
   const { Text, Title } = Typography;
 
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { url } = useContext(UrlContext);
 
   const [tags, setTags] = useState<string[]>([]);
@@ -31,8 +30,11 @@ function CreatePost() {
   }, []);
 
   useEffect(() => {
-    console.log("fileList", fileList);
-  }, [fileList]);
+    if (!(user && typeof (user) === "object")) {
+      logout();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   async function loadTags() {
     const response = await fetch(url + "/tags", {

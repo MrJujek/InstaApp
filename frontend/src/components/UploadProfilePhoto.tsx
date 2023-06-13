@@ -20,8 +20,8 @@ function UploadProfilePhoto({ loadPhotos }: { loadPhotos: () => void }) {
         });
         formData.append("user", user!.email)
         formData.append("photoType", "profile")
-        formData.append("description", '');
-        formData.append("tags", '')
+        formData.append("description", '[]');
+        formData.append("tags", '[]')
         setUploading(true);
 
         console.log("fileList", fileList);

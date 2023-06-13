@@ -2,9 +2,10 @@ import { useState, useEffect, useContext } from 'react'
 import { PhotoData } from '@/components/Post'
 import { useParams } from 'react-router-dom';
 import UrlContext from '@/contexts/UrlContext';
+import { Card, Image, Typography, Tag } from 'antd';
 
 function ShowPost() {
-    console.log("ShowPost");
+    const { Text, Title } = Typography;
 
     const { id } = useParams();
     const { url } = useContext(UrlContext);
@@ -44,44 +45,64 @@ function ShowPost() {
         }
     }
 
+    const showThisAuthor = () => {
+        console.log();
+
+        // if (!data.profile) {
+        //     navigate("/user/" + data.id);
+        // }
+    }
+
     return (
-        <div className='showPost'>
-            {userProfile &&
-                <div className='postProfile'>
-                    <img alt="Photo" src={"/api/photos/show/" + userProfile.id}></img>
-                    <div>{post.user}</div>
-                </div>
-            }
-            <br />
-            <div className="photo">
-                {post.id &&
-                    <img alt="Photo" src={"/api/photos/show/" + post.id}></img>
-                }
-                {"ID:" + post.id}
-                {post.name}
-                {post.type}
-                {post.path}
-                {post.user}
-                {post.profile}
-                {post.history && post.history.map((element, index) => {
-                    return (
-                        <div key={index}>
-                            <div>{(element.date).toString()}</div>
-                            <div>{element.status}</div>
+        <>
+            <Card className="post" title={
+                <>
+                    {userProfile &&
+                        <div className='postAuthor' onClick={() => showThisAuthor()}>
+                            <Image
+                                className='profilePhoto'
+                                preview={false}
+                                width={50}
+                                src={url + "/photos/show/" + userProfile.id + "?t=" + new Date().getTime()}
+                            />
+
+                            <Text style={{ marginLeft: "20px" }}>{userProfile.user}</Text>
                         </div>
-                    )
-                })}
-                {post.tags && post.tags.map((element, index) => {
-                    return (
-                        <div key={index}>
-                            <div>{element.id}</div>
-                            <div>{element.name}</div>
-                            <div>{element.popularity}</div>
-                        </div>
-                    )
-                })}
-            </div>
-        </div>
+                    }
+                </>
+            }>
+                <>
+                    <div className='postContent'>
+                        <Image
+                            alt="Photo"
+                            src={url + "/photos/show/" + post.id + "?t=" + new Date().getTime()}
+                            width={400}
+                            style={{ borderRadius: "10px" }}
+                        />
+
+                        {post.tags && post.description &&
+                            <>
+                                <div className="tags">
+                                    <Title level={5}>Tags:</Title>
+                                    <div>
+                                        {post.tags.map((tag, index) => (
+                                            <Tag key={index}>#{tag}</Tag>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="description">
+                                    <Title level={5}>Description:</Title>
+                                    <div>
+                                        {...post.description.join("").split("\n")}
+                                    </div>
+                                </div>
+                            </>
+                        }
+                    </div>
+                </>
+            </Card>
+        </>
     )
 }
 

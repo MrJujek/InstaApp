@@ -2,17 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import UrlContext from '@/contexts/UrlContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Card, Image, Typography } from 'antd';
+import { Card, Image, Typography, Tag } from 'antd';
 
 interface ModificationHistory {
     date: Date;
     status: string;
-}
-
-interface TagsObject {
-    id: number;
-    name: string;
-    popularity: number;
 }
 
 export interface PhotoData {
@@ -23,7 +17,8 @@ export interface PhotoData {
     user: string;
     profile: boolean;
     history: ModificationHistory[];
-    tags: TagsObject[];
+    tags: string[];
+    description: string[];
 }
 
 function Post(props: { data: PhotoData }) {
@@ -32,7 +27,7 @@ function Post(props: { data: PhotoData }) {
     const { user } = useAuth();
 
     const navigate = useNavigate();
-    const { Text } = Typography;
+    const { Text, Title } = Typography;
 
     const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
 
@@ -88,36 +83,35 @@ function Post(props: { data: PhotoData }) {
                 </>
             }>
                 <>
-                    <div className='postContent' onClick={() => showThisPost()}>
-                        <img alt="Photo" src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}></img>
+                    <div className='postContent'>
+                        <Image
+                            alt="Photo"
+                            src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}
+                            width={400}
+                            style={{ borderRadius: "10px" }}
+                            onClick={() => showThisPost()}
+                        />
 
-                        <div className="photoData">
-                            <span>{data.name}</span>
-                            <span>{data.type}</span>
-                            <span>{data.path}</span>
-                            <span>{data.user}</span>
-                            <span>Profilowe? {String(data.profile)}</span>
-                            <span>{data.tags.map((tag) => { return tag.name })}</span>
+                        {/* <div className="tags">
+                            {data.tags.map((tag) => (
+                                <Tag>#{tag}</Tag>
+                            ))}
+                        </div> */}
+                        <div className="tags">
+                            <Title level={5}>Tags:</Title>
+                            <div>
+                                {data.tags.map((tag, index) => (
+                                    <Tag key={index}>#{tag}</Tag>
+                                ))}
+                            </div>
                         </div>
 
-                        {data.history.map((element, index) => {
-                            return (
-                                <div key={index}>
-                                    <div>{(element.date).toString()}</div>
-                                    <div>{element.status}</div>
-                                </div>
-                            )
-                        })}
-
-                        {data.tags.map((element, index) => {
-                            return (
-                                <div key={index}>
-                                    <div>{element.id}</div>
-                                    <div>{element.name}</div>
-                                    <div>{element.popularity}</div>
-                                </div>
-                            )
-                        })}
+                        <div className="description">
+                            <Title level={5}>Description:</Title>
+                            <div>
+                                {data.description}
+                            </div>
+                        </div>
                     </div>
                 </>
             </Card>

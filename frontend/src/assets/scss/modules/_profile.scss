@@ -11,6 +11,7 @@ div.profile {
     div.profileInfo {
         display: flex;
         flex-direction: row;
+        min-height: 330px;
 
         div.profileData {
             height: 100%;
@@ -19,10 +20,6 @@ div.profile {
             align-items: center;
             justify-content: center;
             width: 250px;
-
-            button {
-                margin-top: 30px;
-            }
         }
 
         div.profilePhotoData {
@@ -31,6 +28,7 @@ div.profile {
             align-items: center;
             justify-content: center;
             width: 250px;
+            height: 100%;
 
             .UploadProfilePhoto {
                 display: flex;

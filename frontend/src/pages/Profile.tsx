@@ -1,12 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import LogoutButton from '@/components/LogoutButton';
-import UploadPhoto from '@/components/UploadPhoto';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
-import { Divider, Typography, Image, Button } from 'antd';
+import { Divider, Typography, Image } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
-import { useNavigate } from 'react-router-dom';
 import ProfileData from '@/components/ProfileData';
 
 function Profile() {
@@ -15,26 +13,20 @@ function Profile() {
 
     const { user, logout } = useAuth();
     const { url } = useContext(UrlContext);
-    const navigate = useNavigate();
 
-    const { Title, Text, Paragraph } = Typography;
+    const { Title } = Typography;
 
     useEffect(() => {
         if (!(user && typeof (user) === "object")) {
             logout();
         }
-    }, [user, navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
 
     useEffect(() => {
         loadPhotos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        console.log("profile photo changed");
-        console.log(profilePhoto);
-    }, [profilePhoto]);
-
 
     async function loadPhotos() {
         console.log('load photos');
@@ -69,6 +61,7 @@ function Profile() {
                                     width={200}
                                     src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
                                     preview={false}
+                                    style={{ borderRadius: "10px" }}
                                 />
                             )
                         })}

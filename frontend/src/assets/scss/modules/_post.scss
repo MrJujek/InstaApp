@@ -15,4 +15,28 @@
             margin-right: 24px;
         }
     }
+
+    .postContent {
+        .tags {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(82, 82, 82, 0.253);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .description {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(82, 82, 82, 0.253);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+
+            div {
+                display: block;
+            }
+        }
+    }
 }
