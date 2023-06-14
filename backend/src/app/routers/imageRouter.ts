@@ -7,6 +7,8 @@ import { updateJSON } from "../model/model";
 import { tagsController } from "../controllers/tagsController";
 
 export const imageRouter = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+    console.log("IMAGE ROUTER");
+
     switch (req.method) {
         case "GET":
             checkGET();
@@ -66,6 +68,7 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
     async function checkPOST() {
         if (req.url == "/photos") {
             console.log("ADD PHOTO");
+            console.log("----------------------------------------------------------------------");
 
             let data = await fileController.uploadFile(req, res);
 

@@ -6,6 +6,7 @@ import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
+import { usePhotos } from '@/contexts/PhotosContext';
 
 function CreatePost() {
   const { TextArea } = Input;
@@ -13,6 +14,7 @@ function CreatePost() {
 
   const { user, logout } = useAuth();
   const { url } = useContext(UrlContext);
+  const { loadAllPhotos } = usePhotos();
 
   const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
@@ -75,6 +77,8 @@ function CreatePost() {
       .then(() => {
         setFileList([]);
         message.success('Upload successfully.');
+
+        loadAllPhotos();
       })
       .catch(() => {
         message.error('Upload failed.');

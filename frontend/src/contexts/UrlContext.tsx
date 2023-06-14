@@ -1,7 +1,7 @@
 import React from 'react';
 
 const UrlContext = React.createContext({
-    url: 'https://dev.juliandworzycki.pl/api'
+    url: 'http://localhost:5000'
 } as { url: string });
 
 export default UrlContext;

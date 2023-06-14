@@ -14,7 +14,7 @@ interface Upload {
 
 export let fileController = {
     async uploadFile(req: http.IncomingMessage, res: http.ServerResponse) {
-        console.log("uploadFile");
+        console.log("fileController - uploadFile");
 
         return new Promise<Upload>((resolve, reject) => {
             try {
@@ -29,21 +29,16 @@ export let fileController = {
 
                     console.log("fields", fields);
 
-
                     const { user, photoType, tags, description } = fields;
                     const { file } = files;
-
-                    console.log("user", user);
-                    console.log("photoType", photoType);
-                    console.log("tags", tags);
-                    console.log("description", description);
-
 
                     const fileArray = Array.isArray(file) ? file : [file];
 
                     await fileController.moveFile(fileArray, user.toString());
 
                     if (photoType == "profile") {
+                        console.log("profile photo");
+
                         jsonController.deleteProfilePhoto(user.toString());
                     }
 
@@ -64,24 +59,21 @@ export let fileController = {
     },
 
     async moveFile(fileArray: formidable.File[], user: string) {
-        console.log("moveFile");
+        console.log("fileController - moveFile");
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 if (!fs.existsSync("./files/" + user)) {
                     fs.mkdirSync("./files/" + user);
                 }
 
-                console.log("fileArray", fileArray);
-
-
                 for (const file of fileArray) {
-                    fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {
+                    await fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {
                         if (err) console.log(err);
-
-                        resolve(fileArray);
                     });
                 }
+
+                await resolve(fileArray);
             } catch (error) {
                 reject(error);
             }
@@ -89,13 +81,14 @@ export let fileController = {
     },
 
     async deleteFile(id: number) {
-        console.log("deleteFile");
+        console.log("fileController - deleteFile");
 
         return new Promise((resolve, reject) => {
             try {
                 if (jsonController.getOnePhoto(id)) {
-                    if (fs.existsSync(jsonController.getOnePhoto(id).path)) {
-                        fs.unlink(jsonController.getOnePhoto(id).path, (err) => {
+                    const path = jsonController.getOnePhoto(id).path;
+                    if (fs.existsSync(path)) {
+                        fs.unlink(path, (err) => {
                             if (err) throw (err);
 
                             resolve("File removed from array");
@@ -109,7 +102,7 @@ export let fileController = {
     },
 
     async createDefaultProfilePhoto(user: string) {
-        console.log("createDefaultProfilePhoto");
+        console.log("fileController - createDefaultProfilePhoto");
 
         return new Promise(async (resolve, reject) => {
             try {
@@ -148,7 +141,7 @@ export let fileController = {
     },
 
     async renameFiles(lastEmail: string, newEmail: string) {
-        console.log("renameFiles");
+        console.log("fileController - renameFiles");
 
         return new Promise((resolve, reject) => {
             try {

@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import UrlContext from '@/contexts/UrlContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, Image, Typography, Tag } from 'antd';
+import { usePhotos } from '@/contexts/PhotosContext';
 
 interface ModificationHistory {
     date: Date;
@@ -25,6 +26,7 @@ function Post(props: { data: PhotoData }) {
     const { data } = props;
     const { url } = useContext(UrlContext);
     const { user } = useAuth();
+    const { allPhotos } = usePhotos();
 
     const navigate = useNavigate();
     const { Text, Title } = Typography;
@@ -32,23 +34,11 @@ function Post(props: { data: PhotoData }) {
     const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
 
     useEffect(() => {
-        loadProfilePhoto();
+        console.log("post - current user", user);
+
+        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.user === user!.email && element.profile === true)[0]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    async function loadProfilePhoto() {
-        const response = await fetch(url + "/photos", {
-            method: "GET"
-        });
-        if (response.ok) {
-            const fetchData = await response.json();
-
-            console.log("fetchData", fetchData);
-            console.log("user", user);
-
-            setProfilePhoto(fetchData.filter((element: PhotoData) => element.user === user!.email && element.profile === true)[0]);
-        }
-    }
 
     const showThisPost = () => {
         if (!data.profile) {
@@ -92,11 +82,6 @@ function Post(props: { data: PhotoData }) {
                             onClick={() => showThisPost()}
                         />
 
-                        {/* <div className="tags">
-                            {data.tags.map((tag) => (
-                                <Tag>#{tag}</Tag>
-                            ))}
-                        </div> */}
                         <div className="tags">
                             <Title level={5}>Tags:</Title>
                             <div>

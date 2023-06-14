@@ -73,7 +73,6 @@ export let tagsController = {
             if (!tagsRaw.includes(tag)) {
                 tagsController.addNewTag(tag)
                 console.log("dodaje taga", tag);
-
             }
         });
 
@@ -81,9 +80,11 @@ export let tagsController = {
             tags.forEach(tag => {
                 if (tagObject.name == tag) {
                     tagObject.popularity++;
-                    return
+                    return tagObject;
                 }
             })
         })
+
+        return tagsObjects;
     }
 }

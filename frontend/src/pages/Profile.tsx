@@ -3,9 +3,10 @@ import LogoutButton from '@/components/LogoutButton';
 import Post, { PhotoData } from '../components/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
-import { Divider, Typography, Image } from 'antd';
+import { Divider, Typography } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
 import ProfileData from '@/components/ProfileData';
+import { usePhotos } from '@/contexts/PhotosContext';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -13,6 +14,7 @@ function Profile() {
 
     const { user, logout } = useAuth();
     const { url } = useContext(UrlContext);
+    const { allPhotos, loadAllPhotos } = usePhotos();
 
     const { Title } = Typography;
 
@@ -24,26 +26,14 @@ function Profile() {
     }, [user]);
 
     useEffect(() => {
-        loadPhotos();
+        loadAllPhotos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    async function loadPhotos() {
-        console.log('load photos');
-
-        const response = await fetch(url + "/photos", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        if (response.ok) {
-            const data = await response.json();
-
-            setYourPhotos(data.filter((element: PhotoData) => !element.profile && element.user === user?.email));
-            setProfilePhoto(data.filter((element: PhotoData) => element.profile && element.user === user?.email));
-        }
-    }
+    useEffect(() => {
+        setYourPhotos(allPhotos.filter((element: PhotoData) => element.profile != true && element.user === user?.email));
+        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.profile == true && element.user === user?.email));
+    }, [allPhotos]);
 
     return (
         <div className='profile'>
@@ -56,17 +46,15 @@ function Profile() {
                     <div className="profilePhoto">
                         {profilePhoto.map((element, index) => {
                             return (
-                                <Image
+                                <img
                                     key={index}
-                                    width={200}
                                     src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
-                                    preview={false}
-                                    style={{ borderRadius: "10px" }}
+                                    style={{ borderRadius: "10px", width: "200px" }}
                                 />
                             )
                         })}
 
-                        <UploadProfilePhoto loadPhotos={loadPhotos} />
+                        <UploadProfilePhoto />
                     </div>
                 </div>
 

@@ -5,26 +5,27 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
+import { usePhotos } from '@/contexts/PhotosContext';
 
-function UploadProfilePhoto({ loadPhotos }: { loadPhotos: () => void }) {
+function UploadProfilePhoto() {
     const { user } = useAuth();
     const { url } = useContext(UrlContext);
+    const { loadAllPhotos } = usePhotos();
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [uploading, setUploading] = useState(false);
 
     const handleUpload = async () => {
+        setUploading(true);
+
         const formData = new FormData();
         fileList.forEach((file) => {
             formData.append('file', file as RcFile);
         });
         formData.append("user", user!.email)
         formData.append("photoType", "profile")
-        formData.append("description", '[]');
+        formData.append("description", '');
         formData.append("tags", '[]')
-        setUploading(true);
-
-        console.log("fileList", fileList);
 
         await fetch(url + "/photos", {
             method: "POST",
@@ -34,13 +35,14 @@ function UploadProfilePhoto({ loadPhotos }: { loadPhotos: () => void }) {
             .then(() => {
                 setFileList([]);
                 message.success('Upload successfully.');
+
+                loadAllPhotos();
             })
             .catch(() => {
                 message.error('Upload failed.');
             })
             .finally(() => {
                 setUploading(false);
-                loadPhotos();
             });
     };
 

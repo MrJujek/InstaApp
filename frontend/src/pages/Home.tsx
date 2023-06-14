@@ -1,16 +1,18 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import Post, { PhotoData } from "@/components/Post";
-import UrlContext from "@/contexts/UrlContext";
 import { Typography, Button, Empty } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePhotos } from "@/contexts/PhotosContext";
 
 function Home() {
-    const [photos, setPhotos] = useState([] as PhotoData[])
-    const { url } = useContext(UrlContext);
     const { user, logout } = useAuth();
+    const { allPhotos, loadAllPhotos } = usePhotos();
+
     const navigate = useNavigate();
     const { Text, Title } = Typography;
+
+    const [photos, setPhotos] = useState([] as PhotoData[])
 
     useEffect(() => {
         if (!(user && typeof (user) === "object")) {
@@ -19,25 +21,13 @@ function Home() {
     }, [user, navigate]);
 
     useEffect(() => {
-        console.log("useEffect Home -> loadPhotos");
-
-        loadPhotos();
+        loadAllPhotos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    async function loadPhotos() {
-        const response = await fetch(url + "/photos", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        if (response.ok) {
-            const data = await response.json();
-
-            setPhotos(data.filter((element: PhotoData) => element.profile === false));
-        }
-    }
+    useEffect(() => {
+        setPhotos(allPhotos.filter((element: PhotoData) => element.profile === false));
+    }, [allPhotos]);
 
     return (
         <div className="home">

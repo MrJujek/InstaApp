@@ -8,8 +8,6 @@ export let jsonController = {
     },
 
     getOnePhoto: (id: number) => {
-        console.log(photos.filter((photo) => photo.id == id));
-
         return photos.filter((photo) => photo.id == id)[0];
     },
 
@@ -31,9 +29,6 @@ export let jsonController = {
         photos.splice(photos.indexOf(photos.filter((photo) => photo.id == id)[0]), 1);
     },
 
-    patchPhoto: (id: number, photo: Photo) => {
-    },
-
     getTagsFromPhoto: (id: number) => {
         return photos.filter((photo) => photo.id == id)[0].tags;
     },
@@ -49,15 +44,21 @@ export let jsonController = {
     },
 
     deleteProfilePhoto: (user: string) => {
+        console.log("jsonController - deleteProfilePhoto", user);
+
         photos.filter((photo) => photo.user == user && photo.profile == true).forEach((photo) => {
             photo.profile = false;
 
             jsonController.deletePhoto(photo.id);
+
+            return
         });
+
+        return
     },
 
     async renameFiles(lastEmail: string, newEmail: string) {
-        console.log("renameFiles");
+        console.log("jsonController - renameFiles");
 
         return new Promise((resolve, reject) => {
             try {
