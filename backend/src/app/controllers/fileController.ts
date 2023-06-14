@@ -10,6 +10,7 @@ interface Upload {
     isProfilePhoto: boolean;
     description: string[];
     tags: string;
+    filter?: string;
 }
 
 export let fileController = {
@@ -29,10 +30,30 @@ export let fileController = {
 
                     console.log("fields", fields);
 
-                    const { user, photoType, tags, description } = fields;
+                    const { user, photoType, tags, description, filter } = fields;
                     const { file } = files;
 
                     const fileArray = Array.isArray(file) ? file : [file];
+
+                    // zmiana koloru obrazka sharp js
+                    // original grayscale invert saturate contrast
+                    let filterName = String(filter).split("|")[0];
+                    let filterValue = String(filter).split("|")[1];
+                    console.log("filterName", filterName);
+                    console.log("filterValue", filterValue);
+
+                    switch (filterName) {
+                        case "original":
+                            break;
+                        case "grayscale":
+                            break;
+                        case "invert":
+                            break;
+                        case "saturate":
+                            break;
+                        case "contrast":
+                            break;
+                    }
 
                     await fileController.moveFile(fileArray, user.toString());
 
@@ -50,6 +71,7 @@ export let fileController = {
                         isProfilePhoto: photoType == "profile" ? true : false,
                         description: [...description],
                         tags: tags.toString(),
+                        filter: filter ? filter.toString() : undefined
                     });
                 });
             } catch (error) {

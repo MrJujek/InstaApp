@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import UrlContext from '@/contexts/UrlContext';
-import { useAuth } from '@/contexts/AuthContext';
 import { Card, Image, Typography, Tag } from 'antd';
 import { usePhotos } from '@/contexts/PhotosContext';
 
@@ -25,7 +24,6 @@ export interface PhotoData {
 function Post(props: { data: PhotoData }) {
     const { data } = props;
     const { url } = useContext(UrlContext);
-    const { user } = useAuth();
     const { allPhotos } = usePhotos();
 
     const navigate = useNavigate();
@@ -34,9 +32,7 @@ function Post(props: { data: PhotoData }) {
     const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
 
     useEffect(() => {
-        console.log("post - current user", user);
-
-        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.user === user!.email && element.profile === true)[0]);
+        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.user === data.user && element.profile === true)[0]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -58,7 +54,7 @@ function Post(props: { data: PhotoData }) {
         <>
             <Card className="post" title={
                 <>
-                    {profilePhoto &&
+                    {profilePhoto && profilePhoto.id &&
                         <div className='postAuthor' onClick={() => showThisAuthor()}>
                             <Image
                                 className='profilePhoto'
@@ -73,36 +69,36 @@ function Post(props: { data: PhotoData }) {
                 </>
             }>
                 <>
-                    <div className='postContent'>
-                        <Image
-                            alt="Photo"
-                            src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}
-                            width={400}
-                            style={{ borderRadius: "10px" }}
-                            onClick={() => showThisPost()}
-                        />
+                    {data.id &&
+                        <div className='postContent'>
+                            <Image
+                                alt="Photo"
+                                src={url + "/photos/show/" + data.id + "?t=" + new Date().getTime()}
+                                width={400}
+                                style={{ borderRadius: "10px" }}
+                                onClick={() => showThisPost()}
+                            />
 
-                        <div className="tags">
-                            <Title level={5}>Tags:</Title>
-                            <div>
-                                {data.tags.map((tag, index) => (
-                                    <Tag key={index}>#{tag}</Tag>
-                                ))}
+                            <div className="tags">
+                                <Title level={5}>Tags:</Title>
+                                <div>
+                                    {data.tags.map((tag, index) => (
+                                        <Tag key={index}>#{tag}</Tag>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="description">
+                                <Title level={5}>Description:</Title>
+                                <div>
+                                    {data.description}
+                                </div>
                             </div>
                         </div>
-
-                        <div className="description">
-                            <Title level={5}>Description:</Title>
-                            <div>
-                                {data.description}
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </>
             </Card>
         </>
-
-
     )
 }
 

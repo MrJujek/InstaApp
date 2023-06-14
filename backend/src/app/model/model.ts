@@ -16,6 +16,7 @@ export interface Photo {
     history: ModificationHistory[];
     tags: TagsObject[];
     description: string[];
+    filter?: string;
 }
 
 export interface TagsObject {

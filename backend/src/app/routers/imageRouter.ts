@@ -67,12 +67,11 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
 
     async function checkPOST() {
         if (req.url == "/photos") {
-            console.log("ADD PHOTO");
-            console.log("----------------------------------------------------------------------");
+            console.log("---------------------------ADD PHOTO---------------------------");
 
             let data = await fileController.uploadFile(req, res);
 
-            let { fileArray, user, isProfilePhoto, tags, description } = data;
+            let { fileArray, user, isProfilePhoto, tags, description, filter } = data;
 
             if (tags) {
                 tagsController.updateTags(JSON.parse(tags))
@@ -97,7 +96,8 @@ export const imageRouter = async (req: http.IncomingMessage, res: http.ServerRes
                         }
                     ],
                     tags: JSON.parse(tags),
-                    description: description
+                    description: description,
+                    filter: filter
                 });
             }
 

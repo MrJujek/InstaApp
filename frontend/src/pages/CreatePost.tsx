@@ -21,7 +21,9 @@ function CreatePost() {
   const [options, setOptions] = useState([] as SelectProps['options']);
   const [uploading, setUploading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([])
-  const [usedFilters, setUsedFilters] = useState<string>("original");
+
+  const [usedFilter, setUsedFilter] = useState<string>("original");
+  const [inputValue, setInputValue] = useState(100);
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [originalImage, setOriginalImage] = useState('');
@@ -57,6 +59,10 @@ function CreatePost() {
     }
   }
 
+  useEffect(() => {
+    console.log(usedFilter, inputValue);
+  }, [usedFilter, inputValue]);
+
   async function sharePost() {
     setUploading(true);
 
@@ -68,6 +74,7 @@ function CreatePost() {
     formData.append("photoType", "photo")
     formData.append("tags", JSON.stringify(tags))
     formData.append("description", description)
+    formData.append("filter", usedFilter + "|" + inputValue)
 
     fetch(url + "/photos", {
       method: "POST",
@@ -92,8 +99,6 @@ function CreatePost() {
     setTags(value)
   };
 
-  const [inputValue, setInputValue] = useState(100);
-
   const onChange = (newValue: number | null) => {
     setInputValue(Number(newValue));
   };
@@ -117,7 +122,7 @@ function CreatePost() {
               return false;
             }}
           >
-            {fileList.length >= 8 ? null :
+            {fileList.length >= 1 ? null :
               <div>
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Upload</div>
@@ -133,17 +138,17 @@ function CreatePost() {
           okText="Save filter"
           onOk={() => {
             setFilterOpen(false);
-            setUsedFilters("original");
+            setUsedFilter("original");
           }}
           onCancel={() => {
             setFilterOpen(false);
             setFileList(fileList.slice(0, -1));
-            setUsedFilters("original");
+            setUsedFilter("original");
           }}
         >
           <>
             <div className='imagePreview'>
-              <Image alt="example" style={{ width: '100%', filter: usedFilters != "original" ? usedFilters + "(" + inputValue + "%)" : "" }} src={originalImage} />
+              <Image alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
             </div>
 
             <Divider />
@@ -151,24 +156,24 @@ function CreatePost() {
             <div className="filters">
               <div className='filterButtons'>
                 <Button onClick={() => {
-                  setUsedFilters("original");
+                  setUsedFilter("original");
                 }}>Original</Button>
 
                 <Button onClick={() => {
-                  setUsedFilters("grayscale");
+                  setUsedFilter("grayscale");
 
                 }}>Grayscale</Button>
 
                 <Button onClick={() => {
-                  setUsedFilters("invert");
+                  setUsedFilter("invert");
                 }}>Invert</Button>
 
                 <Button onClick={() => {
-                  setUsedFilters("saturate");
+                  setUsedFilter("saturate");
                 }}>Saturate</Button>
 
                 <Button onClick={() => {
-                  setUsedFilters("contrast");
+                  setUsedFilter("contrast");
                 }}>Contrast</Button>
               </div>
 

@@ -1,10 +1,12 @@
 import { useEffect, useContext, useState } from 'react'
 import { Typography } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
+import { usePhotos } from '@/contexts/PhotosContext';
 
 function Popular() {
-    const { Title } = Typography
+    const { Title, Text } = Typography
     const { url } = useContext(UrlContext);
+    const { allPhotos } = usePhotos();
 
     const [popularTags, setPopularTags] = useState<{ id: number, name: string, popularity: number }[]>([])
 
@@ -12,6 +14,11 @@ function Popular() {
         loadPopularTags();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        loadPopularTags();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [allPhotos])
 
     async function loadPopularTags() {
         const response = await fetch(url + "/tags", {
@@ -41,7 +48,7 @@ function Popular() {
                 popularTags.map((tag, index) => {
                     return (
                         <div key={index}>
-                            #{tag.name} - {tag.popularity}
+                            <Text>#{tag.name} - {tag.popularity}</Text>
                         </div>
                     )
                 })
