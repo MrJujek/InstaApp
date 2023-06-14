@@ -3,6 +3,7 @@ import formidable from "formidable";
 import * as fs from "fs";
 import { jsonController } from "./jsonController";
 import { updateJSON } from "../model/model";
+import sharp from "sharp";
 
 interface Upload {
     fileArray: formidable.File[];
@@ -42,18 +43,39 @@ export let fileController = {
                     console.log("filterName", filterName);
                     console.log("filterValue", filterValue);
 
-                    switch (filterName) {
-                        case "original":
-                            break;
-                        case "grayscale":
-                            break;
-                        case "invert":
-                            break;
-                        case "saturate":
-                            break;
-                        case "contrast":
-                            break;
+                    for (const file of fileArray) {
+                        console.log("file", file);
                     }
+
+                    // switch (filterName) {
+                    //     case "original":
+                    //         return new Promise(async (resolve, reject) => {
+                    //             try {
+                    //                 if (!fs.existsSync("./files/" + user)) {
+                    //                     fs.mkdirSync("./files/" + user);
+                    //                 }
+
+                    //                 for (const file of fileArray) {
+                    //                     await fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {
+                    //                         if (err) console.log(err);
+                    //                     });
+                    //                 }
+
+                    //                 await resolve(fileArray);
+                    //             } catch (error) {
+                    //                 reject(error);
+                    //             }
+                    //         })
+                    //         break;
+                    //     case "grayscale":
+                    //         break;
+                    //     case "invert":
+                    //         break;
+                    //     case "saturate":
+                    //         break;
+                    //     case "contrast":
+                    //         break;
+                    // }
 
                     await fileController.moveFile(fileArray, user.toString());
 
