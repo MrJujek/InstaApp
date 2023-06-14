@@ -72,13 +72,16 @@ function Profile() {
             <Divider />
 
             <Title level={3}>Your posts:</Title>
-            <div className="photos">
-                {yourPhotos.map((element, index) => {
-                    return (
-                        <Post key={index} data={element} profileId={profilePhoto[0].id} />
-                    )
-                })}
-            </div>
+
+            {profilePhoto && profilePhoto.length > 0 && profilePhoto[0].id &&
+                <div className="photos">
+                    {yourPhotos.map((element, index) => {
+                        return (
+                            <Post key={index} data={element} profileId={profilePhoto[0].id} />
+                        )
+                    })}
+                </div>
+            }
         </div>
     )
 }

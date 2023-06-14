@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import UrlContext from '@/contexts/UrlContext';
-import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Col, InputNumber, Row, Slider } from 'antd';
+import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider } from 'antd';
 import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PlusOutlined } from '@ant-design/icons';
@@ -86,6 +86,8 @@ function CreatePost() {
         message.error('Upload failed.');
       })
       .finally(() => {
+        setTags([]);
+        setDescription("");
         setUploading(false);
       });
   }
@@ -156,33 +158,41 @@ function CreatePost() {
         >
           <>
             <div className='imagePreview'>
-              <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(100%)" : "" }} src={originalImage} />
+              <img className={usedFilter == "tint" ? 'tint' : ''} alt="example" style={{ width: '100%', filter: usedFilter == "grayscale" ? "grayscale(100%)" : usedFilter == "negate" ? "invert(1)" : undefined, transform: usedFilter == "flip" ? 'scaleX(-1)' : usedFilter == "flop" ? 'scaleY(-1)' : undefined }} src={originalImage} />
             </div>
 
             <Divider />
 
             <div className="filters">
               <div className='filterButtons'>
-                <Button onClick={() => {
+                <Button type={usedFilter == "original" ? "primary" : "default"} onClick={() => {
                   setUsedFilter("original");
                 }}>Original</Button>
 
-                <Button onClick={() => {
+                <Button type={usedFilter == "grayscale" ? "primary" : "default"} onClick={() => {
+                  setUsedFilter("original");
                   setUsedFilter("grayscale");
-
                 }}>Grayscale</Button>
 
-                <Button onClick={() => {
-                  setUsedFilter("invert");
+                <Button type={usedFilter == "flip" ? "primary" : "default"} onClick={() => {
+                  setUsedFilter("original");
+                  setUsedFilter("flip");
+                }}>Flip</Button>
+
+                <Button type={usedFilter == "flop" ? "primary" : "default"} onClick={() => {
+                  setUsedFilter("original");
+                  setUsedFilter("flop");
+                }}>Flop</Button>
+
+                <Button type={usedFilter == "negate" ? "primary" : "default"} danger onClick={() => {
+                  setUsedFilter("original");
+                  setUsedFilter("negate");
                 }}>Invert</Button>
 
-                <Button onClick={() => {
-                  setUsedFilter("saturate");
-                }}>Saturate</Button>
-
-                <Button onClick={() => {
-                  setUsedFilter("contrast");
-                }}>Contrast</Button>
+                <Button type={usedFilter == "tint" ? "primary" : "default"} danger onClick={() => {
+                  setUsedFilter("original");
+                  setUsedFilter("tint");
+                }}>Tint</Button>
               </div>
             </div>
 
@@ -198,6 +208,7 @@ function CreatePost() {
         placeholder="Choose tags"
         onChange={handleTagSelect}
         options={options}
+        value={tags}
       />
 
       <Text>Add description:</Text>
@@ -208,6 +219,7 @@ function CreatePost() {
         style={{ width: 400, height: 100 }}
         showCount
         maxLength={500}
+        value={description}
       >
       </TextArea>
 

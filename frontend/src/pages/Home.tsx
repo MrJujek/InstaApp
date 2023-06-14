@@ -27,7 +27,7 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        setPhotos(allPhotos.filter((element: PhotoData) => element.profile === false));
+        setPhotos(allPhotos.filter((element: PhotoData) => element.profile === false).reverse());
     }, [allPhotos]);
 
     return (

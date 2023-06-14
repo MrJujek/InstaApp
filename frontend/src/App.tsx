@@ -14,6 +14,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import Popular from "@/components/Popular";
 import { PhotosProvider } from "@/contexts/PhotosContext";
 import TaggedPosts from "@/pages/TaggedPosts";
+import Explore from "@/pages/Explore";
 
 function App() {
     const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -44,6 +45,7 @@ function App() {
                                                     <Route path="/post/:id" element={<ShowPost />} />
                                                     <Route path="/tag" element={<TaggedPosts />} />
                                                     <Route path="/tag/:tag" element={<TaggedPosts />} />
+                                                    <Route path="/explore" element={<Explore />} />
                                                     <Route path="*" element={<h1>Not found</h1>} />
                                                 </Routes>
                                             </main>

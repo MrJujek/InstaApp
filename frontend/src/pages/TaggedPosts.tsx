@@ -21,6 +21,10 @@ function TaggedPosts() {
 
     useEffect(() => {
         setTaggedPosts(allPhotos.filter((element: PhotoData) => element.tags.includes(String(tag))));
+    }, [tag]);
+
+    useEffect(() => {
+        setTaggedPosts(allPhotos.filter((element: PhotoData) => element.tags.includes(String(tag))));
     }, [allPhotos]);
 
     return (

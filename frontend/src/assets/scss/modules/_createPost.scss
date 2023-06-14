@@ -1,3 +1,10 @@
+.tint:before {
+    background: rgba(0, 255, 0, 0.5);
+    display: block;
+    z-index: 20;
+    position: relative;
+}
+
 .createPost {
     display: flex;
     flex-direction: column;
