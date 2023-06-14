@@ -32,6 +32,7 @@ function UserProfile() {
                     {userProfilePhoto.map((element, index) => {
                         return (
                             <Image
+                                key={index}
                                 className='profilePhoto'
                                 preview={false}
                                 width={200}

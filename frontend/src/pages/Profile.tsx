@@ -40,6 +40,8 @@ function Profile() {
         <div className='profile'>
             <Title>Profile</Title>
 
+            <Divider />
+
             <div className='profileInfo'>
                 <div className='profilePhotoData'>
                     <Title level={4}>Profile photo</Title>

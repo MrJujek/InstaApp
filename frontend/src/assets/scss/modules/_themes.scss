@@ -4,7 +4,7 @@
     aside,
     div:no-button {
         background-color: #141414;
-        color: #ffffff;
+        color: #ffffff !important;
         text-shadow: 1px 1px 1px gray;
     }
 
@@ -20,7 +20,7 @@
     aside,
     div:no-button {
         background-color: #ffffff;
-        color: #141414;
+        color: #141414 !important;
         text-shadow: 1px 1px 1px gray;
     }
 

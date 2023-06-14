@@ -14,19 +14,29 @@ aside.navbar {
     left: 0px;
 
     .logo {
-        font-family: 'Leckerli One', cursive;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
-        text-shadow: 1px 1px 1px gray;
-        font-size: 28px;
+        a {
+            text-decoration: none;
+            font-family: 'Leckerli One', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 1px gray;
+            font-size: 28px;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
 
-        img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 1px solid gray;
+            &:hover {
+                text-shadow: 2px 2px 4px #1677ff;
+            }
+
+            &:visited {
+                color: inherit;
+
+                &:hover {
+                    text-shadow: 2px 2px 4px #1677ff;
+                }
+            }
         }
     }
 

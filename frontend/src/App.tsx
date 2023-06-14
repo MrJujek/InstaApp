@@ -42,6 +42,7 @@ function App() {
                                                     <Route path="/createPost" element={<CreatePost />} />
                                                     <Route path="/user/:userEmail" element={<UserProfile />} />
                                                     <Route path="/post/:id" element={<ShowPost />} />
+                                                    <Route path="/tag" element={<TaggedPosts />} />
                                                     <Route path="/tag/:tag" element={<TaggedPosts />} />
                                                     <Route path="*" element={<h1>Not found</h1>} />
                                                 </Routes>

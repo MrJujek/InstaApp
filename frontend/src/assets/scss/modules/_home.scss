@@ -5,7 +5,13 @@ div.home {
     flex-direction: column;
 
     h1 {
-        margin-bottom: 15px;
+        margin: 20px 0px 0px;
+    }
+
+    .photos {
+        img {
+            border: 1px solid #ddd;
+        }
     }
 
     .noPhotos {

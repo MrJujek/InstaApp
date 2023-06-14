@@ -4,6 +4,10 @@ div.userProfile {
     justify-content: center;
     align-items: center;
 
+    h1 {
+        margin: 20px 0px 0px;
+    }
+
     .postAuthot {
         display: flex;
         flex-direction: column;
@@ -16,5 +20,11 @@ div.userProfile {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        .postContent {
+            img {
+                border: 1px solid #ddd;
+            }
+        }
     }
 }

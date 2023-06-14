@@ -4,6 +4,14 @@
     align-items: center;
     justify-content: center;
 
+    h1 {
+        margin: 20px 0px 0px;
+    }
+
+    &>span:not(.ant-input-show-count) {
+        margin-top: 20px;
+    }
+
     button.share-button {
         margin-top: 1rem;
     }

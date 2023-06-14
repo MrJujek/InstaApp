@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Post, { PhotoData } from "@/components/Post";
-import { Typography, Button, Empty } from "antd";
+import { Typography, Button, Empty, Divider } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePhotos } from "@/contexts/PhotosContext";
@@ -33,6 +33,8 @@ function Home() {
     return (
         <div className="home">
             <Title>Home</Title>
+
+            <Divider />
 
             {photos.length === 0 &&
                 <div className="noPhotos">

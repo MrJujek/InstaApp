@@ -9,7 +9,7 @@ function Navbar() {
     return (
         <aside className='navbar'>
             <div className='logo'>
-                <h2>InstaApp</h2>
+                <Link to='/'><h2>InstaApp</h2></Link>
             </div>
 
             <div className='links'>

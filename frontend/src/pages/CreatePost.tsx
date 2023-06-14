@@ -23,7 +23,6 @@ function CreatePost() {
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
   const [usedFilter, setUsedFilter] = useState<string>("original");
-  const [inputValue, setInputValue] = useState(100);
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [originalImage, setOriginalImage] = useState('');
@@ -70,7 +69,7 @@ function CreatePost() {
     formData.append("photoType", "photo")
     formData.append("tags", JSON.stringify(tags))
     formData.append("description", description)
-    formData.append("filter", usedFilter + "|" + inputValue)
+    formData.append("filter", usedFilter)
 
     fetch(url + "/photos", {
       method: "POST",
@@ -95,15 +94,13 @@ function CreatePost() {
     setTags(value)
   };
 
-  const onChange = (newValue: number | null) => {
-    setInputValue(Number(newValue));
-  };
-
   const [previewOpen, setPreviewOpen] = useState(false);
 
   return (
     <div className="createPost">
       <Title>Create post</Title>
+
+      <Divider />
 
       <div className="uploadPhoto">
         <ImgCrop rotationSlider>
@@ -140,7 +137,7 @@ function CreatePost() {
 
         <Modal open={previewOpen} title={"Image preview"} footer={null} onCancel={() => { setPreviewOpen(false) }}>
           <div className='imagePreview'>
-            <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
+            <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(100%)" : "" }} src={originalImage} />
           </div>
         </Modal>
 
@@ -159,7 +156,7 @@ function CreatePost() {
         >
           <>
             <div className='imagePreview'>
-              <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
+              <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(100%)" : "" }} src={originalImage} />
             </div>
 
             <Divider />
@@ -187,34 +184,12 @@ function CreatePost() {
                   setUsedFilter("contrast");
                 }}>Contrast</Button>
               </div>
-
-              <Row style={{ width: "100%" }}>
-                <Col span={16}>
-                  <Slider
-                    min={1}
-                    max={100}
-                    onChange={onChange}
-                    value={typeof inputValue === 'number' ? inputValue : 0}
-                  />
-                </Col>
-                <Col span={4}>
-                  <InputNumber
-                    min={1}
-                    max={100}
-                    style={{ margin: '0 16px' }}
-                    value={inputValue}
-                    onChange={onChange}
-                  />
-                </Col>
-              </Row>
             </div>
 
             <Divider />
           </>
         </Modal>
       </div>
-
-      <Divider />
 
       <Text>Add tags:</Text>
       <Select
@@ -224,8 +199,6 @@ function CreatePost() {
         onChange={handleTagSelect}
         options={options}
       />
-
-      <Divider />
 
       <Text>Add description:</Text>
       <TextArea
