@@ -34,48 +34,10 @@ export let fileController = {
                     const { user, photoType, tags, description, filter } = fields;
                     const { file } = files;
 
-                    const fileArray = Array.isArray(file) ? file : [file];
+                    let fileArray = Array.isArray(file) ? file : [file];
 
-                    // zmiana koloru obrazka sharp js
-                    // original grayscale invert saturate contrast
-                    let filterName = String(filter).split("|")[0];
-                    let filterValue = String(filter).split("|")[1];
-                    console.log("filterName", filterName);
-                    console.log("filterValue", filterValue);
-
-                    for (const file of fileArray) {
-                        console.log("file", file);
-                    }
-
-                    // switch (filterName) {
-                    //     case "original":
-                    //         return new Promise(async (resolve, reject) => {
-                    //             try {
-                    //                 if (!fs.existsSync("./files/" + user)) {
-                    //                     fs.mkdirSync("./files/" + user);
-                    //                 }
-
-                    //                 for (const file of fileArray) {
-                    //                     await fs.rename(file.filepath, "./files/" + user + "/" + file.newFilename, (err) => {
-                    //                         if (err) console.log(err);
-                    //                     });
-                    //                 }
-
-                    //                 await resolve(fileArray);
-                    //             } catch (error) {
-                    //                 reject(error);
-                    //             }
-                    //         })
-                    //         break;
-                    //     case "grayscale":
-                    //         break;
-                    //     case "invert":
-                    //         break;
-                    //     case "saturate":
-                    //         break;
-                    //     case "contrast":
-                    //         break;
-                    // }
+                    const withFilters = await fileController.filterImages(String(filter), fileArray)
+                    fileArray = withFilters ? withFilters : fileArray;
 
                     await fileController.moveFile(fileArray, user.toString());
 
@@ -100,6 +62,99 @@ export let fileController = {
                 reject(error);
             }
         });
+    },
+
+    async filterImages(filter: string, fileArray: formidable.File[]) {
+        console.log("filter", filter);
+
+        switch (filter) {
+            case "original":
+                console.log("original");
+                return fileArray;
+            case "grayscale":
+                console.log("grayscale");
+
+                return new Promise<formidable.File[]>(async (resolve, reject) => {
+                    try {
+                        for (const file of fileArray) {
+                            await sharp(file.filepath).grayscale().toFile(file.filepath + "-grayscale." + file.mimetype?.split("/")[1]);
+
+                            file.filepath = file.filepath + "-grayscale." + file.mimetype?.split("/")[1];
+                        }
+                        resolve(fileArray);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            case "flip":
+                console.log("flip");
+
+                return new Promise<formidable.File[]>(async (resolve, reject) => {
+                    try {
+                        for (const file of fileArray) {
+                            await sharp(file.filepath).flip().toFile(file.filepath + "-flip." + file.mimetype?.split("/")[1]);
+
+                            file.filepath = file.filepath + "-flip." + file.mimetype?.split("/")[1];
+                        }
+                        resolve(fileArray);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            case "flop":
+                console.log("flop");
+
+                return new Promise<formidable.File[]>(async (resolve, reject) => {
+                    try {
+                        for (const file of fileArray) {
+                            await sharp(file.filepath).flop().toFile(file.filepath + "-flop." + file.mimetype?.split("/")[1]);
+
+                            file.filepath = file.filepath + "-flop." + file.mimetype?.split("/")[1];
+                        }
+                        resolve(fileArray);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            case "negate":
+                console.log("asdasd - negate");
+
+                return new Promise<formidable.File[]>(async (resolve, reject) => {
+                    try {
+                        for (const file of fileArray) {
+                            console.log("negate", file.filepath, file.mimetype?.split("/")[1]);
+
+                            await sharp(file.filepath).toFormat("jpeg").jpeg({
+                                quality: 100,
+                                force: true,
+                            }).jpeg().negate().toFile(file.filepath + "-negate.jpeg");
+
+                            file.filepath = file.filepath + "-negate.jpeg";
+                        }
+                        resolve(fileArray);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            case "tint":
+                console.log("tint");
+
+                return new Promise<formidable.File[]>(async (resolve, reject) => {
+                    try {
+                        for (const file of fileArray) {
+                            await sharp(file.filepath).tint({ r: 0, g: 255, b: 0 }).toFile(file.filepath + "-tint." + file.mimetype?.split("/")[1]);
+
+                            file.filepath = file.filepath + "-tint." + file.mimetype?.split("/")[1];
+                        }
+                        resolve(fileArray);
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            default:
+                console.log("default");
+                return fileArray;
+        }
     },
 
     async moveFile(fileArray: formidable.File[], user: string) {
