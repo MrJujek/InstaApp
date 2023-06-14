@@ -27,8 +27,6 @@ export function PhotosProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
             const data = await response.json();
 
-            console.log("allPhotos", data);
-
             setAllPhotos(data);
         }
     }

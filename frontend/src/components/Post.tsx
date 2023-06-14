@@ -21,20 +21,12 @@ export interface PhotoData {
     description: string[];
 }
 
-function Post(props: { data: PhotoData }) {
-    const { data } = props;
+function Post(props: { data: PhotoData, profilePhotoId: number }) {
+    const { data, profilePhotoId } = props;
     const { url } = useContext(UrlContext);
-    const { allPhotos } = usePhotos();
 
     const navigate = useNavigate();
     const { Text, Title } = Typography;
-
-    const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
-
-    useEffect(() => {
-        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.user === data.user && element.profile === true)[0]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const showThisPost = () => {
         if (!data.profile) {
@@ -54,13 +46,13 @@ function Post(props: { data: PhotoData }) {
         <>
             <Card className="post" title={
                 <>
-                    {profilePhoto && profilePhoto.id &&
-                        <div className='postAuthor' onClick={() => showThisAuthor()}>
+                    {profilePhotoId &&
+                        < div className='postAuthor' onClick={() => showThisAuthor()}>
                             <Image
                                 className='profilePhoto'
                                 preview={false}
                                 width={50}
-                                src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}
+                                src={url + "/photos/show/" + profilePhotoId + "?t=" + new Date().getTime()}
                             />
 
                             <Text style={{ marginLeft: "20px" }}>{data.user}</Text>
@@ -79,25 +71,30 @@ function Post(props: { data: PhotoData }) {
                                 onClick={() => showThisPost()}
                             />
 
-                            <div className="tags">
-                                <Title level={5}>Tags:</Title>
-                                <div>
-                                    {data.tags.map((tag, index) => (
-                                        <Tag key={index}>#{tag}</Tag>
-                                    ))}
+                            {data.tags && data.tags.length > 0 &&
+                                <div className="tags">
+                                    <Title level={5}>Tags:</Title>
+                                    <div>
+                                        {data.tags.map((tag, index) => (
+                                            <Tag key={index}>#{tag}</Tag>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            }
 
-                            <div className="description">
-                                <Title level={5}>Description:</Title>
-                                <div>
-                                    {data.description}
+                            {data.description && data.description.length > 0 &&
+                                <div className="description">
+                                    <Title level={5}>Description:</Title>
+                                    <div>
+                                        {data.description}
+                                    </div>
                                 </div>
-                            </div>
+                            }
+
                         </div>
                     }
                 </>
-            </Card>
+            </Card >
         </>
     )
 }

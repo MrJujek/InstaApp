@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import UrlContext from '@/contexts/UrlContext';
-import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Image, Col, InputNumber, Row, Slider } from 'antd';
+import { Select, type SelectProps, Input, Button, Typography, message, Upload, Modal, Divider, Col, InputNumber, Row, Slider } from 'antd';
 import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PlusOutlined } from '@ant-design/icons';
@@ -59,10 +59,6 @@ function CreatePost() {
     }
   }
 
-  useEffect(() => {
-    console.log(usedFilter, inputValue);
-  }, [usedFilter, inputValue]);
-
   async function sharePost() {
     setUploading(true);
 
@@ -103,6 +99,8 @@ function CreatePost() {
     setInputValue(Number(newValue));
   };
 
+  const [previewOpen, setPreviewOpen] = useState(false);
+
   return (
     <div className="createPost">
       <Title>Create post</Title>
@@ -110,10 +108,20 @@ function CreatePost() {
       <div className="uploadPhoto">
         <ImgCrop rotationSlider>
           <Upload
-            listType="picture-card"
+            listType="picture"
+            accept="image/*"
             fileList={fileList}
             multiple={false}
+            maxCount={1}
+            onPreview={() => { setPreviewOpen(true) }}
+            onRemove={(file) => {
+              const index = fileList.indexOf(file);
+              const newFileList = fileList.slice();
+              newFileList.splice(index, 1);
+              setFileList(newFileList);
+            }}
             beforeUpload={(file) => {
+              setUsedFilter("original")
               setFilterOpen(true);
               setOriginalImage(URL.createObjectURL(file));
 
@@ -124,12 +132,17 @@ function CreatePost() {
           >
             {fileList.length >= 1 ? null :
               <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                <Button type={"primary"} style={{ marginTop: 8 }}><PlusOutlined />Choose photo</Button>
               </div>
             }
           </Upload>
         </ImgCrop>
+
+        <Modal open={previewOpen} title={"Image preview"} footer={null} onCancel={() => { setPreviewOpen(false) }}>
+          <div className='imagePreview'>
+            <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
+          </div>
+        </Modal>
 
         <Modal
           open={filterOpen}
@@ -138,17 +151,15 @@ function CreatePost() {
           okText="Save filter"
           onOk={() => {
             setFilterOpen(false);
-            setUsedFilter("original");
           }}
           onCancel={() => {
             setFilterOpen(false);
             setFileList(fileList.slice(0, -1));
-            setUsedFilter("original");
           }}
         >
           <>
             <div className='imagePreview'>
-              <Image alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
+              <img alt="example" style={{ width: '100%', filter: usedFilter != "original" ? usedFilter + "(" + inputValue + "%)" : "" }} src={originalImage} />
             </div>
 
             <Divider />

@@ -7,6 +7,7 @@ import { Divider, Typography } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
 import ProfileData from '@/components/ProfileData';
 import { usePhotos } from '@/contexts/PhotosContext';
+import { Spin } from 'antd';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -31,8 +32,15 @@ function Profile() {
     }, []);
 
     useEffect(() => {
-        setYourPhotos(allPhotos.filter((element: PhotoData) => element.profile != true && element.user === user?.email));
-        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.profile == true && element.user === user?.email));
+        console.log("nowe zdjęcie");
+        console.log(allPhotos);
+
+        const temp = [
+            ...allPhotos
+        ]
+
+        setYourPhotos(temp.filter((element: PhotoData) => element.profile != true && element.user === user?.email));
+        setProfilePhoto(temp.filter((element: PhotoData) => element.profile == true && element.user === user?.email));
     }, [allPhotos]);
 
     return (
@@ -44,11 +52,12 @@ function Profile() {
                     <Title level={4}>Profile photo</Title>
 
                     <div className="profilePhoto">
-                        {profilePhoto.map((element, index) => {
+                        {profilePhoto && profilePhoto.map((element, index) => {
                             return (
                                 <img
                                     key={index}
-                                    src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
+                                    src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()
+                                    }
                                     style={{ borderRadius: "10px", width: "200px" }}
                                 />
                             )
@@ -71,10 +80,11 @@ function Profile() {
             <div className="photos">
                 {yourPhotos.map((element, index) => {
                     return (
-                        <Post key={index} data={element} />
+                        <Post key={index} data={element} profilePhotoId={profilePhoto[0].id} />
                     )
                 })}
             </div>
+            {/* <Spin size="large" /> */}
         </div>
     )
 }
