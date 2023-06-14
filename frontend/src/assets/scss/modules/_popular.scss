@@ -10,4 +10,36 @@ aside.popular {
     flex-direction: column;
     border-left: 1px solid;
     padding: 20px;
+
+    .links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+
+        a {
+            font-family: 'Noto Sans', sans-serif;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: all 0.2s ease-in-out;
+            width: fit-content;
+            text-decoration: none;
+
+            span {
+                font-size: 1.5rem;
+                font-weight: 500;
+                font-size: large;
+                text-shadow: 1px 1px 1px gray;
+
+                span {
+                    margin-right: 5px;
+                }
+            }
+
+            &:hover {
+                background-color: rgba(143, 143, 143, 0.164);
+            }
+        }
+    }
 }

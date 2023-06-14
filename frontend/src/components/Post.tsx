@@ -21,12 +21,26 @@ export interface PhotoData {
     description: string[];
 }
 
-function Post(props: { data: PhotoData, profilePhotoId: number }) {
-    const { data, profilePhotoId } = props;
+function Post(props: { data: PhotoData, profileId?: number }) {
+    const { data, profileId } = props;
+
+    if (profileId) {
+        console.log("profileid", profileId);
+    }
+
     const { url } = useContext(UrlContext);
+    const { allPhotos } = usePhotos();
 
     const navigate = useNavigate();
     const { Text, Title } = Typography;
+
+    const [profilePhoto, setProfilePhoto] = useState({} as PhotoData);
+
+    useEffect(() => {
+        if (!profileId)
+            setProfilePhoto(allPhotos.filter((element: PhotoData) => element.user === data.user && element.profile === true)[0]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const showThisPost = () => {
         if (!data.profile) {
@@ -35,24 +49,34 @@ function Post(props: { data: PhotoData, profilePhotoId: number }) {
     };
 
     const showThisAuthor = () => {
-        console.log(data);
-
-        // if (!data.profile) {
-        //     navigate("/user/" + data.id);
-        // }
+        if (!data.profile) {
+            navigate("/user/" + data.user);
+        }
     }
 
     return (
         <>
             <Card className="post" title={
                 <>
-                    {profilePhotoId &&
-                        < div className='postAuthor' onClick={() => showThisAuthor()}>
+                    {!profileId && profilePhoto && profilePhoto.id &&
+                        <div className='postAuthor' onClick={() => showThisAuthor()}>
                             <Image
                                 className='profilePhoto'
                                 preview={false}
                                 width={50}
-                                src={url + "/photos/show/" + profilePhotoId + "?t=" + new Date().getTime()}
+                                src={url + "/photos/show/" + profilePhoto.id + "?t=" + new Date().getTime()}
+                            />
+
+                            <Text style={{ marginLeft: "20px" }}>{data.user}</Text>
+                        </div>
+                    }
+                    {profileId &&
+                        <div className='postAuthor' onClick={() => showThisAuthor()}>
+                            <Image
+                                className='profilePhoto'
+                                preview={false}
+                                width={50}
+                                src={url + "/photos/show/" + profileId + "?t=" + new Date().getTime()}
                             />
 
                             <Text style={{ marginLeft: "20px" }}>{data.user}</Text>
@@ -94,7 +118,7 @@ function Post(props: { data: PhotoData, profilePhotoId: number }) {
                         </div>
                     }
                 </>
-            </Card >
+            </Card>
         </>
     )
 }

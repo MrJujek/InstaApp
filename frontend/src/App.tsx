@@ -13,6 +13,7 @@ import { ConfigProvider, theme } from 'antd';
 import { useTheme } from '@/contexts/ThemeContext';
 import Popular from "@/components/Popular";
 import { PhotosProvider } from "@/contexts/PhotosContext";
+import TaggedPosts from "@/pages/TaggedPosts";
 
 function App() {
     const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -39,8 +40,9 @@ function App() {
                                                     <Route path="/" element={<Home />} />
                                                     <Route path="/profile" element={<Profile />} />
                                                     <Route path="/createPost" element={<CreatePost />} />
-                                                    <Route path="/user/:id" element={<UserProfile />} />
+                                                    <Route path="/user/:userEmail" element={<UserProfile />} />
                                                     <Route path="/post/:id" element={<ShowPost />} />
+                                                    <Route path="/tag/:tag" element={<TaggedPosts />} />
                                                     <Route path="*" element={<h1>Not found</h1>} />
                                                 </Routes>
                                             </main>

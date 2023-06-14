@@ -7,7 +7,6 @@ import { Divider, Typography } from 'antd';
 import UploadProfilePhoto from '@/components/UploadProfilePhoto';
 import ProfileData from '@/components/ProfileData';
 import { usePhotos } from '@/contexts/PhotosContext';
-import { Spin } from 'antd';
 
 function Profile() {
     const [profilePhoto, setProfilePhoto] = useState([] as PhotoData[])
@@ -27,20 +26,14 @@ function Profile() {
     }, [user]);
 
     useEffect(() => {
-        loadAllPhotos();
+        if (allPhotos.length === 0)
+            loadAllPhotos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
-        console.log("nowe zdjęcie");
-        console.log(allPhotos);
-
-        const temp = [
-            ...allPhotos
-        ]
-
-        setYourPhotos(temp.filter((element: PhotoData) => element.profile != true && element.user === user?.email));
-        setProfilePhoto(temp.filter((element: PhotoData) => element.profile == true && element.user === user?.email));
+        setYourPhotos(allPhotos.filter((element: PhotoData) => element.profile != true && element.user === user?.email));
+        setProfilePhoto(allPhotos.filter((element: PhotoData) => element.profile == true && element.user === user?.email));
     }, [allPhotos]);
 
     return (
@@ -80,11 +73,10 @@ function Profile() {
             <div className="photos">
                 {yourPhotos.map((element, index) => {
                     return (
-                        <Post key={index} data={element} profilePhotoId={profilePhoto[0].id} />
+                        <Post key={index} data={element} profileId={profilePhoto[0].id} />
                     )
                 })}
             </div>
-            {/* <Spin size="large" /> */}
         </div>
     )
 }

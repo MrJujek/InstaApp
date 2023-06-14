@@ -2,6 +2,7 @@ import { useEffect, useContext, useState } from 'react'
 import { Typography } from 'antd';
 import UrlContext from '@/contexts/UrlContext';
 import { usePhotos } from '@/contexts/PhotosContext';
+import { Link } from 'react-router-dom'
 
 function Popular() {
     const { Title, Text } = Typography
@@ -45,13 +46,13 @@ function Popular() {
             <Title level={2}>Popular</Title>
 
             {popularTags.length > 0 &&
-                popularTags.map((tag, index) => {
-                    return (
-                        <div key={index}>
-                            <Text>#{tag.name} - {tag.popularity}</Text>
-                        </div>
-                    )
-                })
+                <div className='links'>
+                    {popularTags.map((tag, index) => {
+                        return (
+                            <Link to={'/tag/' + tag.name} key={index}><Text>#{tag.name} - {tag.popularity}</Text></Link>
+                        )
+                    })}
+                </div>
             }
         </aside>
     )

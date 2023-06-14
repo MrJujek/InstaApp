@@ -21,7 +21,8 @@ function Home() {
     }, [user, navigate]);
 
     useEffect(() => {
-        loadAllPhotos();
+        if (allPhotos.length === 0)
+            loadAllPhotos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
