@@ -2,9 +2,12 @@ import { useState, useContext } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import UrlContext from '@/contexts/UrlContext';
 import { Typography, Button } from 'antd';
+import { usePhotos } from '@/contexts/PhotosContext';
 
 function ProfileData() {
-    const { user, setUser } = useAuth();
+    const { loadAllPhotos } = usePhotos();
+
+    const { user, setUser, changeData } = useAuth();
     const { url } = useContext(UrlContext);
     const { Title, Text, Paragraph } = Typography;
 
@@ -38,14 +41,11 @@ function ProfileData() {
             const data = await response.json();
             console.log(data);
 
-            setUser({
-                name: userName,
-                lastName: userLastName,
-                email: userEmail,
-                nickName: userNickName
-            })
+            await changeData(userName, userLastName, userEmail, userNickName);
 
             setLoading(false);
+
+            loadAllPhotos();
         }
     }
 

@@ -6,6 +6,7 @@ interface User {
     lastName: string;
     email: string;
     nickName: string;
+    password?: string;
 }
 
 interface SignInData {
@@ -36,10 +37,11 @@ interface AuthProvider {
         nickName: string
     ) => Promise<{ status: boolean, data?: string }>;
     getToken: () => string;
-    logout: () => void;
+    logout: () => { loggedOut?: boolean };
     setRegisterData: React.Dispatch<React.SetStateAction<SignUpData>>;
     setRemember: React.Dispatch<React.SetStateAction<boolean>>;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    changeData: (name: string, lastName: string, email: string, nickName: string) => Promise<SignInData>;
 }
 
 export const AuthContext = React.createContext({} as AuthProvider);
@@ -86,7 +88,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         setRegisterData,
         setRemember,
-        setUser
+        setUser,
+        changeData
     };
 
     async function authenticate(token: string) {
@@ -166,6 +169,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     function logout() {
         setUser(null);
         localStorage.removeItem("token");
+
+        return { loggedOut: true };
+    }
+
+    async function changeData(name: string, lastName: string, email: string, nickName: string) {
+        setRemember(true)
+
+        setUser({
+            name: name,
+            lastName: lastName,
+            email: email,
+            nickName: nickName
+        })
+
+        return await signIn(user!.nickName, user!.password!)
     }
 
     return (
