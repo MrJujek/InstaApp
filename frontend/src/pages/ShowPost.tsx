@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from 'react'
 import { PhotoData } from '@/components/Post'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import UrlContext from '@/contexts/UrlContext';
 import { usePhotos } from '@/contexts/PhotosContext';
 import { Card, Image, Typography, Tag } from 'antd';
 
 function ShowPost() {
     const { Text, Title } = Typography;
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const { url } = useContext(UrlContext);
@@ -24,11 +25,9 @@ function ShowPost() {
     }, [post]);
 
     const showThisAuthor = () => {
-        console.log();
-
-        // if (!data.profile) {
-        //     navigate("/user/" + data.id);
-        // }
+        if (!post.profile && post.user) {
+            navigate("/user/" + post.user);
+        }
     }
 
     return (

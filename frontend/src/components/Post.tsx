@@ -43,13 +43,15 @@ function Post(props: { data: PhotoData, profileId?: number }) {
     }, [])
 
     const showThisPost = () => {
-        if (!data.profile) {
+        if (!data.profile && data.id) {
             navigate("/post/" + data.id);
         }
     };
 
     const showThisAuthor = () => {
-        if (!data.profile) {
+        if (!data.profile && data.user) {
+            console.log("no user");
+
             navigate("/user/" + data.user);
         }
     }
