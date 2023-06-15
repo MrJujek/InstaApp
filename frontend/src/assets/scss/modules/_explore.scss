@@ -7,4 +7,14 @@ div.explore {
     h1 {
         margin: 20px 0px 0px;
     }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+
+        span {
+            margin: 5px 10px;
+            cursor: pointer;
+        }
+    }
 }

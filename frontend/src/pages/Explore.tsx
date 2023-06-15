@@ -1,8 +1,40 @@
-import React from 'react'
-import { Typography, Divider, Image } from 'antd'
+import { useState, useEffect, useContext } from 'react'
+import { Typography, Divider, Tag } from 'antd'
+import UrlContext from '@/contexts/UrlContext';
+import { Link } from 'react-router-dom';
 
 function Explore() {
-    const { Title } = Typography;
+    const { Title, Text } = Typography;
+    const { url } = useContext(UrlContext);
+
+    const [tags, setTags] = useState<string[]>([]);
+
+    useEffect(() => {
+        loadTags();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    async function loadTags() {
+        const response = await fetch(url + "/tags", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+
+            const tags = data.map((tag: { id: number, name: string, value: string }) => {
+                return tag.name
+            })
+
+            setTags(tags)
+        }
+    }
+
+    useEffect(() => {
+        console.log(tags);
+    }, [tags]);
 
     return (
         <>
@@ -11,32 +43,15 @@ function Explore() {
 
                 <Divider />
 
-                {/* <div className='postAuthor'>
-                    <Title level={4}>User profile photo</Title>
-                    {userProfilePhoto.map((element, index) => {
-                        return (
-                            <Image
-                                key={index}
-                                className='profilePhoto'
-                                preview={false}
-                                width={200}
-                                style={{ borderRadius: "20px" }}
-                                src={url + "/photos/show/" + element.id + "?t=" + new Date().getTime()}
-                            />
-                        )
-                    })}
-                </div>
-
-                <Divider />
-
-                <Title level={4}>User posts</Title>
-                <div className="userPosts">
-                    {userPhotos.map((element, index) => {
-                        return (
-                            <Post key={index} data={element} />
-                        )
-                    })}
-                </div> */}
+                {tags && tags.length > 0 &&
+                    <div className="tags">
+                        {tags.map((element, index) => {
+                            return (
+                                <Link to={"/tag/" + element}><Tag key={index}><Text>#{element}</Text></Tag></Link>
+                            )
+                        })}
+                    </div>
+                }
             </div>
         </>
     )

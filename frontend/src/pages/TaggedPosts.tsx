@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import { Typography, Divider } from 'antd'
+import { useParams, Link } from 'react-router-dom';
+import { Typography, Divider, Empty, Button } from 'antd'
 import Post, { PhotoData } from '@/components/Post';
 import { usePhotos } from '@/contexts/PhotosContext';
 
@@ -9,7 +9,7 @@ function TaggedPosts() {
     const { allPhotos, loadAllPhotos } = usePhotos();
 
     const { tag } = useParams();
-    const { Title } = Typography;
+    const { Title, Text } = Typography;
 
     const [taggedPosts, setTaggedPosts] = useState([] as PhotoData[]);
 
@@ -33,13 +33,25 @@ function TaggedPosts() {
 
             <Divider />
 
-            {taggedPosts &&
+            {taggedPosts && taggedPosts.length > 0 &&
                 <div className="postsWithTags">
                     {taggedPosts.map((element, index) => {
                         return (
                             <Post key={index} data={element} />
                         )
                     })}
+                </div>
+            }
+            {taggedPosts && taggedPosts.length === 0 &&
+                <div className="noTags">
+                    <Empty
+                        imageStyle={{ height: 100 }}
+                        description={
+                            <Text>No photos with this tag</Text>
+                        }
+                    >
+                        <Link to="/createPost"><Button type="primary">Create post</Button></Link>
+                    </Empty>
                 </div>
             }
 

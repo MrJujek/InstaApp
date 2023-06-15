@@ -8,7 +8,7 @@ div.userProfile {
         margin: 20px 0px 0px;
     }
 
-    .postAuthot {
+    &>.postAuthor {
         display: flex;
         flex-direction: column;
         justify-content: center;

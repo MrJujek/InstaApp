@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignUp from '@/pages/SignUp';
 import SignIn from '@/pages/SignIn';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -43,7 +43,7 @@ function App() {
                                                     <Route path="/createPost" element={<CreatePost />} />
                                                     <Route path="/user/:userEmail" element={<UserProfile />} />
                                                     <Route path="/post/:id" element={<ShowPost />} />
-                                                    <Route path="/tag" element={<TaggedPosts />} />
+                                                    <Route path="/tag" element={<Navigate to="/explore" />} />
                                                     <Route path="/tag/:tag" element={<TaggedPosts />} />
                                                     <Route path="/explore" element={<Explore />} />
                                                     <Route path="*" element={<h1>Not found</h1>} />
